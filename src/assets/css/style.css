@@ -1,0 +1,113 @@
+.body-signup {
+  height: 100%;
+  min-height: 100%;
+  background: url(../images/signinup.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: auto;
+}
+.body-signup #app {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  position: relative;
+  border-radius: 5px;
+  width: 300px;
+  top: 200px;
+  left: 200px;
+  padding: 20px;
+}
+.body-signup header{
+  margin-bottom: 1em;
+}
+.body-signup header a{
+  text-decoration: none;
+}
+.body-signup header span{
+  color: #fff;
+}
+
+.separator {
+	width: 66%;
+	margin: 0 auto;
+}
+
+/*TODO: modernizr webp*/
+.parallax {
+  background: url(../images/parallax.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.webp .parallax {
+  background: url(../images/parallax.webp) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.no-webp > .parallax {
+  background: url(../images/parallax.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#profile {
+  margin: auto;
+  background-color: #eee;
+}
+
+#profile header {
+  margin-bottom: 5em;
+}
+
+#profile main {
+  max-width: 640px;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .parallax {
+    display: none;
+  }
+
+  header {
+    margin-bottom: 5em;
+  }
+}
+
+@media (min-width: 768px) {
+  .parallax {
+    min-height: 400px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 992px) {
+  .parallax {
+    min-height: 450px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .parallax {
+    height: 500px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .parallax {
+    height: 700px;
+    background-position: center -150px;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "gena_front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
+  },
+  "dependencies": {
+    "@intlify/vue-i18n-loader": "^2.1.0",
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "i18n": "^0.13.3",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
+    "modernizr": "^3.11.7",
+    "tom-select": "^1.7.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.1.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0",
+    "webpack-modernizr-loader": "^5.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.11",
+    "vue-cli-plugin-i18n": "~2.1.0",
+    "vue-loader": "^15.9.7"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
