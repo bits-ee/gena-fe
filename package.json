@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
+    "deploy": "node gh-pages-deploy.js"
   },
   "dependencies": {
     "@intlify/vue-i18n-loader": "^2.1.0",
@@ -28,6 +29,7 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.11",
+    "execa": "^1.0.0",
     "vue-cli-plugin-i18n": "~2.1.0",
     "vue-loader": "^15.9.7"
   },
