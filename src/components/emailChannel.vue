@@ -24,7 +24,7 @@
         <strong>Email is sent!</strong> Please check your email.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      <a ref="sessionComponents" href="/profile" role="button" class="btn form-control btn-success btn-sm d-none">Continue</a>
+      <router-link ref="sessionComponents" to="profile" role="button" class="btn form-control btn-success btn-sm d-none">Continue</router-link>
       <div ref="emailComponentButton" class="">
         <button role="button" class="btn btn-primary btn-sm">Continue</button>
       </div>

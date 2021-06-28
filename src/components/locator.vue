@@ -194,7 +194,7 @@ export default {
                 return '<div>\
                     <h5 id="location_name">'+title+'</h5>\
                     <ul>'+services_list+'</ul>\
-                    <a href="/signup" class="btn btn-primary btn-sm">Sign up</a>\
+                    <router-link to="/signup" class="btn btn-primary btn-sm">Sign up</router-link>\
                     </div>';
             } catch (error) {
                 console.error(error);

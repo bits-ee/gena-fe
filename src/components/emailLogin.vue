@@ -13,7 +13,7 @@
           <p class="backendMsg">{{ backendMessage }}</p>
         <img src="../assets/images/greentick.png" class="email-img">
         <div>
-          <a href="/profile" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</a>
+          <router-link to="profile" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
         </div>
       </div>
 

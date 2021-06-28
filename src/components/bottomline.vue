@@ -1,7 +1,7 @@
 <template>
 <div class="text-center">
     <h2>{{$t('bottomline_1')}}</h2>
-    <a class="btn btn-primary" href="/signup">{{$t('bottomline_2')}}</a>
+    <router-link class="btn btn-primary" to="signup">{{$t('bottomline_2')}}</router-link>
 </div>
 </template>
 

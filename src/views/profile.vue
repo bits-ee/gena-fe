@@ -58,7 +58,10 @@ export default {
       this.message = message
       this.error = error
     }
-  }
+  },
+  beforeCreate: function() {
+        document.body.className = '';
+    },
 }
 </script>
 
