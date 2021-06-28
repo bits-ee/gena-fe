@@ -14,5 +14,7 @@ module.exports = {
     host: '127.0.0.1',
     port: 80
   },
-  publicPath: '/gena-fe/'
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/gena-fe/'
+    : '/'
 }
