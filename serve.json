@@ -1,0 +1,9 @@
+{
+	"renderSingle": true,
+	"rewrites": [
+		{
+			"source": "/signup",
+			"destination": "/index.html"
+		}
+	]
+}
