@@ -29,6 +29,7 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.11",
+    "css-loader": "^5.2.6",
     "execa": "^1.0.0",
     "vue-cli-plugin-i18n": "~2.1.0",
     "vue-loader": "^15.9.7"
