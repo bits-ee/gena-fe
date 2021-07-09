@@ -6,6 +6,6 @@ import _ from 'lodash';
 import './libraries/axios'
 import i18n from './libraries/i18n'
 import langDetector from './libraries/i18n/langDetector'
-
+import './assets/css/style.css';
 
 createApp(App).use(i18n).use(store).use(router).use(_).use(langDetector).mount('#app')
