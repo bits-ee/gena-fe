@@ -25,8 +25,8 @@
       </div>
 
     </div>
-		<a v-if="!isAuth" class="me-4 sign-in" href="/signup">{{ $t('navbar_1') }}</a>
-		<a v-if="!isAuth" class="btn btn-primary register" href="/signup">{{ $t('navbar_2') }}</a>
+		<router-link v-if="!isAuth" class="me-4 sign-in" to="signup">{{ $t('navbar_1') }}</router-link>
+		<router-link v-if="!isAuth" class="btn btn-primary register" to="signup">{{ $t('navbar_2') }}</router-link>
     <a v-if="isAuth" class="btn btn-primary" @click.prevent="logout" href="#logout">{{ $t('navbar_3') }}</a>
 	</nav>
 </template>
