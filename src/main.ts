@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './libraries/router'
 import store from './libraries/store'
-const _ = require("lodash")
+const _ = require('lodash')
 import './libraries/axios'
 import i18n from './libraries/i18n'
 import langDetector from './libraries/i18n/langDetector'

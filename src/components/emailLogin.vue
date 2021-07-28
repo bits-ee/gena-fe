@@ -126,7 +126,7 @@
           console.warn(response.data)
           sessionStorage.setItem('sessionKey', response.data.sessionkey)
           if(response.data.status == 'logged'){
-            document.location.href = '/profile'
+            this.$router.push("profile")
             return true
           }
           console.warn(response.data)
