@@ -15,7 +15,7 @@
         <div class="invalid-feedback">
           <p v-if="errors.length">
           <ul>
-            <li v-for="error in errors">{{ error }}</li>
+            <li :key="error" v-for="error in errors">{{ error }}</li>
           </ul>
           </p>
         </div>
@@ -24,7 +24,7 @@
         <strong>Email is sent!</strong> Please check your email.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      <router-link ref="sessionComponents" to="profile" role="button" class="btn form-control btn-success btn-sm d-none">Continue</router-link>
+      <router-link ref="sessionComponents" :to="{ name: 'profile'}" role="button" class="btn form-control btn-success btn-sm d-none">Continue</router-link>
       <div ref="emailComponentButton" class="">
         <button role="button" class="btn btn-primary btn-sm">Continue</button>
       </div>

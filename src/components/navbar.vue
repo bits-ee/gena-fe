@@ -1,6 +1,6 @@
 <template>
 	<nav class="navbar navbar-dark bg-dark fixed-top px-5">
-		<router-link class="navbar-brand me-md-auto" to="index">
+		<router-link class="navbar-brand me-md-auto" :to="{ name: 'index'}">
 			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
 				<path d="m0 0h32v32h-32z" fill="#da291c"/>
 				<path d="m13 6h6v7h7v6h-7v7h-6v-7h-7v-6h7z" fill="#fff"/>
@@ -25,9 +25,9 @@
       </div>
 
     </div>
-		<router-link v-if="!isAuth" class="me-4 sign-in" to="signup">{{ $t('navbar_1') }}</router-link>
-		<router-link v-if="!isAuth" class="btn btn-primary register" to="signup">{{ $t('navbar_2') }}</router-link>
-    <router-link v-if="isAuth" class="btn btn-primary" @click.prevent="logout" to="index">{{ $t('navbar_3') }}</router-link>
+		<router-link v-if="!isAuth" class="me-4 sign-in" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
+		<router-link v-if="!isAuth" class="btn btn-primary register" :to="{ name: 'signup'}">{{ $t('navbar_2') }}</router-link>
+    <router-link v-if="isAuth" class="btn btn-primary" @click.prevent="logout" :to="{ name: 'index'}">{{ $t('navbar_3') }}</router-link>
 	</nav>
 </template>
 
