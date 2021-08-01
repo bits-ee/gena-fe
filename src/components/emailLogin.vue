@@ -13,7 +13,7 @@
           <p class="backendMsg">{{ backendMessage }}</p>
         <img src="../assets/images/greentick.png" class="email-img">
         <div>
-          <router-link to="profile" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
+          <router-link :to="{ name: 'profile'}" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
         </div>
       </div>
 
@@ -126,7 +126,7 @@
           console.warn(response.data)
           sessionStorage.setItem('sessionKey', response.data.sessionkey)
           if(response.data.status == 'logged'){
-            document.location.href = '/profile'
+            this.$router.push("profile")
             return true
           }
           console.warn(response.data)

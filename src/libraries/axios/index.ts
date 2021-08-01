@@ -1,5 +1,5 @@
 const axios = require("axios");
-window.axios = axios
+(window as any).axios = axios
 axios.defaults.baseURL = process.env.VUE_APP_DATA_SERVICE_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 let sessionKey = sessionStorage.getItem('sessionKey');

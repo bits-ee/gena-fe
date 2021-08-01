@@ -1,17 +1,18 @@
 
 export default {
-  install: (app, options) => {
+  install: (app: any, options: any) => {
 
     function translate(){
       let currentURL = (window.location.href);
       let splitURL = currentURL.toString().split("/");
       let href = splitURL[3];
+      let lang = ""
       if(href == 'en' || href == 'de') {
-        this.lang = href
+        lang = href
       }else{
-        this.lang = navigator.language.split('-')[0]
+        lang = navigator.language.split('-')[0]
       }
-      return this.lang
+      return lang
     }
     app.config.globalProperties.$translate = translate;
 
