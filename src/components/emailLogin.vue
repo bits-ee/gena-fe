@@ -169,18 +169,14 @@
 		async mounted(){
       // console.warn(langDetector.translate())
       this.$translate()
-      console.warn();
-      if (window.location.hash) {
+      if (this.$route.name='verify' && this.$route.params.secretKey) {
         if (this.state != 'answer') {
           this.setState('wait')
         }
-        let secretKey = window.location.hash.split("#")[1];
-        if (secretKey) {
-          if(this.$props.isChannel){
-            await this.verifyChannel(secretKey);
-          }else{
-            await this.verify(secretKey);
-          }
+        if(this.$props.isChannel){
+          await this.verifyChannel(this.$route.params.secretKey);
+        }else{
+          await this.verify(this.$route.params.secretKey);
         }
       }
       if(!this.$props.isChannel) {
