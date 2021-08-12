@@ -15,4 +15,10 @@ module.exports = {
     port: 80,
   },
   publicPath: "/",
+  pages: {
+    index: {
+      entry: 'src/main.ts',
+      title: 'Gemeinde Online'
+    }
+  }
 }
