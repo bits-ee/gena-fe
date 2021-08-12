@@ -18,6 +18,16 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: signup
+  }, 
+  {
+    path: '/verify/:secretKey',
+    name: 'verify', 
+    component: signup
+  },
+  {
+    path: '/verify/channel/:secretKey',
+    name: 'verify_channel', 
+    component: profile
   }
 ]
 

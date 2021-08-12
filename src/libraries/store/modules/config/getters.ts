@@ -1,17 +1,17 @@
 export default {
-    getGoogleRecaptchaKey: (state: ConfigState): string => {
+    googleRecaptchaKey: (state: ConfigState): string => {
       return state.googleRecaptchaSiteKey
     },
-    getGoogleMapKey: (state: ConfigState): string => {
+    googleMapKey: (state: ConfigState): string => {
       return state.googleMapKey
     },
-    getTgBotName: (state: ConfigState): string => {
+    tgBotName: (state: ConfigState): string => {
       return state.tgBotName
     },
-    getAppRoot: (state: ConfigState): string => {
+    appRoot: (state: ConfigState): string => {
       return state.appRoot
     },
-    getLocationRequestForm: (state: ConfigState): string => {
+    locationRequestForm: (state: ConfigState): string => {
       return state.locationRequestForm
     }
 }
