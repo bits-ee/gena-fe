@@ -1,5 +1,5 @@
 export default {
-    isAuth: (state: UserState): Boolean => {
+    is_auth: (state: UserState): Boolean => {
       return state.is_auth
     }
 }

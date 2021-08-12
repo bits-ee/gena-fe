@@ -3,7 +3,7 @@ export default {
       state.avatar = avatar
     },
     deleteAvatar(state: ProfileState) {
-      state.avatar = <string>{}
+      state.avatar = null
     },
     setPersonalDetails(state: ProfileState, personal_details: PersonalDetails) {
       state.personal_details = personal_details

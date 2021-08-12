@@ -1,14 +1,17 @@
 export default {
-    GET_KEYS(commit: any) {
-      axios.get("/keys").then((response: any) => {
-        let keys = <ConfigState>{
-          googleRecaptchaSiteKey: response.data.googleRecaptchaSiteKey,
-          googleMapKey: response.data.googleMapKey,
-          tgBotName: response.data.tgBotName,
-          appRoot: response.data.appRoot,
-          locationRequestForm: response.data.locationRequestForm,
-        }
-        commit.commit("setKeys", keys)
+    FETCH_CONFIG(context: any) {
+      return new Promise((resolve, reject)=>{
+        axios({
+          method: "get",
+          url: "/keys"
+        })
+        .then((response: any)=>{
+          context.commit("init", <ConfigState>response.data)
+          resolve(response)
+        })
+        .catch((err: any)=>{
+          reject(err)
+        })
       })
     }
 }
