@@ -1,5 +1,11 @@
+import _ from "lodash"
+
 export default {
-    setAvatar(state: ProfileState, avatar: string) {
+    setAvatar(state: ProfileState, avatar: string) {   
+      if (avatar != null) {
+        avatar = avatar.includes('?') ? avatar.split('?')[0] : avatar
+        avatar += '?' + new Date().getTime()
+      }
       state.avatar = avatar
     },
     deleteAvatar(state: ProfileState) {

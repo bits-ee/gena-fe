@@ -24,10 +24,11 @@ const routes = [
     name: 'verify', 
     component: signup
   },
+  //TODO: user needs to be authorized to verify channel, but he's not because we don't use cookies
   {
     path: '/verify/channel/:secretKey',
     name: 'verify_channel', 
-    component: profile
+    component: signup
   }
 ]
 

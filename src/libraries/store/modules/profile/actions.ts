@@ -6,13 +6,7 @@ export default {
         url: "/profile/avatar",
       })
       .then((response: any)=>{
-        let avatar = response.data.image     
-        if (avatar != null) {
-          let delimiter = ""
-          delimiter = avatar.includes("?") ? "&" : "?"
-          avatar += delimiter + new Date().getTime()
-        }
-        context.commit("setAvatar", avatar)
+        context.commit("setAvatar", response.data.image)
         resolve(response)
       })
       .catch((err: any)=>{
