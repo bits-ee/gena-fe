@@ -26,8 +26,8 @@ export default {
           "content-type": "multipart/form-data",
         },
       })
-      .then((response: any)=>{
-        context.dispatch("FETCH_AVATAR")
+      .then(async (response: any)=>{
+        await context.dispatch("FETCH_AVATAR")
         context.commit("notification/notify", response.data.message, { root: true })        
         resolve(response)
       })
@@ -62,11 +62,12 @@ export default {
         data: personal_details,
       })
       .then((response: any)=>{
-        context.dispatch('FETCH_DETAILS')
+        context.commit("setPersonalDetails", personal_details)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
-      .catch((err: any)=>{
+      .catch(async (err: any)=>{
+        await context.dispatch('FETCH_DETAILS')
         context.commit("notification/notifyError", err.response.data.error, { root: true })
         reject(err)
       })
@@ -117,8 +118,8 @@ export default {
         method: "delete",
         url: "/profile/channels/email/delete",
       })
-      .then((response: any)=>{
-        context.dispatch("FETCH_CHANNELS")
+      .then(async (response: any)=>{
+        context.commit('deleteEmailChannel')
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -134,8 +135,8 @@ export default {
         method: "delete",
         url: "/profile/channels/tg/delete",
       })
-      .then((response: any)=>{
-        context.dispatch("FETCH_CHANNELS")
+      .then(async (response: any)=>{
+        context.commit('deleteTgChannel')
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -170,8 +171,8 @@ export default {
         method: "post",
         url: "/profile/channels/email/verify/"+key
       })
-      .then((response: any)=>{
-        context.dispatch("FETCH_CHANNELS")
+      .then(async (response: any)=>{
+        await context.dispatch("FETCH_CHANNELS")
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -188,8 +189,8 @@ export default {
         url: "/profile/channels/tg/verify",
         data: { auth_data: user }
       })
-      .then((response: any)=>{
-        context.dispatch("FETCH_CHANNELS")
+      .then(async (response: any)=>{
+        context.commit('setTgChannel', user.username)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -205,11 +206,11 @@ export default {
         method: "get",
         url: "/profile/userLocations",
       })
-      .then((response: any)=>{
+      .then(async (response: any)=>{
         context.commit("setLocations", response.data)
-        context.getters.user_locations.forEach((location: UserLocation) => {
+        await Promise.all(context.getters.user_locations.forEach((location: UserLocation) => {
           context.dispatch('FETCH_LOCATION_SERVICES', location)
-        });
+        }));
         resolve(response)
       })
       .catch((err: any)=>{
@@ -224,15 +225,18 @@ export default {
         url: "/profile/userLocations",
         data: location,
       })
-      .then((response: any)=>{
-        context.dispatch('UPDATE_LOCATION_SERVICES', location)
-        context.dispatch('FETCH_USER_LOCATIONS', location)
+      .then(async (response: any)=>{
+        await context.dispatch('UPDATE_LOCATION_SERVICES', location),
+        context.commit('updateLocation', location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
-      .catch((err: any)=>{
-        context.dispatch('UPDATE_LOCATION_SERVICES', location)
-        context.dispatch('FETCH_USER_LOCATIONS', location)
+      .catch(async (err: any)=>{
+        await Promise.allSettled([
+          //if in UPDATE_USER_LOCATION location has no changed(location name, street name or street number) error will raized. It's laravel 'update' method problem
+          context.dispatch('UPDATE_LOCATION_SERVICES', location),
+          context.dispatch('FETCH_USER_LOCATIONS', location)
+        ])
         context.commit("notification/notifyError", err.response.data.error, { root: true })
         reject(err)
       })
@@ -247,8 +251,8 @@ export default {
           id: location.id,
         },
       })
-      .then((response: any)=>{
-        context.dispatch('FETCH_USER_LOCATIONS', location)
+      .then(async (response: any)=>{
+        _.remove(context.getters['user_locations'], location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -265,10 +269,12 @@ export default {
         url: "/profile/userLocations",
         data: location,
       })
-      .then((response: any)=>{
+      .then(async (response: any)=>{
         location.id = response.data.id
-        context.dispatch('UPDATE_LOCATION_SERVICES', location)
-        context.dispatch('FETCH_USER_LOCATIONS', location)
+        await Promise.allSettled([
+          context.dispatch('UPDATE_LOCATION_SERVICES', location),
+          context.dispatch('FETCH_USER_LOCATIONS', location)
+        ])  
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })

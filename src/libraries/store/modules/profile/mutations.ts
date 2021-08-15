@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 export default {
     setAvatar(state: ProfileState, avatar: string) {   
       if (avatar != null) {
@@ -16,6 +14,21 @@ export default {
     },
     setChannels(state: ProfileState, channels: Channels) {
       state.channels = channels
+    },
+    deleteEmailChannel(state: ProfileState) {
+      state.channels.email = null
+    },
+    deleteTgChannel(state: ProfileState) {
+      state.channels.tg = null
+    },
+    setEmailChannel(state: ProfileState, email: string) {
+      state.channels.email = email
+    },
+    setTgChannel(state: ProfileState, tg: string) {
+      state.channels.tg = tg
+    },
+    updateLocation(state: ProfileState, location: UserLocation){
+      _.merge(_.find(state.user_locations, {id: location.id}), location)
     },
     setLocations(state: ProfileState, locations: UserLocation[]){
       state.user_locations = locations

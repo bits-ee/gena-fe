@@ -17,8 +17,8 @@ interface UserLocation {
 
 //notifications channels
 interface Channels {
-  email: string
-  tg: string
+  email: string | null
+  tg: string | null
 }
 
 //user's services notifications settings
