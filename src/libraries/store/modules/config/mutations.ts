@@ -1,5 +1,5 @@
 export default {
-    async setKeys(state: ConfigState, keys: ConfigState) {
-      state = keys
+    init(state: ConfigState, config: ConfigState) {
+      Object.assign(state, config)       
     }
 }

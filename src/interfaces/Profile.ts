@@ -12,17 +12,17 @@ interface UserLocation {
   location_id: number
   street_name: string
   street_number: number
-  services: ServiceSubscription[]
+  services: Service[]
 }
 
 //notifications channels
 interface Channels {
-  email: string
-  tg: string
+  email: string | null
+  tg: string | null
 }
 
 //user's services notifications settings
-interface ServiceSubscription {
+interface Service {
   service_id: number
   name: string
   channel: string
