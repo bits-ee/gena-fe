@@ -20,8 +20,8 @@
       <div v-if="state=='input'">
         <div class="mb-3">
           <div>
-            <label for="email" class="form-label form-label-sm" :class="{'d-none':!email}"><small>{{$t('emailLogin_2')}}</small></label>
-            <input type="email" class="form-control form-control-sm" :class="{'is-invalid':errors}" :placeholder="$t('emailLogin_2')" aria-describedby="emailHelp" v-model="email" required>
+            
+            <input type="email" class="form-control form-control-sm" :class="{'is-invalid':errors.length}" :placeholder="$t('emailLogin_2')" aria-describedby="emailHelp" v-model="email" required>
           </div>
           <div class="invalid-feedback" :class="{'d-block':errors}">
               <ul>
@@ -67,132 +67,95 @@
 }
 </i18n>
 
-<script>
-	export default {
+<script lang="ts">
+declare var grecaptcha: any;
+import { defineComponent } from 'vue'
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+	export default defineComponent({
 		data() {
 			return {
-				errors: null,
-				message: null,
-        backendMessage: null,
-				googleRecaptchaSiteKey: null,
-				email: null,
-        state: null
+				errors: [] as String[],
+				message: "",
+        backendMessage: "",
+				email: "",
+        state: "",
+        recaptcha_script: {} as HTMLScriptElement
 			}
 		},
-    props:{
-      isChannel:Boolean,
-      default: false
+    computed:{
+      ...mapGetters('config', [
+        'googleRecaptchaKey',
+      ])
     },
 		methods: {
-			async submit() {
-				this.errors = []
+      ...mapActions('user', [
+        'VERIFY_EMAIL',
+        'REG_EMAIL'
+      ]),
+      ...mapMutations('user', [
+        'setKey'
+      ]),
+			submit() {
         let regex = new RegExp('(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\\])')
+				this.errors = []
 				if(!(regex.test(this.email))){
 					this.errors.push('email is bad')
-					return false; //otherwise execution goes on to axios
+					return false
 				}
         this.setState('wait');
-        if(this.$props.isChannel){
-          let url = '/profile/channels/email';
-          axios.post(url,{email: this.email})
-            .then((response) =>{
-
+        grecaptcha.execute(this.googleRecaptchaKey, {action: 'submit'}).then((token: string) => {
+          let reg_data = <RegData>{
+            email: this.email,
+            token: token,
+            lang: this.$i18n.locale
+          }
+          this.REG_EMAIL(reg_data)
+            .then((response: any) => {
+              this.backendMessage = response.data.message
               this.setState('sent')
             })
-					.catch((err) => {
-						this.setState('error', 'Something goes wrong. Please, try again')
-            console.warn(err)
-
-          });
-        } else {
-          let url = '/auth/email';
-          await grecaptcha.execute(this.googleRecaptchaSiteKey, {action: 'submit'}).then((token) => (
-					  axios.post(url,{email: this.email, token: token, lang: this.$translate()}) //lang:this.langDetect()
-              .then((response) =>{
-               console.warn(response.data.message)
-                this.backendMessage = response.data.message
-                this.setState('sent')
-                console.warn(response.data)
-              })
-					.catch((err) => {
-						this.setState('error', 'Something goes wrong. Please, try again')
-					})
-				));
-
-        }
-			},
-      async verify(secretKey){
-        await axios.get('/auth/email/verify/'+secretKey).then((response) => {
-          console.warn(response.data)
-          sessionStorage.setItem('sessionKey', response.data.sessionkey)
-          if(response.data.status == 'logged'){
-            this.$router.push("profile")
-            return true
-          }
-          console.warn(response.data)
-
-          this.backendMessage = response.data.message
-          this.setState('answer')
-        }).catch((err) => {
-          if(err.response.status === 404) {
-            console.warn(err.response.data.error)
-            this.setState('error', err.response.data.error)
-          }else if (err.response.status === 403){
-            this.setState('error', err.response.data.error)
-          }
-          else{
-            this.setState('error', 'Unable to identify error')
-          }
+            .catch(() => {
+              this.setState('error', 'Something goes wrong. Please, try again')
+            })
         });
+			},
+      verify(secretKey: string){
+        this.VERIFY_EMAIL(secretKey)
+          .then((response: any) => {
+            if(response.data.status == 'logged'){
+              this.$router.push({name:"profile"})
+            }
+            this.backendMessage = response.data.message
+            this.setState('answer')
+          })
+          .catch((err) => {
+            this.setState('error', err.response.data.error??"Some error occured")
+          });
       },
-      async verifyChannel(secretKey){
-        await axios.post('/profile/channels/email/verify/'+secretKey)
-        this.setState('input')
-      },
-      setState(state, message){
-        this.message = message
+      setState(state: string, message?: string){
+        this.message = message??""
         this.state = state
       },
 
       initRecaptcha(){
-        const script = document.createElement('script');
-        script.src = "https://www.google.com/recaptcha/api.js?render="+this.googleRecaptchaSiteKey
-        document.getElementById('app').after(script)
-      },
-      async getKeys(){
-				await axios.get("/keys").then(responce => (
-					this.googleRecaptchaSiteKey = responce.data.googleRecaptchaSiteKey
-				));
-			},
+        this.recaptcha_script = document.createElement('script');
+        this.recaptcha_script.src = "https://www.google.com/recaptcha/api.js?render="+this.googleRecaptchaKey
+        document.getElementById('app')?.after(this.recaptcha_script)
+      }
 		},
-
-		async mounted(){
-      // console.warn(langDetector.translate())
-      this.$translate()
-      console.warn();
-      if (window.location.hash) {
+		mounted(){
+      this.initRecaptcha()
+      if (this.$route.name=='verify' && this.$route.params.secretKey) {
         if (this.state != 'answer') {
           this.setState('wait')
         }
-        let secretKey = window.location.hash.split("#")[1];
-        if (secretKey) {
-          if(this.$props.isChannel){
-            await this.verifyChannel(secretKey);
-          }else{
-            await this.verify(secretKey);
-          }
-        }
+        this.verify(<string>this.$route.params.secretKey);
       }
-      if(!this.$props.isChannel) {
-	  		await this.getKeys();
-        this.initRecaptcha()
-      }
-      if(this.state == null) {
+      if(this.state == "") {
         this.setState('input')
       }
-      console.log(this.$props.isChannel);
 		}
-	}
+	})
 </script>
 <style scoped>
 	#location_name::first-letter {

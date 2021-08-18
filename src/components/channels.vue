@@ -6,16 +6,16 @@
         <h2 class="accordion-header" v-bind:id="'flush-heading-email'">
           <button class="accordion-button collapsed d-flex justify-content-center" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#flush-collapse-email'" aria-expanded="false" v-bind:aria-controls="'#flush-collapse-email'">
             <div class="col-3"><h4>Email:</h4></div>
-            <div class="col-8"><h5>{{email??$t('channels_2')}}</h5></div>
+            <div class="col-8"><h5>{{channels.email??$t('channels_2')}}</h5></div>
           </button>
         </h2>
         <div v-bind:id="'flush-collapse-email'" class="accordion-collapse collapse" v-bind:aria-labelledby="'flush-heading-email'" v-bind:data-bs-parent="'#accordionFlushExample'">
           <div class="accordion-body">
-            <div v-if="email">
-              <button v-on:click="deleteEmailChannel()" role="button" class="btn btn-outline-danger btn-sm" :class="{'disabled':!tg}">{{tg?'Disconnect':$t('channels_3')}}</button>
+            <div v-if="channels.email">
+              <button v-on:click="DELETE_EMAIL_CHANNEL" role="button" class="btn btn-outline-danger btn-sm" :class="{'disabled':!channels.tg}">{{channels.tg?'Disconnect':$t('channels_3')}}</button>
             </div>
             <div v-else>
-              <emailChannel :isChannel="true"></emailChannel>
+              <emailChannel></emailChannel>
             </div>
           </div>
         </div>
@@ -24,16 +24,16 @@
         <h2 class="accordion-header" v-bind:id="'flush-heading-tg'">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" v-bind:data-bs-target="'#flush-collapse-tg'" aria-expanded="false" v-bind:aria-controls="'#flush-collapse-tg'">
             <div class="col-3"><h4>Telegram:</h4></div>
-            <div class="col-8"><h5>{{tg??$t('channels_2')}}</h5></div>
+            <div class="col-8"><h5>{{channels.tg??$t('channels_2')}}</h5></div>
           </button>
         </h2>
         <div v-bind:id="'flush-collapse-tg'" class="accordion-collapse collapse" v-bind:aria-labelledby="'flush-heading-tg'" v-bind:data-bs-parent="'#accordionFlushExample'">
           <div class="accordion-body">
-            <div v-if="tg">
-              <button v-on:click="deleteTgChannel()" role="button" class="btn btn-outline-danger btn-sm" :class="{'disabled':!email}">{{email?'Disconnect':$t('channels_3')}}</button>
+            <div v-if="channels.tg">
+              <button v-on:click="DELETE_TG_CHANNEL" role="button" class="btn btn-outline-danger btn-sm" :class="{'disabled':!channels.email}">{{channels.email?'Disconnect':$t('channels_3')}}</button>
             </div>
             <div v-else class="d-flex justify-content-center">
-              <tgChannel :isChannel="true" :dataSize="'large'" v-on:verifyTgChannel="getChannels()"></tgChannel>
+              <tgChannel :dataSize="'large'"></tgChannel>
             </div>
           </div>
         </div>
@@ -57,59 +57,32 @@
 }
 </i18n>
 
-<script>
-import tgChannel from './tgLogin.vue'
-import emailChannel from './emailLogin.vue'
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+import tgChannel from './tgChannel.vue'
+import emailChannel from './emailChannel.vue'
+import { mapGetters, mapActions } from 'vuex';
+
+
+export default defineComponent({
   components: {
     'tgChannel': tgChannel,
     'emailChannel': emailChannel
   },
-  data() {
-    return {
-      tg:null,
-      email:null
-    }
+  computed:{
+    ...mapGetters('profile', [
+      'channels'
+    ])
   },
   methods: {
-    async getChannels(){
-      await axios.get("/profile/channels").then(response => (
-        this.tg = response.data.tg,
-        this.email = response.data.email
-      ))
-    },
-
-    async deleteEmailChannel(){
-      axios({
-        method: 'delete',
-        url: '/profile/channels/email/delete'
-      }).then(response=>{
-        this.getChannels()
-        this.notify(response.data.message, false)
-      }).catch(err=>{
-        this.notify(err.response.data.message, true)
-      })
-    },
-
-    async deleteTgChannel(){
-      axios({
-        method: 'delete',
-        url: '/profile/channels/tg/delete'
-      }).then(response=>{
-        this.getChannels()
-        this.notify(response.data.message, false)
-      }).catch(err=>{
-        this.notify(err.response.data.message, true)
-      })
-    },
-    notify(message, isError){     
-      this.$emit('notify', message, isError)
-    }
-  },
-  async mounted(){
-    await this.getChannels()
+    ...mapActions('profile', [
+      'DELETE_EMAIL_CHANNEL',
+      'DELETE_TG_CHANNEL',
+      'VERIFY_EMAIL_CHANNEL',
+      'VERIFY_TG_CHANNEL',
+    ])
   }
-}
+})
 </script>
 <style scoped>
   h4{

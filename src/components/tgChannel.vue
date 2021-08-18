@@ -2,51 +2,38 @@
   <div ref="tgChannel"></div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      tgBotName: null
-    }
-  },
-  props: {
-    backendUrl: String
+import { defineComponent } from 'vue'
+import { mapGetters, mapActions } from 'vuex';
+export default defineComponent({
+  computed:{
+    ...mapGetters('config', [
+      'tgBotName'
+    ])
   },
   methods: {
-    async onTelegramAuth(user) {
-      await axios({
-        method: 'post',
-        url: this.backendUrl,
-        data: {auth_data: user},
-        headers: {
-          Authorization: 'Bearer ' + sessionStorage.getItem('sessionKey')
-        }
-      }).then((response) => {
-        console.warn(response)
-      }).catch((err) =>{
-        console.log("error",err)
-      })
+    ...mapActions('profile', [
+      'VERIFY_TG_CHANNEL',
+    ]),
+    onTelegramAuth(user) {
+      this.VERIFY_TG_CHANNEL(user)
     },
-    async getKeys(){
-      await axios.post("/keys").then(response => (
-        this.tgBotName = response.data.tgBotName
-      ));
-    },
-    async tgInit(){
+    tgInit(){
       window.onTelegramAuth = this.onTelegramAuth
       let script = document.createElement('script');
       script.setAttribute('src','https://telegram.org/js/telegram-widget.js?14')
-      script.setAttribute('data-telegram-login',this.tgBotName)
+      script.setAttribute('data-telegram-login', this.tgBotName)
       script.setAttribute('data-size','medium')
       script.setAttribute('data-radius','5')
-      script.setAttribute('async',true)
+      script.setAttribute('async', true)
       script.setAttribute('data-onauth','onTelegramAuth(user)')
       script.setAttribute('data-request-access','write')
+      script.setAttribute('data-userpic','true')
+      script.setAttribute('data-lang', this.$i18n.locale)
       this.$refs.tgChannel.appendChild(script)
     }
   },
-  mounted: async function(){
-    await this.getKeys()
+  mounted(){
     this.tgInit()
   }
-}
+})
 </script>

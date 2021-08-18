@@ -17,9 +17,9 @@
                 <div class="mt-1 float-end"><!-- <a class="link-light" href="#">finde mich</a> --></div>
             </div>
             <form class="d-flex" @submit.prevent="submit">
-                <tomSelect ref="ts" v-if="locationsAll" :locations="locationsAll" @tsChanged="showServicesAtLocation"></tomSelect>
+                <tomSelect ref="ts" v-if="locations_all" :locations="locations_all" @tsChanged="showServicesAtLocation"></tomSelect>
             </form>
-            <div v-if="noService.msg" class="mt-2">😞 {{$t('locator_4.1')}} <em>{{this.noService.location.display_name}}</em>. {{$t('locator_4.2')}} <a :href="this.noService.formUrl+this.noService.location.display_name">{{$t('locator_4.3')}}</a> {{$t('locator_4.4')}}</div>
+            <div v-if="noService.msg" class="mt-2">😞 {{$t('locator_4.1')}} <em>{{noService.location.display_name}}</em>. {{$t('locator_4.2')}} <a :href="locationRequestForm+noService.location.display_name">{{$t('locator_4.3')}}</a> {{$t('locator_4.4')}}</div>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
 
 <script>
 import c_tomSelect from './tomSelect.vue';
-
+import { mapGetters, mapActions } from 'vuex';
 export default {
     components: {
         'tomSelect': c_tomSelect
@@ -74,25 +74,32 @@ export default {
                 markersDropped: false,
                 markers: [],
                 infowindow: null,
-                key: null
             },
-            locationsAll: null,
-            locationsMap: null,
             noService: {
                 location: null,
-                msg: false,
-                formUrl: null
-            }
+                msg: false
+            },
+            debounce: _.debounce(this.dropMarkers, 150, { 'leading': true })
         }
     },
-    mounted: async function() {
-        await this.getLocations();
-        await this.getKeys();
+    async mounted() {
+        await Promise.allSettled([
+            this.FETCH_LOCATIONS(),
+            this.FETCH_ALL_LOCATIONS(),
+        ])
         this.initMap();
-        window.addEventListener("scroll", _.debounce(this.dropMarkers, 150, { 'leading': true }));
+        window.addEventListener("scroll", this.debounce);
     },
 
     computed: {
+        ...mapGetters('statics', [
+            'locations',
+            'locations_all'
+        ]),
+        ...mapGetters('config', [
+            'googleMapKey',
+            'locationRequestForm'
+        ]),
         getLocale() {
             return this.$i18n.locale;
         }
@@ -101,19 +108,19 @@ export default {
     watch: {
         getLocale() {
             this.reloadMap()
+        },
+        $route (to, from){
+            window.removeEventListener("scroll", this.debounce)
+            this.removeMap()
         }
     },
 
     methods: {
-
-        async getLocations() {
-            await axios
-                .get('/locations')
-                .then(response => (this.locationsMap = response.data));
-            await axios
-                .get('/locations/all')
-                .then(response => (this.locationsAll = response.data));
-        },
+        ...mapActions('statics', [
+            'FETCH_LOCATIONS',
+            'FETCH_ALL_LOCATIONS',
+            'FETCH_SERVICES'
+        ]),
 
         initMap() {
             this.mapScript = document.createElement('script')
@@ -126,7 +133,8 @@ export default {
                     }
                 );
             };
-            this.mapScript.src = 'https://maps.googleapis.com/maps/api/js?key='+this.map.key+'&language='+this.$i18n.locale;
+            let key = process.env.NODE_ENV=="local"?"":"key="+this.googleMapKey+"&"
+            this.mapScript.src = 'https://maps.googleapis.com/maps/api/js?'+key+'language='+this.$i18n.locale;
             this.mapScript.id = 'google-maps-script'
             document.getElementById('app').after(this.mapScript)
         },
@@ -137,24 +145,23 @@ export default {
             this.initMap()
         },
 
-        async getKeys(){
-            await axios.get("/keys").then(response => {
-                this.map.key = response.data.googleMapKey;
-                this.noService.formUrl = response.data.locationRequestForm;
-            });
+        removeMap(){
+            this.mapScript.parentNode.removeChild(this.mapScript)
+            delete google.maps;
         },
+
 
         dropMarkers() {
             if(!this.checkMapInViewport() || this.map.markersDropped) {
                 return;
             }
             let m = null;
-            for(let i in this.locationsMap) {
-                let zip = this.locationsMap[i].zipcode;
-                let id = this.locationsMap[i].id;
+            for(let i in this.locations) {
+                let zip = this.locations[i].zipcode;
+                let id = this.locations[i].id;
                 setTimeout(() => {
                     m = new google.maps.Marker({
-                        position: new google.maps.LatLng(this.locationsMap[i].lat,this.locationsMap[i].lng),
+                        position: new google.maps.LatLng(this.locations[i].lat,this.locations[i].lng),
                         map: this.map.el,
                         zipcode: zip,
                         animation: google.maps.Animation.DROP,
@@ -181,7 +188,7 @@ export default {
 
         async getInfoWindowContent(zipcode) {
             try {
-                const response = await axios.get('/locations/'+zipcode+'/services');
+                const response = await this.FETCH_SERVICES(zipcode);
                 const location = response.data.location;
                 const services = response.data.services;
 
@@ -194,7 +201,7 @@ export default {
                 return '<div>\
                     <h5 id="location_name">'+title+'</h5>\
                     <ul>'+services_list+'</ul>\
-                    <router-link :to="{ name: \'signup\'}" class="btn btn-primary btn-sm">Sign up</router-link>\
+                    <a href="#/signup" class="btn btn-primary btn-sm">Sign up</a>\
                     </div>';
             } catch (error) {
                 console.error(error);
@@ -228,7 +235,7 @@ export default {
             if (marker) {
                 this.openInfoWindow(marker);
             } else if(id) {
-                this.noService.location = _.find(this.locationsAll, {id: parseInt(id)});
+                this.noService.location = _.find(this.locations_all, {id: parseInt(id)});
                 this.noService.msg = true;
             }
         }

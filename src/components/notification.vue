@@ -1,32 +1,25 @@
 <template>
     <div>
-        <div ref="alert" class="alert alert-dismissible fade" :class="{'alert-danger':error, 'alert-success':!error, 'show':show, 'd-none':!show}">
+        <div ref="alert" class="alert alert-dismissible fade" :class="{'alert-danger':is_error, 'alert-success':!is_error, 'show':show, 'd-none':!show}">
             <strong>{{message}}</strong>
-            <button v-on:click="show=false" class="btn-close"></button>
+            <button v-on:click="hide" class="btn-close"></button>
         </div>
     </div>
 </template>
-<script>
+<script lang="ts">
+import { mapGetters, mapMutations } from 'vuex';
 export default {
-    props:{
-        message:{
-            type: String,
-            default:null
-        },
-        error:{
-            type: Boolean,
-            default:null
-        }
+    computed:{
+        ...mapGetters('notification', [
+            'show',
+            'message',
+            'is_error'
+        ])
     },
-    watch:{
-        message: async function(newVal, oldVal) {
-            this.show = true
-        }
-    },
-        data() {
-        return {
-            show:false
-        }
-    },
+    methods:{
+        ...mapMutations('notification', [
+            'hide'
+        ])
+    }
 }
 </script>

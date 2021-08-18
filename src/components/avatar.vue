@@ -4,74 +4,42 @@
             <label v-if="avatar" class="edit-img" for="avatar-upload">
                 <img src="../assets/images/edit.png" alt="">
             </label>
-            <img class="avatar-img" :src="avatar??'../assets/images/profile/avatar_default.jpg'" alt="User avatar">
-            <div v-if="avatar" class="delete-img" v-on:click="deleteAvatar()">
+            <img class="avatar-img" :src="avatar_url" alt="User avatar">
+            <div v-if="avatar" class="delete-img" v-on:click="DELETE_AVATAR">
                 <img src="../assets/images/delete.png" alt="">
             </div>
             <label v-if="!avatar" for="avatar-upload" class="edit">
                 +
             </label>
-            <input class="d-none" id="avatar-upload" ref="avatar" type="file" @change="updateAvatar()"/>
+            <input class="d-none" id="avatar-upload" ref="avatar" type="file" @change="UPDATE($event.target.files[0])"/>
         </div>
     </div>
 </template>
-<script>
-export default {
-    data() {
-        return {
-            avatar:null
-        }
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+export default defineComponent({
+    computed:{
+        ...mapGetters('profile', [
+            'avatar',
+            'avatar_url'
+        ])
     },
     methods: {
-        async fetchAvatar(){
-            await axios({
-                method: 'get',
-                url: '/profile/avatar',
-            }).then((response)=>{
-                this.avatar = response.data.image
-                let delimiter = ""
-                if(this.avatar != null){
-                   delimiter = this.avatar.includes('?') ? '&' : '?'
-                   this.avatar = response.data.image + delimiter + new Date().getTime()
-                } 
-            })
-        },
-        updateAvatar(){
-            let formData = new FormData()
-            formData.append('file',this.$refs.avatar.files[0])
-            axios({
-                method: 'post',
-                url: '/profile/avatar',
-                data:formData,
-                headers:{
-                    'content-type': 'multipart/form-data'
-                }
-            }).then(response=>{
-                this.notify(response.data.message, false)
-                this.fetchAvatar()
-            }).catch(err=>{
-                this.notify(err.response.data.message, true)
-            })
-        },
-        deleteAvatar(){
-            axios({
-                method: 'delete',
-                url: '/profile/avatar'
-            }).then(response=>{
-                this.notify(response.data.message, false)
-                this.fetchAvatar()
-            }).catch(err=>{
-                this.notify(err.response.data.message, true)
-            })
-        },
-        notify(message, isError){
-            this.$emit('notify', message, isError)
+        ...mapActions('profile', [
+            'UPDATE_AVATAR',
+            'DELETE_AVATAR'
+        ]),
+        ...mapMutations('notification', [
+            'notify',
+            'notifyError'
+        ]),
+        UPDATE(file: File){
+            this.UPDATE_AVATAR(file);
+            (document.getElementById('avatar-upload') as HTMLInputElement).value = ''
         }
-    },
-    async created() {
-        await this.fetchAvatar()
     }
-}
+})
 </script>
 <style scoped>
     .edit{

@@ -1,20 +1,20 @@
 <template>
-  <form v-if="services" ref="servicesForm" @submit.prevent="setServices()">
+  <div>
     <div class="form-group row mb-4" :key="service" v-for="service in services">
       <div class="col-5">{{service.name}}</div>
       <div class="col-7 d-flex justify-content-between">
-        <select style="width:47%" v-if="channels" name="channels" v-model="service.channel" :value="service.channel">
+        <select style="width:47%" v-model="service.channel">
           <option value="null">{{$t('locationService_1')}}</option>
           <option v-if="channels.email">{{$t('locationService_2')}}</option>
           <option v-if="channels.tg">{{$t('locationService_3')}}</option>
         </select>
-        <select style="width:47%" name="frequencies" v-model="service.frequency" :value="service.frequency">
+        <select style="width:47%" v-model="service.frequency">
           <option value="null">{{$t('locationService_4')}}</option>
-          <option :key="frequency" v-for="frequency in frequencies" :value="frequency">{{frequency}}</option>
+          <option :key="frequency" v-for="frequency in frequencies">{{frequency}}</option>
         </select>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <i18n>
@@ -34,69 +34,23 @@
 }
 </i18n>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+export default defineComponent({
   props:{
-    location:null,
-    userLocation:null,
-    channels:null
-  },
-  watch: { 
-    location: async function(newVal, oldVal) {
-      if(newVal){
-        await this.getServices(newVal)
-      }
+    services:{
+      type: Object as PropType<Service[]>
+    },
+    channels:{
+      type: Object as PropType<Channels>
     }
   },
   data() {
     return {
-      services: null,
       frequencies: {'daily_brief': 'Daily brief', 'daily_digest': 'Daily digest', 'weekly_brief': 'Weekly brief', 'weekly_digest': 'Weekly digest'},
     }
-  },
-  methods: {
-    
-    async getServices(id){
-      if(id){
-        await axios({
-          method: 'get',
-          url: '/locations/services/'+id+'/'+this.userLocation
-        }).then((response) => {
-          this.services = response.data.results
-        }).catch((err) =>{
-        });
-      }
-    },
-    async setServices(){
-      if(this.services){
-        await axios({
-          method: 'patch',
-          url: '/profile/services',
-          data: {
-            services:this.services, 
-            user_location_id: this.userLocation
-          }
-        })
-      }
-    },
-    async deleteServices(){
-      if(this.services){
-        await axios({
-          method: 'delete',
-          url: '/profile/services',
-          data: {
-            user_location_id: this.userLocation
-          }
-        })
-      }
-    }
-
-  },
-
-  mounted: async function(){
-    await this.getServices(this.location)
-  },
-}
+  }
+})
 </script>
 
 <style scoped>
