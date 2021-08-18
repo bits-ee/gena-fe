@@ -22,7 +22,7 @@ export default defineComponent({
       let script = document.createElement('script');
       script.setAttribute('src','https://telegram.org/js/telegram-widget.js?14')
       script.setAttribute('data-telegram-login', this.tgBotName)
-      script.setAttribute('data-size','large')
+      script.setAttribute('data-size','medium')
       script.setAttribute('data-radius','5')
       script.setAttribute('async', true)
       script.setAttribute('data-onauth','onTelegramAuth(user)')

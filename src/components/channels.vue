@@ -63,9 +63,6 @@ import tgChannel from './tgChannel.vue'
 import emailChannel from './emailChannel.vue'
 import { mapGetters, mapActions } from 'vuex';
 
-type Computed = {
-  channels: Channels;
-}
 
 export default defineComponent({
   components: {
