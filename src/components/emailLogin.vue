@@ -143,7 +143,6 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
         document.getElementById('app')?.after(this.recaptcha_script)
       }
 		},
-    
 		mounted(){
       this.initRecaptcha()
       if (this.$route.name=='verify' && this.$route.params.secretKey) {
