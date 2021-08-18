@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
+    "servelocal": "vue-cli-service serve --mode local",
     "build": "vue-cli-service build --mode development",
     "deploy": "node gh-pages-deploy.js",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
@@ -20,11 +21,13 @@
     "tom-select": "^1.7.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.0",
+    "vue-lodash": "^2.1.2",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "webpack-modernizr-loader": "^5.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.171",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "^4.5.13",

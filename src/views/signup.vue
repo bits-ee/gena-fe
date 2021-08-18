@@ -11,7 +11,6 @@
       <div id="sso">
         <tg-login></tg-login>
       </div>
-      <test></test>
     </main>
 	</div>
 </template>

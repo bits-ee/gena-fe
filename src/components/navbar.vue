@@ -25,9 +25,9 @@
       </div>
 
     </div>
-		<router-link v-if="!isAuth" class="me-4 sign-in" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
-		<router-link v-if="!isAuth" class="btn btn-primary register" :to="{ name: 'signup'}">{{ $t('navbar_2') }}</router-link>
-    <router-link v-if="isAuth" class="btn btn-primary" @click.prevent="logout" :to="{ name: 'index'}">{{ $t('navbar_3') }}</router-link>
+		<router-link v-if="!is_auth" class="me-4 sign-in" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
+		<router-link v-if="!is_auth" class="btn btn-primary register" :to="{ name: 'signup'}">{{ $t('navbar_2') }}</router-link>
+    <router-link v-if="is_auth" class="btn btn-primary" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_3') }}</router-link>
 	</nav>
 </template>
 
@@ -47,25 +47,19 @@
 </i18n>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
-    data() {
-        return {
-            isAuth: false
-        }
+    computed:{
+      ...mapGetters('user', [
+        'is_auth'
+      ])
     },
     methods: {
-      logout() {
-        sessionStorage.removeItem('sessionKey');
-        window.location.href = '/';
-      },
-
+      ...mapActions('user', [
+        'LOGOUT'
+      ]),
       setLang(lang){
         this.$i18n.locale = lang
-      },
-      getLangUrl(lang){
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('lang',lang)
-        return window.location.pathname+'?'+urlParams
       },
       initDropdown(){
         this.$refs['language-dropdown'].addEventListener('mouseover', ()=>{
@@ -81,9 +75,6 @@ export default {
           delete this.$refs['language-dropdown-list']['data-bs-popper']
         })
       }
-    },
-    created() {
-      if(sessionStorage.getItem('sessionKey')) this.isAuth = true;
     },
     mounted() {
       this.initDropdown()

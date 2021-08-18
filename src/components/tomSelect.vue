@@ -62,7 +62,9 @@ export default {
         },
 
         returnSelected() {
-            this.$emit('tsChanged', this.ts.getValue())
+            if(this.ts.getValue()){
+                this.$emit('tsChanged', this.ts.getValue())
+            }
         }
     },
     mounted() {

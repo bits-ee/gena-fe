@@ -2,24 +2,21 @@
     <div>
         <h3>{{$t('userLocations_1')}}</h3>
         <div class="accordion mb-4" id="accordionLocations">
-            <div class="accordion-item" :class="{'mt-1':index==new_index}" :key="location" v-for="(location, index) in user_locations">
-                <h4 class="accordion-header" :id="'heading'+location.id">
-                    <button v-if="index!=new_index" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#location'+location.id" aria-expanded="false" :aria-controls="'location'+location.id">
-                        <h4>{{location.title==''?$t('userLocations_2'):location.title}}</h4>
-                    </button>
-                    <button v-if="index==new_index" class="btn btn-block btn-outline-primary add-btn" type="button" data-bs-toggle="collapse" :data-bs-target="'#location'+location.id" aria-expanded="false" :aria-controls="'location'+location.id">
-                        <h3>+</h3>
+            <div class="accordion-item" :key="user_location.id" v-for="user_location in user_locations">
+                <h4 class="accordion-header" :id="'heading'+user_location.id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#location'+user_location.id" aria-expanded="false" :aria-controls="'location'+user_location.id">
+                        <h4>{{user_location.title==''?$t('userLocations_2'):user_location.title}}</h4>
                     </button>
                 </h4>
-                <div :id="'location'+location.id" class="accordion-collapse collapse" :aria-labelledby="'heading'+location.id" data-bs-parent="#accordionLocations">
+                <div :id="'location'+user_location.id" class="accordion-collapse collapse" :aria-labelledby="'heading'+user_location.id" data-bs-parent="#accordionLocations">
                     <div class="accordion-body">
-                        <form @submit.prevent="updateLocation(index);">
+                        <div>
                             <div class="form-group row mb-4">
                                 <div class="col-1">
                                     <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
                                 </div>
                                 <div class="col-11">
-                                    <input style="width:100%" type="text" v-model="location.title" :placeholder="$t('userLocations_4')">
+                                    <input style="width:100%" type="text" v-model="user_location.title" :placeholder="$t('userLocations_4')">
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
@@ -27,7 +24,7 @@
                                     <img class="form-img" src="../assets/images/profile/zip.png" :alt="$t('userLocations_5')">      
                                 </div>
                                 <div class="col-11">
-                                    <tomSelect :viewSearchButton="false" v-if="primary_locations" :locations="primary_locations" :selectedValue="parseInt(location.location_id)" @tsChanged="location.location_id = $event"></tomSelect>
+                                    <tomSelect :viewSearchButton="false" v-if="locations" :locations="locations" :selectedValue="parseInt(user_location.location_id)" @tsChanged="user_location.location_id=$event; FETCH_LOCATION_SERVICES(user_location)"></tomSelect>
                                 </div>
                             </div>
                             
@@ -36,24 +33,63 @@
                                     <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
                                 </div>
                                 <div class="col-11 d-flex justify-content-between">
-                                    <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="location.street_name">
-                                    <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="location.street_number">
+                                    <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="user_location.street_name">
+                                    <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="user_location.street_number">
                                 </div>
                             </div>
-                            <locationServices :userLocation="location.id" :location="location.location_id" :channels="channels" :ref="'services'+index"></locationServices>
-                            <div class="d-flex flex-column justify-content-end" v-if="index!=new_index">
-                                <button type="submit" class="btn btn-primary btn-sm">{{$t('userLocations_9')}}</button>
-                                <button class="btn btn-outline-danger btn-sm mt-3" v-on:click="deleteLocation(index)">{{$t('userLocations_10')}}</button>
+                            <locationServices :services="user_location.services" :channels="channels"></locationServices>
+                            <div class="d-flex flex-column justify-content-end">
+                                <button class="btn btn-primary btn-sm" v-on:click="UPDATE_USER_LOCATION(user_location)">{{$t('userLocations_9')}}</button>
+                                <button class="btn btn-outline-danger btn-sm mt-3" v-on:click="DELETE_USER_LOCATION(user_location)">{{$t('userLocations_10')}}</button>
                             </div>
-                            <div class="d-flex justify-content-end" v-if="index==new_index">
-                                <button class="btn btn-primary btn-sm" v-on:click="addLocation()">{{$t('userLocations_11')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item mt-1">
+                <h4 class="accordion-header" :id="'heading_add'">
+                    <button class="btn btn-block btn-outline-primary add-btn" type="button" data-bs-toggle="collapse" :data-bs-target="'#location_add'" aria-expanded="false" :aria-controls="'location_add'">
+                        <h3>+</h3>
+                    </button>
+                </h4>
+                <div :id="'location_add'" class="accordion-collapse collapse" :aria-labelledby="'heading_add'" data-bs-parent="#accordionLocations">
+                    <div class="accordion-body">
+                        <div>
+                            <div class="form-group row mb-4">
+                                <div class="col-1">
+                                    <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
+                                </div>
+                                <div class="col-11">
+                                    <input style="width:100%" type="text" v-model="new_location.title" :placeholder="$t('userLocations_4')">
+                                </div>
                             </div>
-                        </form>
+                            <div class="form-group row mb-4">
+                                <div class="col-1">
+                                    <img class="form-img" src="../assets/images/profile/zip.png" :alt="$t('userLocations_5')">      
+                                </div>
+                                <div class="col-11">
+                                    <tomSelect :viewSearchButton="false" v-if="locations" :locations="locations" :selectedValue="parseInt(new_location.location_id)" @tsChanged="new_location.location_id=$event; FETCH_LOCATION_SERVICES(new_location)"></tomSelect>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group form-group row mb-4">
+                                <div class="col-1">
+                                    <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
+                                </div>
+                                <div class="col-11 d-flex justify-content-between">
+                                    <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="new_location.street_name">
+                                    <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="new_location.street_number">
+                                </div>
+                            </div>
+                            <locationServices :services="new_location.services" :channels="channels"></locationServices>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary btn-sm" v-on:click="ADD_USER_LOCATION(new_location)">{{$t('userLocations_11')}}</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div> 
-        </div>
-        
+        </div> 
     </div>
 </template>
 
@@ -88,122 +124,40 @@
 }
 </i18n>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import tomSelect from './tomSelect.vue'
 import locationServices from './locationService.vue'
-export default {
+import { mapGetters, mapActions } from 'vuex';
+export default defineComponent({
     components: {
         'tomSelect': tomSelect,
         'locationServices': locationServices
     },
     data(){
-        return{
-            user_locations:null,
-            primary_locations:null,
-            new_index:null,
-            channels:null
+        return {
+            new_location: {} as UserLocation
         }
+    },
+    computed:{
+        ...mapGetters('profile', [
+            'channels',
+            'user_locations'
+        ]),
+        ...mapGetters('statics', [
+            'locations',
+        ])
     },
     methods: {
-        async fetchLocations(){
-            await axios({
-                method: 'get',
-                url: '/profile/userLocations'
-            }).then((response)=>{
-                this.user_locations = response.data
-                this.user_locations.push({location_id:null, 
-                                        title:null, 
-                                        street_name:null, 
-                                        street_number:null})
-                this.new_index = this.user_locations.length-1
-            }).catch(()=>{
-               this.user_locations = []
-                this.user_locations.push({location_id:null, 
-                                        title:null, 
-                                        street_name:null, 
-                                        street_number:null})
-                this.new_index = this.user_locations.length-1
-            })
-        },
-        async updateLocation(index){
-            this.$refs['services'+index].setServices(this.user_locations[index].location_id)
-            await axios({
-                method: 'patch',
-                url: '/profile/userLocations',
-                data:this.user_locations[index]
-            }).then(response=>{
-                this.notify(response.data.message, false)
-                this.fetchLocations()
-            }).catch(err=>{
-                this.notify(err.response.data.message, true)
-            })
-        },
-        async addLocation(){
-            if(this.user_locations[this.new_index].location_id){
-                await axios({
-                    method: 'post',
-                    url: '/profile/userLocations',
-                    data: this.user_locations.pop()
-                }).then(response=>{
-                    this.notify(response.data.message, false)
-                    this.fetchLocations()
-                }).catch(err=>{
-                    this.notify(err.response.data.message, true)
-                    this.user_locations.push({location_id:null, 
-                                            title:null, 
-                                            street_name:null, 
-                                            street_number:null})
-                    this.new_index = this.user_locations.length-1
-                })
-            }
-        },
-        async deleteLocation(index){
-            this.$refs['services'+index].deleteServices(this.user_locations[index].location_id)
-            await axios({
-                method: 'delete',
-                url: '/profile/userLocations',
-                data:{
-                    id:this.user_locations[index].id
-                }
-            }).then(response=>{
-                this.notify(response.data.message, false)
-                this.fetchLocations()
-            }).catch(err=>{
-              this.notify(err.response.data.message, true)
-            })
-        },
-        async getPrimaryLocations(){
-            await axios({
-                method: 'get',
-                url: '/locations',
-            }).then((response)=>{
-                this.primary_locations = response.data
-            }).catch(()=>{
-            })
-        },
-        getPrimaryLocationById(id){
-            for(let i=0; i<this.primary_locations.length; i++){
-                if(this.primary_locations[i].id == id){
-                    return this.primary_locations[i].name
-                }
-            }
-            return null
-        },
-        async getChannels(){
-            await axios.get("/profile/channels").then((response) => (
-                this.channels = response.data
-            ))
-        },
-        notify(message, isError){
-            this.$emit('notify', message, isError)
-        }
-    },
-    async mounted() {
-        await this.getPrimaryLocations()
-        await this.fetchLocations()
-        await this.getChannels()
+        ...mapActions('profile', [
+            'FETCH_USER_LOCATIONS',
+            'UPDATE_USER_LOCATION',
+            'DELETE_USER_LOCATION',
+            'ADD_USER_LOCATION',
+            'FETCH_LOCATION_SERVICES',
+        ]),
     }
-}
+})
 </script>
 <style scoped>
     button:active:focus, button:active, button:focus, input:active:focus, input:active, input:focus {
