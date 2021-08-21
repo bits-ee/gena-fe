@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export default {
   FETCH_AVATAR(context: any) {
     return new Promise((resolve, reject)=>{
