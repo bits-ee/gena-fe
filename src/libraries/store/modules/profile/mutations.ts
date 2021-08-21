@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export default {
     setAvatar(state: ProfileState, avatar: string) {   
       if (avatar != null) {
