@@ -4,7 +4,15 @@ node_modules
 /build
 /public
 
+#config
+.prettierrc
+.prettierignore
+.gitignore
+README.md
+
 # local env files
+.env
+.env.*
 .env.local
 .env.*.local
 
