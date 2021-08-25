@@ -57,7 +57,8 @@
 <script>
 import c_tomSelect from './tomSelect.vue';
 import { mapGetters, mapActions } from 'vuex';
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
     components: {
         'tomSelect': c_tomSelect
     },
@@ -240,7 +241,7 @@ export default {
             }
         }
     }
-}
+})
 </script>
 
 <style scoped>

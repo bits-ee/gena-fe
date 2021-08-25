@@ -3,7 +3,8 @@
 </template>
 <script>
 import { mapActions, mapMutations } from 'vuex';
-export default{
+import { defineComponent } from 'vue'
+export default defineComponent({
   data(){
     return{
       init: false
@@ -36,6 +37,6 @@ export default{
       })
     }
   }
-}
+})
 </script>
 
