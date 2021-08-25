@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <header>
-      <logo-link></logo-link>
-    </header>
-    <main>
-    <email-login></email-login><!-- TODO merge with verify -->
-      <div class="divider">
-        <hr/><span>{{$t('or')}}</span><hr />
-      </div>
-      <div id="sso">
-        <tg-login></tg-login>
-      </div>
-    </main>
-	</div>
+  <div class="signup">
+    <div class="signup-wrapper">
+      <header>
+        <logo-link></logo-link>
+      </header>
+      <main>
+      <email-login></email-login><!-- TODO merge with verify -->
+        <div class="divider">
+          <hr/><span>{{$t('or')}}</span><hr />
+        </div>
+        <div id="sso">
+          <tg-login></tg-login>
+        </div>
+      </main>
+    </div>
+  </div>
 </template>
 <i18n>
 {
@@ -35,9 +37,6 @@
       'email-login': c_emailLogin,
       'logo-link': c_logo
     },
-    beforeCreate: function() {
-        document.body.className = 'body-signup';
-    },
     mounted() {
       /*
       this.directive('visible', function(el, binding) {
@@ -49,6 +48,32 @@
 </script>
  
 <style scoped>
+  .signup {
+    width: 100vw;
+    height: 100vh;
+    background: url(../assets/images/signinup.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow: auto;
+  }
+  .signup-wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: relative;
+    border-radius: 5px;
+    width: 300px;
+    top: 200px;
+    left: 200px;
+    padding: 20px;
+  }
+  .signup header{
+    margin-bottom: 1em;
+  }
+  .signup header a{
+    text-decoration: none;
+  }
   .divider {
     margin-top: 2em;
     width: 100%;

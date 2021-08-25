@@ -38,10 +38,7 @@ export default defineComponent({
         'megaicons-component': c_megaicons,
         'bottomline-component': c_bottomline,
         'footer-component': c_footer
-	},
-	beforeCreate: function() {
-		document.body.className = '';
-	},
+	}
 })
 </script>
 
