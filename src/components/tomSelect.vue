@@ -17,7 +17,8 @@
 </i18n>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
     data() {
         return {
             ts: null
@@ -70,7 +71,7 @@ export default {
     mounted() {
         this.initTomSelect()
     },
-}
+})
 </script>
 <style scoped>
   .ts-input {
