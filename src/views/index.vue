@@ -30,7 +30,8 @@ import c_navbar from '../components/navbar.vue'
 import c_megaicons from '../components/megaicons.vue'
 import c_bottomline from '../components/bottomline.vue'
 import c_footer from '../components/footer.vue'
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
 	components:{
 		'locator-component': c_locator,
         'navbar-component': c_navbar,
@@ -41,7 +42,7 @@ export default {
 	beforeCreate: function() {
 		document.body.className = '';
 	},
-}
+})
 </script>
 
 <style>

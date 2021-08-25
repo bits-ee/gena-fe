@@ -47,8 +47,9 @@
 </i18n>
 
 <script>
+import { defineComponent } from 'vue'
 import { mapGetters, mapActions } from 'vuex';
-export default {
+export default defineComponent({
     computed:{
       ...mapGetters('user', [
         'is_auth'
@@ -79,7 +80,7 @@ export default {
     mounted() {
       this.initDropdown()
     },
-}
+})
 </script>
 
 <style>

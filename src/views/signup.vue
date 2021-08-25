@@ -28,7 +28,8 @@
   import c_tgLogin from '../components/tgLogin.vue'
   import c_emailLogin from '../components/emailLogin.vue'
   import c_logo from '../components/logo.vue'
- export default {
+  import { defineComponent } from 'vue'
+ export default defineComponent({
     components: {
       'tg-login': c_tgLogin,
       'email-login': c_emailLogin,
@@ -44,7 +45,7 @@
       });
       */
     },
-  };
+  });
 </script>
  
 <style scoped>

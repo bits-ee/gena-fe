@@ -38,7 +38,8 @@
   import c_footer from '../components/footer.vue'
   import c_notification from '../components/notification.vue'
   import { mapGetters, mapActions } from 'vuex';
-export default {
+  import { defineComponent } from 'vue'
+export default defineComponent({
   components:{
     'profile-details': c_personalDetails,
     'avatar-component': c_avatar,
@@ -93,7 +94,7 @@ export default {
       this.FETCH_USER_LOCATIONS()
     ])
   }
-}
+})
 </script>
 
 <style>

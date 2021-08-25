@@ -7,8 +7,9 @@
     </div>
 </template>
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { mapGetters, mapMutations } from 'vuex';
-export default {
+export default defineComponent({
     computed:{
         ...mapGetters('notification', [
             'show',
@@ -21,5 +22,5 @@ export default {
             'hide'
         ])
     }
-}
+})
 </script>

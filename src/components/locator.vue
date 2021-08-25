@@ -55,9 +55,10 @@
 </i18n>
 
 <script>
+import { defineComponent } from 'vue'
 import c_tomSelect from './tomSelect.vue';
 import { mapGetters, mapActions } from 'vuex';
-export default {
+export default defineComponent({
     components: {
         'tomSelect': c_tomSelect
     },
@@ -240,7 +241,7 @@ export default {
             }
         }
     }
-}
+})
 </script>
 
 <style scoped>
