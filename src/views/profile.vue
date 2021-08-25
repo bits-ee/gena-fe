@@ -82,9 +82,6 @@ export default defineComponent({
       this.error = error
     }
   },
-  beforeCreate() {
-    document.body.className = '';
-  },
   created(){
     Promise.allSettled([
       this.FETCH_LOCATIONS(),
