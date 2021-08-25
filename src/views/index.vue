@@ -42,5 +42,55 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
+.separator {
+	width: 66%;
+	margin: 0 auto;
+}
+
+.parallax {
+  background: url(../assets/images/parallax.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@media (max-width: 767px) {
+  .parallax {
+    display: none;
+  }
+
+  header {
+    margin-bottom: 5em;
+  }
+}
+
+@media (min-width: 768px) {
+  .parallax {
+    min-height: 400px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 992px) {
+  .parallax {
+    min-height: 450px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .parallax {
+    height: 500px;
+    background-position: center -100px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .parallax {
+    height: 700px;
+    background-position: center -150px;
+  }
+}
 </style>
