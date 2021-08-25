@@ -10,6 +10,11 @@ npm install
 npm run serve
 ```
 
+### Compile using local environment (.env.local)
+```
+npm run servelocal
+```
+
 ### Compiles and minifies for production
 ```
 npm run build
