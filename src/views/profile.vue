@@ -94,5 +94,17 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
+#profile {
+  margin: auto;
+  background-color: #eee;
+}
+
+#profile header {
+  margin-bottom: 5em;
+}
+
+#profile main {
+  max-width: 640px;
+}
 </style>
