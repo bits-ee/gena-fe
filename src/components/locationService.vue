@@ -36,6 +36,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import '@/types/Service'
+import '@/types/Channels'
 export default defineComponent({
   props:{
     services:{

@@ -7,9 +7,3 @@ interface Location{
     lat: number,
     lng: number
 }
-
-interface RegData{
-    email: string,
-    token: string,
-    lang: string
-}

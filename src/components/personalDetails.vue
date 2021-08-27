@@ -59,6 +59,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex';
+import '@/types/PersonalDetails'
 export default defineComponent({
   data(){
     return{
