@@ -28,5 +28,9 @@ interface NotificationState {
     show: boolean
 }
 
+interface CurrLocationState{
+    lat: Number,
+    lng: Number
+}
 
 

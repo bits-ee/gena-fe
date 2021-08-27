@@ -4,7 +4,7 @@ export default {
       return state.avatar
     },
     avatar_url: (state: ProfileState): string | null => {
-      let url = null
+      let url
       if(state.avatar){
           if(!state.avatar.includes('http')){
             url = process.env.VUE_APP_DATA_SERVICE_URL + state.avatar

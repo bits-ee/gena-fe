@@ -21,7 +21,6 @@
     "modernizr": "^3.11.7",
     "rimraf": "^3.0.2",
     "vue": "^3.0.0",
-    "vue-browser-geolocation": "^1.8.0",
     "vue-geolocation-api": "^0.1.21",
     "vue-i18n": "^9.1.0",
     "vue-lodash": "^2.1.2",
