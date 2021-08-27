@@ -2,7 +2,7 @@
     <div>
         <h3>{{$t('userLocations_1')}}</h3>
         <div class="accordion mb-4" id="accordionLocations">
-            <div class="accordion-item" :key="user_location.id" v-for="user_location in user_locations">
+            <div class="accordion-item" :key="user_location.id" v-for="user_location in user_locations_copy">
                 <h4 class="accordion-header" :id="'heading'+user_location.id">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#location'+user_location.id" aria-expanded="false" :aria-controls="'location'+user_location.id">
                         <h4>{{user_location.title==''?$t('userLocations_2'):user_location.title}}</h4>
@@ -39,8 +39,8 @@
                             </div>
                             <locationServices :services="user_location.services" :channels="channels"></locationServices>
                             <div class="d-flex flex-column justify-content-end">
-                                <button class="btn btn-primary btn-sm" v-on:click="UPDATE_USER_LOCATION(user_location)">{{$t('userLocations_9')}}</button>
-                                <button class="btn btn-outline-danger btn-sm mt-3" v-on:click="DELETE_USER_LOCATION(user_location)">{{$t('userLocations_10')}}</button>
+                                <button class="btn btn-primary btn-sm" v-on:click="UPDATE(user_location)">{{$t('userLocations_9')}}</button>
+                                <button class="btn btn-outline-danger btn-sm mt-3" v-on:click="DELETE(user_location)">{{$t('userLocations_10')}}</button>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             </div>
                             <locationServices :services="new_location.services" :channels="channels"></locationServices>
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm" v-on:click="ADD_USER_LOCATION(new_location)">{{$t('userLocations_11')}}</button>
+                                <button class="btn btn-primary btn-sm" v-on:click="ADD()">{{$t('userLocations_11')}}</button>
                             </div>
                         </div>
                     </div>
@@ -129,6 +129,7 @@ import { defineComponent } from 'vue'
 import tomSelect from './tomSelect.vue'
 import locationServices from './locationService.vue'
 import { mapGetters, mapActions } from 'vuex';
+import _ from 'lodash'
 export default defineComponent({
     components: {
         'tomSelect': tomSelect,
@@ -136,7 +137,8 @@ export default defineComponent({
     },
     data(){
         return {
-            new_location: {} as UserLocation
+            new_location: {} as UserLocation,
+            user_locations_copy: {} as UserLocation[]
         }
     },
     computed:{
@@ -156,6 +158,27 @@ export default defineComponent({
             'ADD_USER_LOCATION',
             'FETCH_LOCATION_SERVICES',
         ]),
+        UPDATE(location: UserLocation){
+            this.UPDATE_USER_LOCATION(location)
+            .catch(()=>{
+                _.merge(_.find(this.user_locations, {id: location.id}), this.user_locations_copy)
+            })
+        },
+        DELETE(location: UserLocation){
+            this.DELETE_USER_LOCATION(location)
+            .then(()=>{
+                _.remove(this.user_locations_copy, {id: location.id})
+            })
+        },
+        ADD(){
+            this.ADD_USER_LOCATION(this.new_location)
+            .then(()=>{
+                this.user_locations_copy.push(this.new_location)
+            })
+        }
+    },
+    mounted(){
+        Object.assign(this.user_locations_copy, this.user_locations)
     }
 })
 </script>

@@ -68,7 +68,6 @@ export default {
         resolve(response)
       })
       .catch(async (err: any)=>{
-        await context.dispatch('FETCH_DETAILS')
         context.commit("notification/notifyError", err.response.data.error, { root: true })
         reject(err)
       })
@@ -81,12 +80,7 @@ export default {
         url: "/profile/personalDetails",
       })
       .then((response: any)=>{
-        let personal_details = <PersonalDetails>{
-          firstname: response.data.firstname,
-          lastname: response.data.lastname,
-          language: response.data.language,
-        }
-        context.commit("setPersonalDetails", personal_details)
+        context.commit("setPersonalDetails", <PersonalDetails>response.data)
         resolve(response)
       })
       .catch((err: any)=>{
@@ -101,11 +95,7 @@ export default {
         url: "/profile/channels",
       })
       .then((response: any)=>{
-        let channels = <Channels>{
-          tg: response.data.tg,
-          email: response.data.email,
-        }
-        context.commit("setChannels", channels)
+        context.commit("setChannels", <Channels>response.data)
         resolve(response)
       })
       .catch((err: any)=>{
