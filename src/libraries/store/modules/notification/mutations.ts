@@ -1,3 +1,4 @@
+import '@/types/NotificationState'
 export default {
     notify(state: NotificationState, message?: string) {
       state.show = true

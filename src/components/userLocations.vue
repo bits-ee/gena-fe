@@ -129,6 +129,7 @@ import { defineComponent } from 'vue'
 import tomSelect from './tomSelect.vue'
 import locationServices from './locationService.vue'
 import { mapGetters, mapActions } from 'vuex';
+import '@/types/UserLocation'
 export default defineComponent({
     components: {
         'tomSelect': tomSelect,

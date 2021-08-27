@@ -1,3 +1,4 @@
+import '@/types/ConfigState'
 export default {
     googleRecaptchaKey: (state: ConfigState): string => {
       return state.googleRecaptchaSiteKey
