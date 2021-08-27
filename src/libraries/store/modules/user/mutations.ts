@@ -1,3 +1,5 @@
+import '@/types/UserState'
+
 export default {
     login(state: UserState, key: string) {
       state.session_key = key

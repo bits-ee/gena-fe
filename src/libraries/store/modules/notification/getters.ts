@@ -1,4 +1,6 @@
 
+import '@/types/NotificationState'
+
 export default {
     message: (state: NotificationState): String => {
       return state.message

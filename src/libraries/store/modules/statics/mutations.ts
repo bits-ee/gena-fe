@@ -1,3 +1,6 @@
+import '@/types/StaticState'
+import '@/types/Location'
+
 export default {
     setLocations(state: StaticState, locations: Location[]){
         state.locations = locations

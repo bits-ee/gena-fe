@@ -1,4 +1,9 @@
 import _ from 'lodash'
+import '@/types/ProfileState'
+import '@/types/UserLocation'
+import '@/types/PersonalDetails'
+import '@/types/Channels'
+
 export default {
     setAvatar(state: ProfileState, avatar: string) {   
       if (avatar != null) {

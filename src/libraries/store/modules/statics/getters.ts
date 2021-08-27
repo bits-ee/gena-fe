@@ -1,3 +1,5 @@
+import '@/types/Location'
+
 export default {
     locations: (state: StaticState): Location[] => {
         return state.locations
