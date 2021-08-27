@@ -32,6 +32,12 @@ export default defineComponent({
             default: true
         }
     },
+
+    watch:{
+        selectedValue: function(newVal, oldVal){
+            this.ts.setValue(newVal)
+        }
+    },
     methods: {
         initTomSelect() {
             this.ts = new TomSelect(this.$refs.tomSelect, {
