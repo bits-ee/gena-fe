@@ -31,6 +31,9 @@ export default {
     updateLocation(state: ProfileState, location: UserLocation){
       _.merge(_.find(state.user_locations, {id: location.id}), location)
     },
+    addLocation(state: ProfileState, location: UserLocation){
+      state.user_locations.push(location)
+    },
     setLocations(state: ProfileState, locations: UserLocation[]){
       state.user_locations = locations
     }

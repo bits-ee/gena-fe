@@ -67,8 +67,7 @@ export default {
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
-      .catch(async (err: any)=>{
-        await context.dispatch('FETCH_DETAILS')
+      .catch((err: any)=>{
         context.commit("notification/notifyError", err.response.data.error, { root: true })
         reject(err)
       })
@@ -119,7 +118,7 @@ export default {
         method: "delete",
         url: "/profile/channels/email/delete",
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         context.commit('deleteEmailChannel')
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
@@ -136,7 +135,7 @@ export default {
         method: "delete",
         url: "/profile/channels/tg/delete",
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         context.commit('deleteTgChannel')
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
@@ -190,7 +189,7 @@ export default {
         url: "/profile/channels/tg/verify",
         data: { auth_data: user }
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         context.commit('setTgChannel', user.username)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
@@ -207,11 +206,8 @@ export default {
         method: "get",
         url: "/profile/userLocations",
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         context.commit("setLocations", response.data)
-        await Promise.all(context.getters.user_locations.forEach((location: UserLocation) => {
-          context.dispatch('FETCH_LOCATION_SERVICES', location)
-        }));
         resolve(response)
       })
       .catch((err: any)=>{
@@ -226,18 +222,12 @@ export default {
         url: "/profile/userLocations",
         data: location,
       })
-      .then(async (response: any)=>{
-        await context.dispatch('UPDATE_LOCATION_SERVICES', location),
+      .then((response: any)=>{
         context.commit('updateLocation', location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
-      .catch(async (err: any)=>{
-        await Promise.allSettled([
-          //if in UPDATE_USER_LOCATION location has no changed(location name, street name or street number) error will raized. It's laravel 'update' method problem
-          context.dispatch('UPDATE_LOCATION_SERVICES', location),
-          context.dispatch('FETCH_USER_LOCATIONS', location)
-        ])
+      .catch((err: any)=>{
         context.commit("notification/notifyError", err.response.data.error, { root: true })
         reject(err)
       })
@@ -252,7 +242,7 @@ export default {
           id: location.id,
         },
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         _.remove(context.getters['user_locations'], location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
@@ -270,12 +260,9 @@ export default {
         url: "/profile/userLocations",
         data: location,
       })
-      .then(async (response: any)=>{
+      .then((response: any)=>{
         location.id = response.data.id
-        await Promise.allSettled([
-          context.dispatch('UPDATE_LOCATION_SERVICES', location),
-          context.dispatch('FETCH_USER_LOCATIONS', location)
-        ])  
+        context.commit('addLocation', location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })
@@ -293,41 +280,6 @@ export default {
       })
       .then((response: any)=>{
         location.services = response.data.results;
-        resolve(response)
-      })
-      .catch((err: any)=>{
-        reject(err)
-      })
-    })
-  },
-  UPDATE_LOCATION_SERVICES(context: any, location: UserLocation){
-    return new Promise((resolve, reject)=>{
-      axios({
-        method: "patch",
-        url: "/profile/services",
-        data: {
-          services: location.services,
-          user_location_id: location.id,
-        }
-      })
-      .then((response: any)=>{
-        resolve(response)
-      })
-      .catch((err: any)=>{
-        reject(err)
-      })
-    })
-  },
-  DELETE_LOCATION_SERVICES(context: any, location: UserLocation){
-    return new Promise((resolve, reject)=>{
-      axios({
-        method: "delete",
-        url: "/profile/services",
-        data: {
-          user_location_id: location.id,
-        }
-      })
-      .then((response: any)=>{
         resolve(response)
       })
       .catch((err: any)=>{
