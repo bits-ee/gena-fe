@@ -17,9 +17,15 @@ export default defineComponent({
     ...mapActions('profile',[
       'FETCH_AVATAR'
     ]),
+    ...mapActions('guest', [
+        'GET_CURR_LOCATION'
+    ]),
     ...mapMutations('user',[
       'login',
       'logout'
+    ]),
+    ...mapMutations('guest', [
+        'findLoc'
     ])
   },
   created() {
@@ -36,6 +42,8 @@ export default defineComponent({
         this.logout()
       })
     }
+  },mounted() {
+    this.GET_CURR_LOCATION()
   }
 })
 </script>

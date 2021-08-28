@@ -8,8 +8,8 @@ export default {
 
         function success(pos) {
             const crd : any = pos.coords;
-            // console.log(`Широта: ${crd.latitude}`);
-           // console.log(`Долгота: ${crd.longitude}`);
+             console.log(`Широта: ${crd.latitude}`);
+            console.log(`Долгота: ${crd.longitude}`);
             const coords: number[] = [crd.latitude, crd.longitude];
             context.commit("findLoc", coords)
         };
@@ -18,6 +18,6 @@ export default {
             //console.warn(`ERROR(${err.code}): ${err.message}`);
         };
 
-       // navigator.geolocation.getCurrentPosition(success, error, options);
+        navigator.geolocation.getCurrentPosition(success, error, options);
     }
 }
