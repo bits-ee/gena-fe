@@ -1,3 +1,4 @@
+import '@/types/ConfigState'
 export default {
     FETCH_CONFIG(context: any) {
       return new Promise((resolve, reject)=>{

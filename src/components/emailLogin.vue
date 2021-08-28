@@ -71,6 +71,7 @@
 declare var grecaptcha: any;
 import { defineComponent } from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import '@/types/RegData'
 	export default defineComponent({
 		data() {
 			return {

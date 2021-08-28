@@ -1,4 +1,7 @@
 
+import '@/types/PersonalDetails'
+import '@/types/Channels'
+import '@/types/UserLocation'
 export default {
     avatar: (state: ProfileState): string | null => {
       return state.avatar
