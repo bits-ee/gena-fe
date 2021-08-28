@@ -1,4 +1,5 @@
 import router from '@/libraries/router'
+import '@/types/RegData'
 export default {
     VERIFY_EMAIL(context: any, secretKey: string) {
       return new Promise((resolve, reject)=>{

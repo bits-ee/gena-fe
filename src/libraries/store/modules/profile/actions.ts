@@ -1,4 +1,7 @@
 import _ from 'lodash'
+import '@/types/PersonalDetails'
+import '@/types/Channels'
+import '@/types/UserLocation'
 export default {
   FETCH_AVATAR(context: any) {
     return new Promise((resolve, reject)=>{
