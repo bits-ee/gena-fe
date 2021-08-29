@@ -15,7 +15,7 @@
               <button v-on:click="DELETE_EMAIL_CHANNEL" role="button" class="btn btn-outline-danger btn-sm" :class="{'disabled':!channels.tg}">{{channels.tg?'Disconnect':$t('channels_3')}}</button>
             </div>
             <div v-else>
-              <emailChannel></emailChannel>
+              <emailLogin :is_channel="true"></emailLogin>
             </div>
           </div>
         </div>
@@ -60,14 +60,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import tgChannel from './tgChannel.vue'
-import emailChannel from './emailChannel.vue'
+import emailLogin from './emailLogin.vue'
 import { mapGetters, mapActions } from 'vuex';
 
 
 export default defineComponent({
   components: {
     'tgChannel': tgChannel,
-    'emailChannel': emailChannel
+    'emailLogin': emailLogin
   },
   computed:{
     ...mapGetters('profile', [

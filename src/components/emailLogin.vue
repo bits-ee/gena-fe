@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<form @submit.prevent="submit" method="post" class="needs-validation" novalidate>
+		<div class="needs-validation" novalidate>
 
       <div v-if="state=='wait'">
         <div class="d-flex justify-content-center mb-3">
@@ -30,17 +30,16 @@
           </div>
         </div>
         <div>
-            <button role="button" class="btn btn-primary btn-sm">{{$t('emailLogin_1')}}</button>
+            <button role="button" class="btn btn-primary btn-sm" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
         </div>
       </div>
 
       <div v-if="state=='sent'">
-        <p class="text-center">{{backendMessage}}</p>
-        <img src="../assets/images/envelope.png" class="email-img">
-<!--        <div class="alert alert-success alert-dismissible fade show" role="alert">-->
-<!--            <strong>Email is sent!</strong> Please check your email.-->
-<!--            <button v-on:click="state='input'" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--        </div>-->
+        <div>
+          <p class="text-center">Please, enter code from email</p>
+          <input type="text" class="form-control form-control-sm mb-2" v-model="verification_code">
+          <button class="btn btn-primary btn-sm" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">Verify</button>
+        </div>
       </div>
 
       <div v-if="state=='error'">
@@ -50,7 +49,7 @@
         </div>
       </div>
 
-		</form>
+		</div>
 	</div>
 </template>
 
@@ -73,6 +72,12 @@ import { defineComponent } from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import '@/types/RegData'
 	export default defineComponent({
+    props:{
+      is_channel:{
+        type: Boolean,
+        default: false
+      }
+    },
 		data() {
 			return {
 				errors: [] as String[],
@@ -80,7 +85,8 @@ import '@/types/RegData'
         backendMessage: "",
 				email: "",
         state: "",
-        recaptcha_script: {} as HTMLScriptElement
+        recaptcha_script: {} as HTMLScriptElement,
+        verification_code: ""
 			}
 		},
     computed:{
@@ -92,6 +98,10 @@ import '@/types/RegData'
       ...mapActions('user', [
         'VERIFY_EMAIL',
         'REG_EMAIL'
+      ]),
+      ...mapActions('profile', [
+        'VERIFY_EMAIL_CHANNEL',
+        'ADD_EMAIL_CHANNEL'
       ]),
       ...mapMutations('user', [
         'setKey'
@@ -110,7 +120,8 @@ import '@/types/RegData'
             token: token,
             lang: this.$i18n.locale
           }
-          this.REG_EMAIL(reg_data)
+          if(this.is_channel){
+            this.ADD_EMAIL_CHANNEL(this.email)
             .then((response: any) => {
               this.backendMessage = response.data.message
               this.setState('sent')
@@ -118,6 +129,17 @@ import '@/types/RegData'
             .catch(() => {
               this.setState('error', 'Something goes wrong. Please, try again')
             })
+          }
+          else{
+            this.REG_EMAIL(reg_data)
+              .then((response: any) => {
+                this.backendMessage = response.data.message
+                this.setState('sent')
+              })
+              .catch(() => {
+                this.setState('error', 'Something goes wrong. Please, try again')
+              })
+          }
         });
 			},
       verify(secretKey: string){
@@ -128,6 +150,15 @@ import '@/types/RegData'
             }
             this.backendMessage = response.data.message
             this.setState('answer')
+          })
+          .catch((err) => {
+            this.setState('error', err.response.data.error??"Some error occured")
+          });
+      },
+      verifyChannel(secretKey: string){
+        this.VERIFY_EMAIL_CHANNEL(secretKey)
+          .then((response: any) => {
+            this.setState('input')
           })
           .catch((err) => {
             this.setState('error', err.response.data.error??"Some error occured")
