@@ -1,4 +1,5 @@
 <template>
+  <h1> HERER</h1>
 	<div>
 		<form @submit.prevent="submit" method="post" class="needs-validation" novalidate>
 
@@ -85,8 +86,14 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
     computed:{
       ...mapGetters('config', [
         'googleRecaptchaKey',
-      ])
+      ]),
+      ...mapGetters('statics', [
+        'locations',
+        'locations_all',
+        'guest_location'
+      ]),
     },
+
 		methods: {
       ...mapActions('user', [
         'VERIFY_EMAIL',
@@ -143,7 +150,11 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
         document.getElementById('app')?.after(this.recaptcha_script)
       }
 		},
+    updated(){
+      console.warn(this.guest_location)
+    },
 		mounted(){
+      console.warn(this.guest_location)
       this.initRecaptcha()
       if (this.$route.name=='verify' && this.$route.params.secretKey) {
         if (this.state != 'answer') {

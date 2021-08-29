@@ -38,6 +38,8 @@ export default {
                 url: "/locations/"+zipcode+"/services",
             })
             .then((response: any)=>{
+                let guest_location = <GuestLocation> response.data
+                context.commit('setGuestLocation', guest_location)
                 resolve(response)
             })
             .catch((err: any)=>{

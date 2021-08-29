@@ -91,11 +91,16 @@ export default defineComponent({
         this.initMap();
         window.addEventListener("scroll", this.debounce);
     },
+    //   updated() {
+    //   console.warn(this.guest_location)
+    //
+    // },
 
-    computed: {
+  computed: {
         ...mapGetters('statics', [
             'locations',
-            'locations_all'
+            'locations_all',
+            'guest_location'
         ]),
         ...mapGetters('config', [
             'googleMapKey',
@@ -183,6 +188,7 @@ export default defineComponent({
             const iw = new google.maps.InfoWindow({
                 content: content
             });
+
             this.map.infowindow = iw;
             iw.open(this.map.el, marker);
         },
@@ -192,24 +198,25 @@ export default defineComponent({
                 const response = await this.FETCH_SERVICES(zipcode);
                 const location = response.data.location;
                 const services = response.data.services;
-
                 let title = location.zipcode + ' ' + location.name + ' '+ location.region;
                 let services_list = "";
                 for(let i = 0; i < services.length; i++) {
                     services_list += '<li class="fs-6">'+services[i].name+'</li>';
                 }
-
+                console.warn(JSON.parse(JSON.stringify(this.guest_location)).location.zipcode)
                 return '<div>\
                     <h5 id="location_name">'+title+'</h5>\
                     <ul>'+services_list+'</ul>\
                     <a href="#/signup" class="btn btn-primary btn-sm">Sign up</a>\
                     </div>';
+
             } catch (error) {
                 console.error(error);
             }
         },
 
         closeInfoWindow() {
+
             if(this.map.infowindow) {
                 this.map.infowindow.close();
                 this.map.infowindow = null;
