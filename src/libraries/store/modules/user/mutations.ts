@@ -9,6 +9,7 @@ export default {
     logout(state: UserState) {
       state.session_key = {} as string
       sessionStorage.removeItem("sessionKey")
+      delete axios.defaults.headers.common["Authorization"]
       state.is_auth = false
     }
 }
