@@ -20,7 +20,6 @@
       <div v-if="state=='input'">
         <div class="mb-3">
           <div>
-            
             <input type="email" class="form-control form-control-sm" :class="{'is-invalid':errors.length}" :placeholder="$t('emailLogin_2')" aria-describedby="emailHelp" v-model="email" required>
           </div>
           <div class="invalid-feedback" :class="{'d-block':errors}">
@@ -30,22 +29,25 @@
           </div>
         </div>
         <div>
-            <button role="button" class="btn btn-primary btn-sm" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
+            <button role="button" class="btn btn-primary btn-sm w-100" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
         </div>
       </div>
 
-      <div v-if="state=='sent'">
-        <div>
+      <div v-if="state=='verify'">
+        <div class="">
           <p class="text-center">Please, enter code from email</p>
           <input type="text" class="form-control form-control-sm mb-2" v-model="verification_code">
-          <button class="btn btn-primary btn-sm" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">Verify</button>
+          <div>
+            <button class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">Verify</button>
+            <button class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">Back</button>
+          </div>
         </div>
       </div>
 
       <div v-if="state=='error'">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>{{message}}</strong>
-            <button v-on:click="state='input'" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>{{message}}</strong>
+          <button v-on:click="setState(last_state)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
 
@@ -84,9 +86,10 @@ import '@/types/RegData'
 				message: "",
         backendMessage: "",
 				email: "",
-        state: "",
+        state: "input",
         recaptcha_script: {} as HTMLScriptElement,
-        verification_code: ""
+        verification_code: "",
+        last_state:"input"
 			}
 		},
     computed:{
@@ -124,7 +127,7 @@ import '@/types/RegData'
             this.ADD_EMAIL_CHANNEL(this.email)
             .then((response: any) => {
               this.backendMessage = response.data.message
-              this.setState('sent')
+              this.setState('verify')
             })
             .catch(() => {
               this.setState('error', 'Something goes wrong. Please, try again')
@@ -134,7 +137,7 @@ import '@/types/RegData'
             this.REG_EMAIL(reg_data)
               .then((response: any) => {
                 this.backendMessage = response.data.message
-                this.setState('sent')
+                this.setState('verify')
               })
               .catch(() => {
                 this.setState('error', 'Something goes wrong. Please, try again')
@@ -157,14 +160,9 @@ import '@/types/RegData'
       },
       verifyChannel(secretKey: string){
         this.VERIFY_EMAIL_CHANNEL(secretKey)
-          .then((response: any) => {
-            this.setState('input')
-          })
-          .catch((err) => {
-            this.setState('error', err.response.data.error??"Some error occured")
-          });
       },
       setState(state: string, message?: string){
+        if(this.state=='input' || this.state=='verify') this.last_state = this.state
         this.message = message??""
         this.state = state
       },
@@ -196,10 +194,6 @@ import '@/types/RegData'
 	}
 	#modalLabel_location{
 		margin-right: 5px;
-	}
-
-	button {
-		width: 100%;
 	}
   .lds-facebook {
     display: inline-block;
