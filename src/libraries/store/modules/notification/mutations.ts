@@ -10,7 +10,9 @@ export default {
       state.is_error = true
       state.message = message??'Some error occued'
     },
-    hide(state: NotificationState){
+    clear(state: NotificationState){
+      state.is_error = false
+      state.message = ""
       state.show = false
     }
 }

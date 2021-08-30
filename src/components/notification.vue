@@ -2,7 +2,7 @@
     <div>
         <div ref="alert" class="alert alert-dismissible fade" :class="{'alert-danger':is_error, 'alert-success':!is_error, 'show':show, 'd-none':!show}">
             <strong>{{message}}</strong>
-            <button v-on:click="hide" class="btn-close"></button>
+            <button v-on:click="clear" class="btn-close"></button>
         </div>
     </div>
 </template>
@@ -19,8 +19,13 @@ export default defineComponent({
     },
     methods:{
         ...mapMutations('notification', [
-            'hide'
+            'clear'
         ])
+    },
+    watch:{
+        $route: function(newVal, oldVal){
+            this.clear()
+        }
     }
 })
 </script>
