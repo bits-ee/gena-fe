@@ -40,5 +40,20 @@ export default {
     },
     setLocations(state: ProfileState, locations: UserLocation[]){
       state.user_locations = locations
+    },
+    clear(state: ProfileState){
+      state = {
+        avatar: null,
+        channels: {
+          tg: "",
+          email: ""
+        },
+        personal_details:{
+          firstname: "",
+          lastname: "",
+          language: ""
+        },
+        user_locations: [] as UserLocation[]
+      }
     }
 }

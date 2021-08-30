@@ -1,5 +1,5 @@
 <template>
-  <div id="profile" class="d-flex flex-column" style="min-height: 100vh;">
+  <div id="profile" class="d-flex flex-column" style="min-height: 100vh;" v-if="init">
     <header>
 			<navbar-component></navbar-component>
 		</header>
@@ -15,14 +15,14 @@
           <avatar-component></avatar-component>
         </div>
         <div class="col-7 px-4">
-          <profile-details v-if="personal_details"></profile-details>
+          <profile-details></profile-details>
         </div>
       </div>
       <div class="row">
-        <profile-locations v-if="user_locations&&channels&&locations"></profile-locations>
+        <profile-locations></profile-locations>
       </div>
       <div class="row">
-        <channels-component v-if="channels"></channels-component>
+        <channels-component></channels-component>
       </div>
     </main>
     <footer-component></footer-component>
@@ -52,7 +52,8 @@ export default defineComponent({
   data() {
     return {
       message: "",
-      error: false 
+      error: false,
+      init: false
     }
   },
   computed:{
@@ -89,7 +90,9 @@ export default defineComponent({
       this.FETCH_DETAILS(),
       this.FETCH_CHANNELS(),
       this.FETCH_USER_LOCATIONS()
-    ])
+    ]).then(()=>{
+      this.init = true
+    })
   }
 })
 </script>

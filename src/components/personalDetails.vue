@@ -63,7 +63,14 @@ import '@/types/PersonalDetails'
 export default defineComponent({
   data(){
     return{
-      personal_details_copy: {} as PersonalDetails
+      personal_details_copy: <PersonalDetails>{}
+    }
+  },
+  watch:{
+    personal_details: function(newVal, oldVal){
+      console.log('watch details');
+      
+      this.personal_details_copy = Object.assign(this.personal_details_copy, newVal)
     }
   },
   computed:{
@@ -86,8 +93,6 @@ export default defineComponent({
   mounted(){
     //way to get clone of a OBJECT, not reference 
     Object.assign(this.personal_details_copy, this.personal_details)
-    
-    
   }
 })
 </script>
