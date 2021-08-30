@@ -1,8 +1,6 @@
 <template>
-  <h1> HERER</h1>
 	<div>
 		<form @submit.prevent="submit" method="post" class="needs-validation" novalidate>
-
       <div v-if="state=='wait'">
         <div class="d-flex justify-content-center mb-3">
           <div class="align-items-center lds-facebook"><div></div><div></div><div></div></div>

@@ -90,12 +90,13 @@ export default defineComponent({
     },
     mounted() {
         this.initTomSelect()
-        this.guestLocation()
-        this.collapseLocationBtn()
-    },
-  updated() {
+        if(this.$route.name == 'profile'){
+           this.guestLocation()
+            this.collapseLocationBtn()
+        }
 
-  }
+    },
+
 })
 </script>
 <style scoped>
