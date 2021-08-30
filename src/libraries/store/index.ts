@@ -2,6 +2,7 @@ import profile from "./modules/profile"
 import statics from "./modules/statics"
 import user from "./modules/user"
 import config from "./modules/config"
+import guest from "./modules/guest"
 import notification from "./modules/notification"
 import { createStore } from "vuex"
 
@@ -11,6 +12,7 @@ export default createStore({
     profile,
     statics,
     user,
+    guest,
     config,
     notification
   },

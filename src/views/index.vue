@@ -6,7 +6,9 @@
 
 	<main>
 		<div class="container my-5">
-			<megaicons-component></megaicons-component>
+      <!-- could be moved to another place or changed fully-->
+      <geoLocAutoDetect-component></geoLocAutoDetect-component>
+      <megaicons-component></megaicons-component>
 		</div>
 
 		<hr class="separator">
@@ -26,6 +28,7 @@
 
 <script>
 import c_locator from '../components/locator.vue'
+import c_geolocation from '../components/geoLocAutoDetect'
 import c_navbar from '../components/navbar.vue'
 import c_megaicons from '../components/megaicons.vue'
 import c_bottomline from '../components/bottomline.vue'
@@ -33,11 +36,12 @@ import c_footer from '../components/footer.vue'
 import { defineComponent } from 'vue'
 export default defineComponent({
 	components:{
-		'locator-component': c_locator,
-        'navbar-component': c_navbar,
-        'megaicons-component': c_megaicons,
-        'bottomline-component': c_bottomline,
-        'footer-component': c_footer
+    'geoLocAutoDetect-component': c_geolocation,
+    'locator-component': c_locator,
+    'navbar-component': c_navbar,
+    'megaicons-component': c_megaicons,
+    'bottomline-component': c_bottomline,
+    'footer-component': c_footer
 	}
 })
 </script>
