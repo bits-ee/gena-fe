@@ -144,6 +144,14 @@ export default defineComponent({
             user_locations_copy: {} as UserLocation[]
         }
     },
+    watch:{
+        user_locations: {
+            handler(newVal){
+                this.user_locations_copy = JSON.parse(JSON.stringify(newVal))
+            },
+            deep: true,
+        }
+    },
     computed:{
         ...mapGetters('profile', [
             'channels',
@@ -164,22 +172,15 @@ export default defineComponent({
         UPDATE(location: UserLocation){
             this.UPDATE_USER_LOCATION(location)
             .catch(()=>{
-                var index = _.findIndex(this.user_locations, {id: location.id});
-                var index_copy = _.findIndex(this.user_locations_copy, {id: location.id});
-                Object.assign(this.user_locations_copy[index_copy], this.user_locations[index]) 
+                this.user_locations_copy = JSON.parse(JSON.stringify(this.user_locations))
             })
         },
         DELETE(location: UserLocation){
             this.DELETE_USER_LOCATION(location)
-            .then(()=>{
-                _.remove(this.user_locations_copy, {id: location.id})
-            })
         },
         ADD(){
             this.ADD_USER_LOCATION(this.new_location)
-            .then((response)=>{
-                this.new_location.id = response.data.id
-                this.user_locations_copy.push(this.new_location)
+            .then(()=>{
                 this.new_location = {
                     title: ''
                 } as UserLocation
