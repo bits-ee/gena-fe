@@ -4,7 +4,7 @@ import actions from './actions'
 
 export default {
     namespaced: true,
-    state: <CurrLocationState>{},
+    state: <CurrentLocationState>{},
     getters,
     mutations,
     actions

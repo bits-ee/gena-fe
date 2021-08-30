@@ -1,5 +1,5 @@
 export default {
-    GET_CURR_LOCATION(context: any){
+    GET_CURRENT_LOCATION(context: any){
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,

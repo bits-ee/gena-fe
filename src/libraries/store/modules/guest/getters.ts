@@ -1,8 +1,8 @@
 export default {
-    lat: (state: CurrLocationState): Number => {
+    lat: (state: CurrentLocationState): Number => {
         return state.lat
     },
-    lng: (state: CurrLocationState): Number => {
+    lng: (state: CurrentLocationState): Number => {
         return state.lng
     },
 }
