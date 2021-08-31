@@ -72,10 +72,31 @@ export default defineComponent({
             if(this.ts.getValue()){
                 this.$emit('tsChanged', this.ts.getValue())
             }
+        },
+      guestLocation(){
+        let locations = JSON.parse(JSON.stringify(this.ts.options));
+        console.warn(JSON.parse(JSON.stringify(this.ts.options))[1].zipcode)
+        let size = Object.keys(locations).length;
+        let keys = Object.keys(locations)
+        for (let i = 0; i < size; i++) {
+          if(locations[keys[i]].zipcode == localStorage.getItem('guest_location')){
+            console.warn(locations[keys[i]].zipcode)
+            this.ts.setValue(locations[keys[i]].id)
+            // localStorage.removeItem('guest_location')
+          }
         }
+      },
+      collapseLocationBtn(){
+        let element = document.getElementById("location_add");
+        element.classList.add("show");
+      }
     },
     mounted() {
         this.initTomSelect()
+      if(this.$route.name == 'profile'){
+        this.guestLocation()
+        this.collapseLocationBtn()
+      }
     },
 })
 </script>

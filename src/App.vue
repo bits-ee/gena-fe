@@ -14,6 +14,9 @@ export default defineComponent({
     ...mapActions('config',[
       'FETCH_CONFIG'
     ]),
+    ...mapActions('guest', [
+      'GET_CURRENT_LOCATION'
+    ]),
     ...mapActions('profile',[
       'FETCH_AVATAR'
     ]),
@@ -36,6 +39,8 @@ export default defineComponent({
         this.logout()
       })
     }
+  },mounted() {
+    this.GET_CURRENT_LOCATION()
   }
 })
 </script>
