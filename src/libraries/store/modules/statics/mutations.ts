@@ -7,8 +7,7 @@ export default {
     setAllLocations(state: StaticState, locations_all: Location[]){
         state.locations_all = locations_all
     },
-    setGuestLocation(state: StaticState, guest_location: GuestLocation){
-        localStorage.setItem("guest_location", JSON.parse(JSON.stringify(guest_location)).location.zipcode)
+    setGuestLocation(state: StaticState, guest_location: GuestLocation[]){
         state.guest_location = guest_location
     }
 }

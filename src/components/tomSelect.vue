@@ -18,6 +18,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import _ from 'lodash'
 export default defineComponent({
     data() {
         return {
@@ -74,15 +75,11 @@ export default defineComponent({
             }
         },
       guestLocation(){
-        let locations = JSON.parse(JSON.stringify(this.ts.options));
-        console.warn(JSON.parse(JSON.stringify(this.ts.options))[1].zipcode)
-        let size = Object.keys(locations).length;
-        let keys = Object.keys(locations)
-        for (let i = 0; i < size; i++) {
-          if(locations[keys[i]].zipcode == localStorage.getItem('guest_location')){
-            console.warn(locations[keys[i]].zipcode)
-            this.ts.setValue(locations[keys[i]].id)
-            // localStorage.removeItem('guest_location')
+        let clone = _.clone(this.ts.options)
+        let keys = Object.keys(clone)
+        for (let i = 0; i < keys.length; i++) {
+          if(clone[keys[i]].zipcode == localStorage.getItem('guest_location')){
+            this.ts.setValue(clone[keys[i]].id)
           }
         }
       },
