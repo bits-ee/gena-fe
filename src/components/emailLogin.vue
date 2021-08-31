@@ -9,8 +9,7 @@
 			</div>
 
       <div v-if="state=='answer'">
-
-          <p class="backendMsg">{{ backendMessage }}</p>
+        <p class="backendMsg">{{ backendMessage }}</p>
         <img src="../assets/images/greentick.png" class="email-img">
         <div>
           <router-link :to="{ name: 'profile'}" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
@@ -35,18 +34,18 @@
 
       <div v-if="state=='verify'">
         <div class="">
-          <p class="text-center">Please, enter code from email</p>
+          <p class="text-center">{{$t('emailLogin_3')}}</p>
           <input type="text" class="form-control form-control-sm mb-2" v-model="verification_code">
           <div>
-            <button class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">Verify</button>
-            <button class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">Back</button>
+            <button class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">{{$t('emailLogin_4')}}</button>
+            <button class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">{{$t('emailLogin_5')}}</button>
           </div>
         </div>
       </div>
 
       <div v-if="state=='error'">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>{{message}}</strong>
+          <strong>{{message==""?$t('emailLogin_6'):message}}</strong>
           <button v-on:click="setState(last_state)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
@@ -59,11 +58,20 @@
 {
   "en":{
     "emailLogin_1":"Continue",
-    "emailLogin_2":"E-mail address"
+    "emailLogin_2":"E-mail address",
+    "emailLogin_3":"Please, enter code from email",
+    "emailLogin_4":"Verify",
+    "emailLogin_5":"Back",
+    "emailLogin_6":"Something goes wrong. Please, try again"
+    
   },
   "de":{
     "emailLogin_1":"Continue",
-    "emailLogin_2":"E-mail address"
+    "emailLogin_2":"E-mail address",
+    "emailLogin_3":"Please, enter code from email",
+    "emailLogin_4":"Verify",
+    "emailLogin_5":"Back",
+    "emailLogin_6":"Something goes wrong. Please, try again"
   }
 }
 </i18n>
@@ -126,21 +134,19 @@ import '@/types/RegData'
           if(this.is_channel){
             this.ADD_EMAIL_CHANNEL(this.email)
             .then((response: any) => {
-              this.backendMessage = response.data.message
               this.setState('verify')
             })
-            .catch(() => {
-              this.setState('error', 'Something goes wrong. Please, try again')
+            .catch((err) => {
+              this.setState('error', err.response.data.error)
             })
           }
           else{
             this.REG_EMAIL(reg_data)
               .then((response: any) => {
-                this.backendMessage = response.data.message
                 this.setState('verify')
               })
-              .catch(() => {
-                this.setState('error', 'Something goes wrong. Please, try again')
+              .catch((err) => {
+                this.setState('error', err.response.data.error)
               })
           }
         });
@@ -155,7 +161,7 @@ import '@/types/RegData'
             this.setState('answer')
           })
           .catch((err) => {
-            this.setState('error', err.response.data.error??"Some error occured")
+            this.setState('error', err.response.data.error)
           });
       },
       verifyChannel(secretKey: string){
