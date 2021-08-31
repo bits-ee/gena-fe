@@ -1,4 +1,5 @@
 import '@/types/Location'
+import '@/types/GuestLocation'
 export default {
     FETCH_LOCATIONS(context: any){
         return new Promise((resolve, reject)=>{
