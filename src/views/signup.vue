@@ -14,6 +14,7 @@
         </div>
       </main>
     </div>
+    <div class="shifter"></div>
   </div>
 </template>
 <i18n>
@@ -51,6 +52,7 @@
   .signup {
     width: 100vw;
     height: 100vh;
+    display: flex;
     background: url(../assets/images/signinup.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -61,12 +63,11 @@
   .signup-wrapper {
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
-    position: relative;
     border-radius: 5px;
-    width: 300px;
-    top: 200px;
-    left: 200px;
+    margin: auto;
     padding: 20px;
+    width: 25%;
+    min-width: 300px;
   }
   .signup header{
     margin-bottom: 1em;
@@ -94,6 +95,16 @@
 
   #sso {
     text-align: center;
+  }
+
+  .shifter{
+    width: 0;
+  }
+
+  @media(min-width: 768px) {
+  .shifter{
+    width: 35%;
+  } 
   }
 </style>
 
