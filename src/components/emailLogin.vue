@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<form @submit.prevent="submit" method="post" class="needs-validation" novalidate>
+		<div class="needs-validation" novalidate>
 
       <div v-if="state=='wait'">
         <div class="d-flex justify-content-center mb-3">
@@ -9,8 +9,7 @@
 			</div>
 
       <div v-if="state=='answer'">
-
-          <p class="backendMsg">{{ backendMessage }}</p>
+        <p class="backendMsg">{{ backendMessage }}</p>
         <img src="../assets/images/greentick.png" class="email-img">
         <div>
           <router-link :to="{ name: 'profile'}" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
@@ -20,7 +19,6 @@
       <div v-if="state=='input'">
         <div class="mb-3">
           <div>
-            
             <input type="email" class="form-control form-control-sm" :class="{'is-invalid':errors.length}" :placeholder="$t('emailLogin_2')" aria-describedby="emailHelp" v-model="email" required>
           </div>
           <div class="invalid-feedback" :class="{'d-block':errors}">
@@ -30,27 +28,29 @@
           </div>
         </div>
         <div>
-            <button role="button" class="btn btn-primary btn-sm">{{$t('emailLogin_1')}}</button>
+            <button role="button" class="btn btn-primary btn-sm w-100" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
         </div>
       </div>
 
-      <div v-if="state=='sent'">
-        <p class="text-center">{{backendMessage}}</p>
-        <img src="../assets/images/envelope.png" class="email-img">
-<!--        <div class="alert alert-success alert-dismissible fade show" role="alert">-->
-<!--            <strong>Email is sent!</strong> Please check your email.-->
-<!--            <button v-on:click="state='input'" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--        </div>-->
+      <div v-if="state=='verify'">
+        <div class="">
+          <p class="text-center">{{$t('emailLogin_3')}}</p>
+          <input type="text" class="form-control form-control-sm mb-2" v-model="verification_code">
+          <div>
+            <button class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">{{$t('emailLogin_4')}}</button>
+            <button class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">{{$t('emailLogin_5')}}</button>
+          </div>
+        </div>
       </div>
 
       <div v-if="state=='error'">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>{{message}}</strong>
-            <button v-on:click="state='input'" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong>{{message==""?$t('emailLogin_6'):message}}</strong>
+          <button v-on:click="setState(last_state)" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       </div>
 
-		</form>
+		</div>
 	</div>
 </template>
 
@@ -58,11 +58,20 @@
 {
   "en":{
     "emailLogin_1":"Continue",
-    "emailLogin_2":"E-mail address"
+    "emailLogin_2":"E-mail address",
+    "emailLogin_3":"Please, enter code from email",
+    "emailLogin_4":"Verify",
+    "emailLogin_5":"Back",
+    "emailLogin_6":"Something goes wrong. Please, try again"
+    
   },
   "de":{
     "emailLogin_1":"Continue",
-    "emailLogin_2":"E-mail address"
+    "emailLogin_2":"E-mail address",
+    "emailLogin_3":"Please, enter code from email",
+    "emailLogin_4":"Verify",
+    "emailLogin_5":"Back",
+    "emailLogin_6":"Something goes wrong. Please, try again"
   }
 }
 </i18n>
@@ -73,14 +82,22 @@ import { defineComponent } from 'vue'
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import '@/types/RegData'
 	export default defineComponent({
+    props:{
+      is_channel:{
+        type: Boolean,
+        default: false
+      }
+    },
 		data() {
 			return {
 				errors: [] as String[],
 				message: "",
         backendMessage: "",
 				email: "",
-        state: "",
-        recaptcha_script: {} as HTMLScriptElement
+        state: "input",
+        recaptcha_script: {} as HTMLScriptElement,
+        verification_code: "",
+        last_state:"input"
 			}
 		},
     computed:{
@@ -92,6 +109,10 @@ import '@/types/RegData'
       ...mapActions('user', [
         'VERIFY_EMAIL',
         'REG_EMAIL'
+      ]),
+      ...mapActions('profile', [
+        'VERIFY_EMAIL_CHANNEL',
+        'ADD_EMAIL_CHANNEL'
       ]),
       ...mapMutations('user', [
         'setKey'
@@ -110,14 +131,24 @@ import '@/types/RegData'
             token: token,
             lang: this.$i18n.locale
           }
-          this.REG_EMAIL(reg_data)
+          if(this.is_channel){
+            this.ADD_EMAIL_CHANNEL(this.email)
             .then((response: any) => {
-              this.backendMessage = response.data.message
-              this.setState('sent')
+              this.setState('verify')
             })
-            .catch(() => {
-              this.setState('error', 'Something goes wrong. Please, try again')
+            .catch((err) => {
+              this.setState('error', err.response.data.error)
             })
+          }
+          else{
+            this.REG_EMAIL(reg_data)
+              .then((response: any) => {
+                this.setState('verify')
+              })
+              .catch((err) => {
+                this.setState('error', err.response.data.error)
+              })
+          }
         });
 			},
       verify(secretKey: string){
@@ -130,10 +161,14 @@ import '@/types/RegData'
             this.setState('answer')
           })
           .catch((err) => {
-            this.setState('error', err.response.data.error??"Some error occured")
+            this.setState('error', err.response.data.error)
           });
       },
+      verifyChannel(secretKey: string){
+        this.VERIFY_EMAIL_CHANNEL(secretKey)
+      },
       setState(state: string, message?: string){
+        if(this.state=='input' || this.state=='verify') this.last_state = this.state
         this.message = message??""
         this.state = state
       },
@@ -165,10 +200,6 @@ import '@/types/RegData'
 	}
 	#modalLabel_location{
 		margin-right: 5px;
-	}
-
-	button {
-		width: 100%;
 	}
   .lds-facebook {
     display: inline-block;

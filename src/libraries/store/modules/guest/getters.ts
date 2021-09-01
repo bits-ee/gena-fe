@@ -1,3 +1,5 @@
+import '@/types/CurrentLocationState'
+
 export default {
     lat: (state: CurrentLocationState): Number => {
         return state.lat
