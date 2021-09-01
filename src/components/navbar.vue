@@ -1,47 +1,60 @@
 <template>
-	<nav class="navbar navbar-dark bg-dark fixed-top px-5">
-		<router-link class="navbar-brand me-md-auto" :to="{ name: 'index'}">
-			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-				<path d="m0 0h32v32h-32z" fill="#da291c"/>
-				<path d="m13 6h6v7h7v6h-7v7h-6v-7h-7v-6h7z" fill="#fff"/>
-			</svg>
-			<span class="h5 ms-1">Gemeinde Online</span>
-		</router-link>
-    <div class="lang-wrapper">
-      <div class="dropdown dropdown-my" ref="language-dropdown">
-        <button class="lang btn btn-primary dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-3">
+    <div class="container-fluid justify-content-end">
+      <router-link class="navbar-brand me-auto" :to="{ name: 'index'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <path d="m0 0h32v32h-32z" fill="#da291c"/>
+          <path d="m13 6h6v7h7v6h-7v7h-6v-7h-7v-6h7z" fill="#fff"/>
+        </svg>
+        <span class="h5 ms-1">Gemeinde Online</span>
+      </router-link>
+      <div class="dropdown mx-4 my-auto" style="height:max-content" ref="language-dropdown">
+        <button class="lang-btn dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{$i18n.locale.toUpperCase()}}
         </button>
-        <ul class="dropdown-menu py-0 lang-list" ref="language-dropdown-list" aria-labelledby="dropdownMenuButton1">
-          <div @click="$i18n.locale='en'" class="dropdown-item lang-item">              <!-- TODO: click function will change when backend is ready -->
-            <div class="lang btn" :class="$i18n.locale=='en'?'btn-primary':''">EN</div>
+        <ul class="dropdown-menu" ref="language-dropdown-list" aria-labelledby="dropdownMenuButton1">
+          <div @click="setLang('en')" class="dropdown-item text-center d-flex " style="cursor: pointer">
+            <div class="lang-logo" :class="{'lang-logo__active': $i18n.locale=='en'}">
+              <span class="">EN</span>
+            </div>
             <p class="lang-lable">English</p>
           </div>
-          <div @click="$i18n.locale='de'"  class="dropdown-item lang-item">
-            <div class="lang btn" :class="$i18n.locale=='de'?'btn-primary':''">DE</div>
-            <p class="lang-lable">Deutsch</p>
+          <div @click="setLang('de')"  class="dropdown-item text-center d-flex" style="cursor: pointer">
+            <div class="lang-logo" :class="{'lang-logo__active': $i18n.locale=='de'}">
+              <span class="">DE</span>
+            </div>
+            <p class="lang-lable">Deutch</p>
           </div>
         </ul>
       </div>
-
+      <button class="navbar-toggler no-shadow" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-grow-0 mt-3 navbar-collapse-my" id="navbarNavDropdown">
+        <ul class="navbar-nav align-items-center">
+          <router-link v-if="!is_auth" class="nav-item text-primary text-center fw-normal " :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
+          <span v-if="!is_auth" class="m-2 text-secondary text-center delimeter">{{ $t('navbar_2') }}</span>
+          <router-link v-if="!is_auth" class="btn btn-primary w-100 nav-item-my" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
+          <router-link v-if="is_auth" class="nav-item btn btn-primary w-100 nav-item-my" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_4') }}</router-link>
+        </ul>
+      </div>
     </div>
-		<router-link v-if="!is_auth" class="me-4 sign-in" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
-		<router-link v-if="!is_auth" class="btn btn-primary register" :to="{ name: 'signup'}">{{ $t('navbar_2') }}</router-link>
-    <router-link v-if="is_auth" class="btn btn-primary" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_3') }}</router-link>
-	</nav>
+  </nav>
 </template>
 
 <i18n>
 {
   "en":{
-    "navbar_1":"Sign in",
-    "navbar_2":"Register",
-    "navbar_3":"Log out"
+    "navbar_1":"Log in",
+    "navbar_2":"or",
+    "navbar_3":"SIGN UP",
+    "navbar_4":"Log out"
   },
   "de":{
     "navbar_1":"Einloggen",
-    "navbar_2":"Anmelden",
-    "navbar_3":"Ausloggen"
+    "navbar_2":"or",
+    "navbar_3":"Anmelden",
+    "navbar_4":"Ausloggen"
   }
 }
 </i18n>
@@ -61,92 +74,69 @@ export default defineComponent({
       ]),
       setLang(lang){
         this.$i18n.locale = lang
+        this.$refs['language-dropdown-btn']['aria-expanded'] = false
+        this.$refs['language-dropdown-list'].classList.remove('show')
       },
       initDropdown(){
         this.$refs['language-dropdown'].addEventListener('mouseover', ()=>{
           this.$refs['language-dropdown-btn']['aria-expanded'] = true
-          this.$refs['language-dropdown-btn'].classList = 'lang btn btn-primary dropdown-toggle show'
-          this.$refs['language-dropdown-list'].classList = 'dropdown-menu py-0 lang-list show'
-          this.$refs['language-dropdown-list']['data-bs-popper'] = 'none'
+          this.$refs['language-dropdown-list'].classList.add('show')
+          
         })
         this.$refs['language-dropdown'].addEventListener('mouseleave', ()=>{
           this.$refs['language-dropdown-btn']['aria-expanded'] = false
-          this.$refs['language-dropdown-btn'].classList = 'lang btn btn-primary dropdown-toggle'
-          this.$refs['language-dropdown-list'].classList = 'dropdown-menu py-0 lang-list'
-          delete this.$refs['language-dropdown-list']['data-bs-popper']
+          this.$refs['language-dropdown-list'].classList.remove('show')
         })
       }
     },
     mounted() {
-      this.initDropdown()
+      //this.initDropdown()
     },
 })
 </script>
 
-<style>
-  .lang{
-    font-family: Roboto;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 500;
-    border: solid #0d6efd 3px;
-    margin-right: 0.7em;
-  }
-  .lang::after{
-    content: none;
-  }
-  .lang-wrapper{
-    display: flex;
-    margin-right: 2em;
-  }
-  .lang-item{
-    cursor: pointer;
-    display: flex;
-  }
-  .lang-item:hover .lang{
-    color: #fff;
-    background-color: #0d6efd;
+<style scoped lang="scss">
+  .lang-logo{
+    height: 3rem; 
+    width: 3rem;
+    padding-top: .4rem;
+    font-size: 20px;
+    background: whitesmoke;
+    color: rgb(13,110,253);
+    border: solid rgb(13,110,253) 3px;
+    
+    &__active{
+      color: whitesmoke;
+      background: rgb(13,110,253);
+    }
   }
   .lang-lable{
-    font-family: Roboto;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 55px;
-    letter-spacing: 0.6499999761581421px;
-    text-align: left;
-    padding: 0;
-    margin: 0;
+    margin: 0 0 0 5px;
+    padding-top: .6rem;
+    font-size: 20px;
   }
-  .dropdown-my{
-    width: 50px;
-    height: 50px;
-  }
-
-  .sign-in{
-    font-family: Roboto;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 48px;
-    letter-spacing: 0.6499999761581421px;
-    text-align: center;
-  }
-
-  .register{
-    font-family: Roboto;
-    font-size: 18px;
-  }
-
-  @media(max-width: 480px) {
-    .lang{
-      margin: 0;
+  .lang-btn{
+    background: none;
+    border: none;
+    color: lightgrey;
+    transition-duration: .1s;
+    &:hover{
+      opacity: 0.8;
     }
-    .lang-lable{
-      display: none;
+  }
+  .no-shadow:focus{
+    box-shadow: none !important;
+  }
+  @media(min-width: 768px) {
+    .delimeter{
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
     }
-    .lang-list{
-      min-width: max-content;
+    .navbar-collapse-my{
+      margin-top: 0 !important;
+    }
+    .nav-item-my{
+      width: auto !important;
     }
   }
 </style>
