@@ -246,7 +246,7 @@ export default {
         },
       })
       .then((response: any)=>{
-        _.remove(context.getters['user_locations'], location)
+        context.commit('deleteLocation', location)
         context.commit("notification/notify", response.data.message, { root: true })
         resolve(response)
       })

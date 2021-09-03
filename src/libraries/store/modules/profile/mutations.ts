@@ -38,6 +38,9 @@ export default {
     addLocation(state: ProfileState, location: UserLocation){
       state.user_locations.push(location)
     },
+    deleteLocation(state: ProfileState, location: UserLocation){
+      _.remove(state.user_locations, {id: location.id})
+    },
     setLocations(state: ProfileState, locations: UserLocation[]){
       state.user_locations = locations
     },
