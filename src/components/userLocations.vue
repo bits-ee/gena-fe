@@ -11,28 +11,28 @@
                 <div :id="'location'+user_location.id" class="accordion-collapse collapse" :aria-labelledby="'heading'+user_location.id" data-bs-parent="#accordionLocations">
                     <div class="accordion-body">
                         <div>
-                            <div class="form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
                                 </div>
-                                <div class="col-11">
+                                <div class="flex-grow-1">
                                     <input style="width:100%" type="text" v-model="user_location.title" :placeholder="$t('userLocations_4')">
                                 </div>
                             </div>
-                            <div class="form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/zip.png" :alt="$t('userLocations_5')">      
                                 </div>
-                                <div class="col-11">
+                                <div class="flex-grow-1">
                                     <tomSelect :viewSearchButton="false" v-if="locations" :locations="locations" :selectedValue="parseInt(user_location.location_id)" @tsChanged="user_location.location_id=$event; FETCH_LOCATION_SERVICES(user_location)"></tomSelect>
                                 </div>
                             </div>
                             
-                            <div class="form-group form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
                                 </div>
-                                <div class="col-11 d-flex justify-content-between">
+                                <div class="flex-grow-1 d-flex justify-content-between">
                                     <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="user_location.street_name">
                                     <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="user_location.street_number">
                                 </div>
@@ -55,28 +55,28 @@
                 <div :id="'location_add'" class="accordion-collapse collapse" :aria-labelledby="'heading_add'" data-bs-parent="#accordionLocations">
                     <div class="accordion-body">
                         <div>
-                            <div class="form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
                                 </div>
-                                <div class="col-11">
+                                <div class="flex-grow-1">
                                     <input style="width:100%" type="text" v-model="new_location.title" :placeholder="$t('userLocations_4')">
                                 </div>
                             </div>
-                            <div class="form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/zip.png" :alt="$t('userLocations_5')">      
                                 </div>
-                                <div class="col-11">
+                                <div class="flex-grow-1">
                                     <tomSelect :viewSearchButton="false" v-if="locations" :locations="locations" :selectedValue="parseInt(new_location.location_id)" @tsChanged="new_location.location_id=$event; FETCH_LOCATION_SERVICES(new_location)"></tomSelect>
                                 </div>
                             </div>
                             
-                            <div class="form-group form-group row mb-4">
-                                <div class="col-1">
+                            <div class="form-group d-flex mb-4">
+                                <div class="me-3" style="min-width:fit-content">
                                     <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
                                 </div>
-                                <div class="col-11 d-flex justify-content-between">
+                                <div class="flex-grow-1 d-flex justify-content-between">
                                     <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="new_location.street_name">
                                     <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="new_location.street_number">
                                 </div>

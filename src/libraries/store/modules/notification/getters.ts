@@ -8,5 +8,8 @@ export default {
     },
     show: (state: NotificationState): boolean => {
       return state.show
+    },
+    time: (state: NotificationState): number => {
+      return state.time
     }
 }

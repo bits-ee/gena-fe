@@ -174,11 +174,19 @@ import '@/types/RegData'
       },
 
       initRecaptcha(){
+        (window as any).grecaptchaCallBack = ()=>{
+          if(this.$route.name=="profile") document.getElementsByClassName('grecaptcha-badge')[0].classList.add('grecaptcha-profile')
+        }
         this.recaptcha_script = document.createElement('script');
-        this.recaptcha_script.src = "https://www.google.com/recaptcha/api.js?render="+this.googleRecaptchaKey
-        document.getElementById('app')?.after(this.recaptcha_script)
+        this.recaptcha_script.src = "https://www.google.com/recaptcha/api.js?render="+this.googleRecaptchaKey+"&onload=grecaptchaCallBack"
+        document.getElementById('app')?.appendChild(this.recaptcha_script)
       }
 		},
+    watch:{
+      $route: function(to, from){
+        document.getElementsByClassName('grecaptcha-badge')[0].remove()
+      }
+    },
 		mounted(){
       this.initRecaptcha()
       if (this.$route.name=='verify' && this.$route.params.secretKey) {
@@ -193,6 +201,17 @@ import '@/types/RegData'
 		}
 	})
 </script>
+<style>
+  .grecaptcha-profile{
+    visibility: visible !important;
+  }
+
+  @media(max-width: 767px) {
+    .grecaptcha-profile{
+      visibility: hidden !important;
+    }
+  }
+</style>
 <style scoped>
 	#location_name::first-letter {
 		text-transform: uppercase;
@@ -227,6 +246,14 @@ import '@/types/RegData'
     left: 56px;
     animation-delay: 0;
   }
+  .email-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    width: 50%;
+  }
+
   @keyframes lds-facebook {
     0% {
       top: 8px;
@@ -237,12 +264,5 @@ import '@/types/RegData'
       height: 32px;
     }
   }
-.email-img{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 15px;
-  width: 50%;
-}
 
 </style>
