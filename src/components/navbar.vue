@@ -102,7 +102,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped>
   .lang-logo{
     height: 3rem; 
     width: 3rem;
@@ -111,11 +111,10 @@ export default defineComponent({
     background: whitesmoke;
     color: rgb(13,110,253);
     border: solid rgb(13,110,253) 3px;
-    
-    &__active{
-      color: whitesmoke;
-      background: rgb(13,110,253);
-    }
+  }
+  .lang-logo__active{
+    color: whitesmoke;
+    background: rgb(13,110,253);
   }
   .lang-lable{
     margin: 0 0 0 5px;
@@ -127,9 +126,9 @@ export default defineComponent({
     border: none;
     color: lightgrey;
     transition-duration: .1s;
-    &:hover{
-      opacity: 0.8;
-    }
+  }
+  .lang-btn:hover{
+    opacity: 0.8;
   }
   .nav-avatar{
     border-radius:50%
