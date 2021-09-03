@@ -149,7 +149,12 @@ export default defineComponent({
     padding: .5rem 1rem;
     font-size: 1.25rem;
   }
-
+  .lang-lable{
+    display: none;
+  }
+  .dropdown-menu{
+    min-width: initial !important;
+  }
   @media(max-width: 380px) {
     .navbar-toggler{
       margin-top: 1rem;
@@ -157,6 +162,9 @@ export default defineComponent({
     }
   }
   @media(min-width: 768px) {
+    .lang-lable{
+      display: initial;
+    }
     .delimeter{
       padding-top: 0 !important;
       padding-bottom: 0 !important;
