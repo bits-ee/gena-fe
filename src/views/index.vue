@@ -1,8 +1,8 @@
 <template>
-  	<header>
-		<navbar-component></navbar-component>
-		<div class="parallax"></div>
-	</header>
+  <header>
+    <navbar-component></navbar-component>
+    <div class="parallax"></div>
+  </header>
 
 	<main>
 		<div class="container my-5">

@@ -8,7 +8,7 @@
         </svg>
         <span class="h5 ms-1">Gemeinde Online</span>
       </router-link>
-      <div class="dropdown mx-4 my-auto" style="height:max-content" ref="language-dropdown">
+      <div class="dropdown me-2" style="height:max-content" ref="language-dropdown">
         <button class="lang-btn dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{$i18n.locale.toUpperCase()}}
         </button>
@@ -32,10 +32,14 @@
       </button>
       <div class="collapse navbar-collapse flex-grow-0 mt-3 navbar-collapse-my" id="navbarNavDropdown">
         <ul class="navbar-nav align-items-center">
-          <router-link v-if="!is_auth" class="nav-item text-primary text-center fw-normal " :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
+          <router-link v-if="!is_auth" class="nav-item text-primary text-center fw-normal" style="min-width:fit-content" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
           <span v-if="!is_auth" class="m-2 text-secondary text-center delimeter">{{ $t('navbar_2') }}</span>
-          <router-link v-if="!is_auth" class="btn btn-primary w-100 nav-item-my" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
-          <router-link v-if="is_auth" class="nav-item btn btn-primary w-100 nav-item-my" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_4') }}</router-link>
+          <router-link v-if="!is_auth" class="btn btn-primary w-100" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
+          <router-link v-if="is_auth" class="nav-item btn btn-lg btn-success w-100 mb-3 mobile" :to="{ name: 'profile'}">{{ $t('navbar_4') }}</router-link>
+          <router-link v-if="is_auth" class="nav-item btn btn-primary btn-desktop w-100" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_5') }}</router-link>
+          <router-link v-if="is_auth" class="nav-avatar desktop" :to="{ name: 'profile'}">
+            <img :src="avatar_url">
+          </router-link>
         </ul>
       </div>
     </div>
@@ -48,13 +52,15 @@
     "navbar_1":"Log in",
     "navbar_2":"or",
     "navbar_3":"SIGN UP",
-    "navbar_4":"Log out"
+    "navbar_4":"My profile",
+    "navbar_5":"Log out"
   },
   "de":{
     "navbar_1":"Einloggen",
     "navbar_2":"or",
     "navbar_3":"Anmelden",
-    "navbar_4":"Ausloggen"
+    "navbar_4":"My profile",
+    "navbar_5":"Ausloggen"
   }
 }
 </i18n>
@@ -66,6 +72,9 @@ export default defineComponent({
     computed:{
       ...mapGetters('user', [
         'is_auth'
+      ]),
+      ...mapGetters('profile', [
+        'avatar_url'
       ])
     },
     methods: {
@@ -124,8 +133,31 @@ export default defineComponent({
       opacity: 0.8;
     }
   }
+  .nav-avatar{
+    border-radius:50%
+  }
   .no-shadow:focus{
     box-shadow: none !important;
+  }
+  .navbar-collapse-my{
+    flex-direction: row-reverse;
+  }
+  .desktop{
+    display: none;
+  }
+  .mobile{
+    display: initial;
+  }
+  .btn-desktop{
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+  }
+
+  @media(max-width: 360px) {
+    .navbar-toggler{
+      margin-top: 1rem;
+      width: 100%;
+    }
   }
   @media(min-width: 768px) {
     .delimeter{
@@ -134,9 +166,29 @@ export default defineComponent({
     }
     .navbar-collapse-my{
       margin-top: 0 !important;
+      flex-direction: row;
     }
     .nav-item-my{
       width: auto !important;
+    }
+    .nav-avatar{
+      border-radius:50%;
+      margin-left: 1rem;
+    }
+    .nav-avatar img{
+      width:40px;
+      height:40px;
+      border-radius: 50%;
+    }
+    .mobile{
+      display: none;
+    }
+    .desktop{
+      display: initial;
+    }
+    .btn-desktop{
+      padding: .375rem .75rem;
+      font-size: 1rem;
     }
   }
 </style>

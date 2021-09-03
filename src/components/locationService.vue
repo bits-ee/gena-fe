@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="form-group row mb-4" :key="service" v-for="service in services">
-      <div class="col-5">{{service.name}}</div>
-      <div class="col-7 d-flex justify-content-between">
-        <select style="width:47%" v-model="service.channel">
+    <div class="form-group mb-4 d-flex flex-wrap justify-content-between" :key="service" v-for="service in services">
+      <div class="mb-1" style="min-width:200px">{{service.name}}</div>
+      <div>
+        <select class="me-2" v-model="service.channel">
           <option value="null">{{$t('locationService_1')}}</option>
           <option v-if="channels.email">{{$t('locationService_2')}}</option>
           <option v-if="channels.tg">{{$t('locationService_3')}}</option>
         </select>
-        <select style="width:47%" v-model="service.frequency">
+        <select style="" v-model="service.frequency">
           <option value="null">{{$t('locationService_4')}}</option>
           <option :key="frequency" v-for="frequency in frequencies">{{frequency}}</option>
         </select>

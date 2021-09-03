@@ -1,32 +1,29 @@
 <template>
-  <div id="profile" class="d-flex flex-column" style="min-height: 100vh;" v-if="init">
+  <div class="notification-block">
+    <notification-block :message="message" :error="error"></notification-block>
+  </div>
+  <div id="profile" class="d-flex flex-column align-items-center" style="min-height: 100vh;" v-if="init">
     <header>
 			<navbar-component></navbar-component>
 		</header>
-    <div class="container-sm">
-      <notification-block :message="message" :error="error"></notification-block>
-    </div>
-  	<main class="container-sm">
-      <div class="row mb-5">
-        <h1>My account</h1>
-      </div>
-      <div class="row">
-        <div class="col-5">
+  	<main class="mt-4 px-3 container-sm d-flex flex-column align-items-center flex-wrap">
+      <div class="d-flex w-100 mb-3 flex-wrap justify-content-around align-items-center">
+        <div class="mb-3 me-3 d-flex justify-content-center">
           <avatar-component></avatar-component>
         </div>
-        <div class="col-7 px-4">
+        <div class="mb-3 flex-grow-1" style="min-width:300px">
           <profile-details></profile-details>
         </div>
       </div>
-      <div class="row">
+      <div class="w-100">
         <profile-locations></profile-locations>
       </div>
-      <div class="row">
+      <div class="w-100">
         <channels-component></channels-component>
       </div>
     </main>
     <footer-component></footer-component>
-	</div> <!-- end of vuejs app -->
+	</div>
 </template>
 
 <script lang="ts">
@@ -65,6 +62,9 @@ export default defineComponent({
     ]),
     ...mapGetters('statics', [
       'locations'
+    ]),
+    ...mapGetters('user', [
+      'is_auth'
     ])
   },
   methods: {
@@ -84,19 +84,23 @@ export default defineComponent({
     }
   },
   created(){
-    Promise.allSettled([
-      this.FETCH_LOCATIONS(),
-      this.FETCH_AVATAR(),
-      this.FETCH_DETAILS(),
-      this.FETCH_CHANNELS(),
-      this.FETCH_USER_LOCATIONS()
-    ]).then(()=>{
-      this.init = true
-    })
+    if(!this.is_auth){
+      this.$router.push({name:'signup'})
+    }
+    else{
+      Promise.allSettled([
+        this.FETCH_LOCATIONS(),
+        this.FETCH_AVATAR(),
+        this.FETCH_DETAILS(),
+        this.FETCH_CHANNELS(),
+        this.FETCH_USER_LOCATIONS()
+      ]).then(()=>{
+        this.init = true
+      })
+    }
   }
 })
 </script>
-
 <style scoped>
 #profile {
   margin: auto;
@@ -109,5 +113,22 @@ export default defineComponent({
 
 #profile main {
   max-width: 640px;
+}
+
+.notification-block{
+  position: sticky;
+  top: 85vh;
+  left: 60vw;
+  z-index: 9999;
+  height: 0;
+  width: 400px;
+  overflow-wrap: anywhere;
+}
+
+@media(max-width: 768px) {
+  .notification-block{
+    width: 90vw;
+    left: 5vw;
+  }
 }
 </style>

@@ -25,13 +25,10 @@ export default defineComponent({
       'logout'
     ])
   },
-  created() {
+  async created() {
     //this.$i18n.locale = this.$translate()
-    this.FETCH_CONFIG().then(()=>{
-      this.init = true
-    })
     if(sessionStorage.getItem('sessionKey')){
-      this.FETCH_AVATAR()
+      await this.FETCH_AVATAR()
       .then(()=>{
         this.login(sessionStorage.getItem('sessionKey'))
       })
@@ -39,7 +36,12 @@ export default defineComponent({
         this.logout()
       })
     }
-  },mounted() {
+    this.FETCH_CONFIG().then(()=>{
+      this.init = true
+    })
+    
+  },
+  mounted() {
     this.GET_CURRENT_LOCATION()
   }
 })
