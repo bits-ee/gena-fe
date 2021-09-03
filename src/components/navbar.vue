@@ -1,13 +1,7 @@
 <template>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-3">
     <div class="container-fluid justify-content-end">
-      <router-link class="navbar-brand me-auto" :to="{ name: 'index'}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-          <path d="m0 0h32v32h-32z" fill="#da291c"/>
-          <path d="m13 6h6v7h7v6h-7v7h-6v-7h-7v-6h7z" fill="#fff"/>
-        </svg>
-        <span class="h5 ms-1">Gemeinde Online</span>
-      </router-link>
+      <logo></logo>
       <div class="dropdown me-2" style="height:max-content" ref="language-dropdown">
         <button class="lang-btn dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{$i18n.locale.toUpperCase()}}
@@ -68,7 +62,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { defineComponent } from 'vue'
+import logo from '@/components/logo.vue'
 export default defineComponent({
+    components:{
+      'logo': logo
+    },
     computed:{
       ...mapGetters('user', [
         'is_auth'
