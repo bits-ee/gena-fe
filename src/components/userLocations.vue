@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <locationServices :services="new_location.services" :channels="channels"></locationServices>
-                            <div class="d-flex justify-content-end">
+                            <div class="d-flex flex-column justify-content-end">
                                 <button class="btn btn-primary btn-sm" v-on:click="ADD()">{{$t('userLocations_11')}}</button>
                             </div>
                         </div>
