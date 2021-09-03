@@ -150,7 +150,7 @@ export default defineComponent({
     font-size: 1.25rem;
   }
 
-  @media(max-width: 360px) {
+  @media(max-width: 380px) {
     .navbar-toggler{
       margin-top: 1rem;
       width: 100%;

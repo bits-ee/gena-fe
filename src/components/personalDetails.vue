@@ -8,7 +8,7 @@
                 <label class="text-nowrap" for="firstname">{{$t('personalDetails_2')}}</label>
               </div>
               <div class="col-8">
-                <input type="text" id="firstname" v-model="personal_details_copy.firstname" ref="firstname">
+                <input type="text" class="w-100" id="firstname" v-model="personal_details_copy.firstname" ref="firstname">
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -16,7 +16,7 @@
                 <label class="text-nowrap" for="lastname">{{$t('personalDetails_3')}}</label>
               </div>
               <div class="col-8">
-                <input type="text" id="lastname" v-model="personal_details_copy.lastname" ref="lastname">
+                <input  class="w-100" type="text" id="lastname" v-model="personal_details_copy.lastname" ref="lastname">
               </div>
             </div>
             <div class="form-group row mb-2">
@@ -25,7 +25,7 @@
               </div>
               <div class="col-8">
                 <!-- TODO: profile language will sync with page languge when backend is ready  -->
-                <select v-model="personal_details_copy.language" ref="language">
+                <select v-model="personal_details_copy.language" ref="language" style="height:30px">
                     <option value="en">English</option>
                     <option value="de">Deutsch</option>
                 </select>

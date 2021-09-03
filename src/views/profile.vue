@@ -8,10 +8,10 @@
 		</header>
   	<main class="mt-4 px-3 container-sm d-flex flex-column align-items-center flex-wrap">
       <div class="d-flex w-100 mb-3 flex-wrap justify-content-around align-items-center">
-        <div class="mb-3 me-3 d-flex justify-content-center">
+        <div class="mb-3 me-auto d-flex flex-grow-1 justify-content-center">
           <avatar-component></avatar-component>
         </div>
-        <div class="mb-3 flex-grow-1" style="min-width:300px">
+        <div class="mb-3 flex-grow-1">
           <profile-details></profile-details>
         </div>
       </div>
@@ -131,4 +131,9 @@ export default defineComponent({
     left: 5vw;
   }
 }
+@media(max-width: 380px) {
+    main{
+      margin-top: 4rem !important;
+    }
+  }
 </style>
