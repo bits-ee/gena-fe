@@ -116,11 +116,10 @@ export default defineComponent({
 }
 
 .notification-block{
-  position: sticky;
-  top: 85vh;
-  left: 60vw;
+  position: absolute;
+  top: 85%;
+  left: 60%;
   z-index: 9999;
-  height: 0;
   width: 400px;
   overflow-wrap: anywhere;
 }
