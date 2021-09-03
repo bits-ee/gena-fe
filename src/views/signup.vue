@@ -15,8 +15,8 @@
         </div>
       </main>
       <main v-else>
-        <div class="mb-2">You already signed up</div>
-        <router-link class="nav-item btn btn-success w-100 mb-3" :to="{ name: 'profile'}">{{ $t('signup_3') }}</router-link>
+        <div class="mb-2">{{$t('signup_3')}}</div>
+        <router-link class="nav-item btn btn-success w-100 mb-3" :to="{ name: 'profile'}">{{ $t('signup_4') }}</router-link>
       </main>
     </div>
     <div class="shifter"></div>
@@ -27,12 +27,14 @@
   "en":{
     "signup_1":"Back",
     "signup_2":"or",
-    "signup_3":"My profile"
+    "signup_3":"You already logged in",
+    "signup_4":"My profile",
   },
   "de":{
     "signup_1":"Back",
     "signup_2":"oder",
-    "signup_3":"My profile"
+    "signup_3":"You already logged in",
+    "signup_4":"My profile"
   }
 }
 </i18n> 
