@@ -51,6 +51,5 @@ export default {
       context.commit("profile/clear", null, { root: true })
       context.commit("notification/clear", null, { root: true })
       context.commit("logout")
-      router.push({ name: 'index'})
     }
 }
