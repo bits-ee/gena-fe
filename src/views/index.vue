@@ -97,4 +97,9 @@ export default defineComponent({
     background-position: center -150px;
   }
 }
+@media(max-width: 380px) {
+    main{
+      margin-top: 10rem !important;
+    }
+  }
 </style>

@@ -116,7 +116,7 @@ export default defineComponent({
 }
 
 .notification-block{
-  position: absolute;
+  position: fixed;
   top: 85%;
   left: 60%;
   z-index: 9999;
