@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="w-100">
-              <input type="submit" class="btn btn-block btn-outline-primary w-100">
+              <input type="submit" class="btn btn-block btn-outline-primary w-100" :value="$t('personalDetails_5')">
             </div>
           </div>
         </form>
@@ -45,13 +45,15 @@
     "personalDetails_1":"Personal Details",
     "personalDetails_2":"First name",
     "personalDetails_3":"Last name",
-    "personalDetails_4":"Language"
+    "personalDetails_4":"Language",
+    "personalDetails_5":"Send"
   },
   "de":{
     "personalDetails_1":"Personal Details",
     "personalDetails_2":"First name",
     "personalDetails_3":"Last name",
-    "personalDetails_4":"Language"
+    "personalDetails_4":"Language",
+    "personalDetails_5":"Send"
   }
 }
 </i18n>
