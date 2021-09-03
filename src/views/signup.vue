@@ -14,8 +14,8 @@
           <tg-login></tg-login>
         </div>
       </main>
-      <main v-else>
-        <div class="mb-2">{{$t('signup_3')}}</div>
+      <main v-else class="w-100">
+        <p class="mb-2 text-center">{{$t('signup_3')}}</p>
         <router-link class="nav-item btn btn-success w-100 mb-3" :to="{ name: 'profile'}">{{ $t('signup_4') }}</router-link>
       </main>
     </div>
@@ -27,13 +27,13 @@
   "en":{
     "signup_1":"Back",
     "signup_2":"or",
-    "signup_3":"You already logged in",
+    "signup_3":"You are logged in",
     "signup_4":"My profile",
   },
   "de":{
     "signup_1":"Back",
     "signup_2":"oder",
-    "signup_3":"You already logged in",
+    "signup_3":"You are logged in",
     "signup_4":"My profile"
   }
 }

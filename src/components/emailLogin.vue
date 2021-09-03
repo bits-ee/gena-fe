@@ -8,23 +8,10 @@
         </div>
 			</div>
 
-      <div v-if="state=='answer'">
-        <p class="backendMsg">{{ backendMessage }}</p>
-        <img src="../assets/images/greentick.png" class="email-img">
-        <div>
-          <router-link :to="{ name: 'profile'}" role="button" class="btn form-control btn-primary btn-sm">{{$t('emailLogin_1')}}</router-link>
-        </div>
-      </div>
-
       <div v-if="state=='input'">
         <div class="mb-3">
           <div>
             <input type="email" class="form-control form-control-sm" :class="{'is-invalid':errors.length}" :placeholder="$t('emailLogin_2')" aria-describedby="emailHelp" v-model="email" required>
-          </div>
-          <div class="invalid-feedback" :class="{'d-block':errors}">
-              <ul>
-                <li :key="error" v-for="error in errors">{{ error }}</li>
-              </ul>
           </div>
         </div>
         <div>
@@ -92,7 +79,6 @@ import '@/types/RegData'
 			return {
 				errors: [] as String[],
 				message: "",
-        backendMessage: "",
 				email: "",
         state: "input",
         recaptcha_script: {} as HTMLScriptElement,
@@ -152,13 +138,9 @@ import '@/types/RegData'
         });
 			},
       verify(secretKey: string){
+        this.setState('wait')
         this.VERIFY_EMAIL(secretKey)
           .then((response: any) => {
-            if(response.data.status == 'logged'){
-              this.$router.push({name:"profile"})
-            }
-            this.backendMessage = response.data.message
-            this.setState('answer')
           })
           .catch((err) => {
             this.setState('error', err.response.data.error)
@@ -190,9 +172,6 @@ import '@/types/RegData'
 		mounted(){
       this.initRecaptcha()
       if (this.$route.name=='verify' && this.$route.params.secretKey) {
-        if (this.state != 'answer') {
-          this.setState('wait')
-        }
         this.verify(<string>this.$route.params.secretKey);
       }
       if(this.state == "") {
@@ -203,13 +182,7 @@ import '@/types/RegData'
 </script>
 <style>
   .grecaptcha-profile{
-    visibility: visible !important;
-  }
-
-  @media(max-width: 767px) {
-    .grecaptcha-profile{
-      visibility: hidden !important;
-    }
+    visibility: hidden !important;
   }
 </style>
 <style scoped>
