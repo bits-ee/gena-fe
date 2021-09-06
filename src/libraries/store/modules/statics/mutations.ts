@@ -7,7 +7,7 @@ export default {
     setAllLocations(state: StaticState, locations_all: Location[]){
         state.locations_all = locations_all
     },
-    setGuestLocation(state: StaticState, guest_location: GuestLocation[]){
+    setGuestLocation(state: StaticState, guest_location: GuestLocation){
         state.guest_location = guest_location
     }
 }

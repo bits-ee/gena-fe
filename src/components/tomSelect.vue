@@ -75,13 +75,9 @@ export default defineComponent({
             }
         },
       guestLocation(){
-        let clone = _.clone(this.ts.options)
-        let keys = Object.keys(clone)
-        for (let i = 0; i < keys.length; i++) {
-          if(clone[keys[i]].zipcode == localStorage.getItem('guest_location')){
-            this.ts.setValue(clone[keys[i]].id)
-          }
-        }
+        let clone = this.ts.options
+        let find = _.find(clone,{zipcode : localStorage.getItem('guest_location')})
+        this.ts.setValue(find['id'])
       },
       collapseLocationBtn(){
         let element = document.getElementById("location_add");
