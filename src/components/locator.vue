@@ -95,7 +95,8 @@ export default defineComponent({
     computed: {
         ...mapGetters('statics', [
             'locations',
-            'locations_all'
+            'locations_all',
+            'guest_location'
         ]),
         ...mapGetters('config', [
             'googleMapKey',
@@ -192,7 +193,8 @@ export default defineComponent({
                 const response = await this.FETCH_SERVICES(zipcode);
                 const location = response.data.location;
                 const services = response.data.services;
-
+                localStorage.setItem('guest_location',this.guest_location['zipcode'])
+                //console.warn(this.locations)
                 let title = location.zipcode + ' ' + location.name + ' '+ location.region;
                 let services_list = "";
                 for(let i = 0; i < services.length; i++) {
