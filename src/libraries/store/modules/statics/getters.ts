@@ -1,5 +1,6 @@
 import '@/types/StaticState'
 import '@/types/Location'
+import '@/types/CalendarEvent'
 export default {
     locations: (state: StaticState): Location[] => {
         return state.locations
@@ -9,5 +10,8 @@ export default {
     },
     guest_location: (state: StaticState): GuestLocation=> {
         return state.guest_location
+    },
+    calendar: (state: StaticState): CalendarEvent[]=> {
+        return state.calendar
     }
 }

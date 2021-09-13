@@ -1,5 +1,6 @@
 import '@/types/Location'
 import '@/types/GuestLocation'
+import '@/types/CalendarEvent'
 export default {
     FETCH_LOCATIONS(context: any){
         return new Promise((resolve, reject)=>{
@@ -42,6 +43,21 @@ export default {
             .then((response: any)=>{
                 let guest_location = <GuestLocation> response.data.location
                 context.commit('setGuestLocation', guest_location)
+                resolve(response)
+            })
+            .catch((err: any)=>{
+                reject(err)
+            })
+        })
+    },
+    FETCH_CALENDAR(context: any, location_id: number){
+        return new Promise((resolve, reject)=>{
+            axios({
+                method: "get",
+                url: "/garbage/"+location_id,
+            })
+            .then((response: any)=>{
+                context.commit('setCalendar', <CalendarEvent>response.data)
                 resolve(response)
             })
             .catch((err: any)=>{

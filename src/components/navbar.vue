@@ -1,7 +1,17 @@
 <template>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-3">
     <div class="container-fluid justify-content-end">
-      <logo></logo>
+      <div class="me-auto d-flex align-items-center">
+        <logo></logo>
+        <div class="nav-item dropdown desktop">
+          <div class="nav-link dropdown-toggle text-light" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Our services
+          </div>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><router-link class="dropdown-item" :to="{ name: 'calendar'}">Garbage calendar</router-link></li>
+          </ul>
+        </div>
+      </div>
       <div class="dropdown me-2" style="height:max-content" ref="language-dropdown">
         <button class="lang-btn dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{$i18n.locale.toUpperCase()}}
@@ -26,6 +36,7 @@
       </button>
       <div class="collapse navbar-collapse flex-grow-0 mt-3 navbar-collapse-my" id="navbarNavDropdown">
         <ul class="navbar-nav align-items-center">
+          <router-link class="nav-item nav-link mobile btn btn-outline-secondary w-100 mb-2" :to="{ name: 'calendar'}">Garbage calendar</router-link>
           <router-link v-if="!is_auth" class="nav-item text-primary text-center fw-normal" style="min-width:fit-content" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
           <span v-if="!is_auth" class="m-2 text-secondary text-center delimeter">{{ $t('navbar_2') }}</span>
           <router-link v-if="!is_auth" class="btn btn-primary w-100" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
@@ -46,14 +57,14 @@
     "navbar_1":"Log in",
     "navbar_2":"or",
     "navbar_3":"SIGN UP",
-    "navbar_4":"My profile",
+    "navbar_4":"Profile",
     "navbar_5":"Log out"
   },
   "de":{
     "navbar_1":"Einloggen",
     "navbar_2":"or",
     "navbar_3":"Anmelden",
-    "navbar_4":"My profile",
+    "navbar_4":"Profile",
     "navbar_5":"Ausloggen"
   }
 }

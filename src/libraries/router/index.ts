@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import index from '../../views/index.vue'
 import profile from '../../views/profile.vue'
 import signup from '../../views/signup.vue'
+import calendar from '../../views/calendar.vue'
 
 const routes = [
   {
@@ -20,15 +21,9 @@ const routes = [
     component: signup
   }, 
   {
-    path: '/verify/:secretKey',
-    name: 'verify', 
-    component: signup
-  },
-  //TODO: user needs to be authorized to verify channel, but he's not because we don't use cookies
-  {
-    path: '/verify/channel/:secretKey',
-    name: 'verify_channel', 
-    component: signup
+    path: '/calendar',
+    name: 'calendar', 
+    component: calendar
   }
 ]
 
