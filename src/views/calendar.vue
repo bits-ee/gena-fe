@@ -155,7 +155,7 @@ export default defineComponent({
       'is_auth'
     ]),
     attributes() {
-      if(!this.calendar) return []
+      if(!this.calendar.length) return []
       return [
         ...this.calendar.map(function(event){
           return {
@@ -169,10 +169,12 @@ export default defineComponent({
       ];
     },
     min_page(){
+      if(!this.calendar.length) return new Date()
       let date = new Date(_.orderBy(this.calendar, ['date'])[0].date)
       return {month:date.getUTCMonth() + 1, year:date.getUTCFullYear()}
     },
     max_page(){
+      if(!this.calendar.length) return new Date()
       let date = new Date(_.orderBy(this.calendar, ['date'])[this.calendar.length-1].date)
       return {month:date.getUTCMonth() + 1, year:date.getUTCFullYear()}
     }
