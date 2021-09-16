@@ -73,23 +73,10 @@ export default defineComponent({
             if(this.ts.getValue()){
                 this.$emit('tsChanged', this.ts.getValue())
             }
-        },
-      guestLocation(){
-        let clone = this.ts.options
-        let find = _.find(clone,{zipcode : localStorage.getItem('guest_location')})
-        this.ts.setValue(find['id'])
-      },
-      collapseLocationBtn(){
-        let element = document.getElementById("location_add");
-        element.classList.add("show");
-      }
+        }
     },
     mounted() {
         this.initTomSelect()
-      if(this.$route.name == 'profile'){
-        this.guestLocation()
-        this.collapseLocationBtn()
-      }
     },
 })
 </script>

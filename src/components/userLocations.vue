@@ -190,6 +190,9 @@ export default defineComponent({
     mounted(){
         //way to get clone of an ARRAY OF OBJECTS, not reference 
         this.user_locations_copy = JSON.parse(JSON.stringify(this.user_locations))
+        
+        let location = _.find(this.locations, {zipcode : localStorage.getItem('guest_location')})
+        this.new_location.location_id = location.id
     }
 })
 </script>
