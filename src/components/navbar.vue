@@ -32,7 +32,8 @@
           <router-link v-if="is_auth" class="nav-item btn btn-lg btn-success w-100 mb-3 mobile" :to="{ name: 'profile'}">{{ $t('navbar_4') }}</router-link>
           <router-link v-if="is_auth" class="nav-item btn btn-primary btn-desktop w-100" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_5') }}</router-link>
           <router-link v-if="is_auth" class="nav-avatar desktop" :to="{ name: 'profile'}">
-            <img :src="avatar_url">
+            <img v-if="avatar_url" :src="avatar_url">
+            <img v-else src="../assets/images/profile/avatar_default.jpg"/>
           </router-link>
         </ul>
       </div>
