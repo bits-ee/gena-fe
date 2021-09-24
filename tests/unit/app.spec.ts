@@ -5,7 +5,11 @@ describe("ProfileView", ()=>{
         
     })
 
-    test("Fetch configs", ()=>{
+    test("Fetch configs, then show the page", ()=>{
+        
+    })
+
+    test("Show error if config fetching failed", ()=>{
         
     })
 })

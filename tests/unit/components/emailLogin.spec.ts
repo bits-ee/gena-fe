@@ -1,7 +1,11 @@
 import emailLogin from '@/components/emailLogin.vue'
 
 describe("EmailLoginComponent", ()=>{
-    test("Initialize ReCaptcha, show 'INPUT' state by default", ()=>{
+    test("Initialize ReCaptcha on mount", ()=>{
+        
+    })
+
+    test("Show input field for email on mount", ()=>{
         
     })
 
@@ -9,11 +13,27 @@ describe("EmailLoginComponent", ()=>{
         
     })
 
-    test("Submit email", ()=>{
+    test("Submit email channel", ()=>{
 
     })
 
-    test("Verify email", ()=>{
+    test("Submit email login", ()=>{
+
+    })
+
+    test("Verify email channel", ()=>{
+        
+    })
+
+    test("Verify email login", ()=>{
+        
+    })
+
+    test("Redirect to profile after success login", ()=>{
+        
+    })
+
+    test("Show error after some api action error", ()=>{
         
     })
 })

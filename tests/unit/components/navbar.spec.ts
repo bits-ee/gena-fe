@@ -1,7 +1,8 @@
 import navbar from '@/components/navbar.vue'
 
 describe("NavbarComponent", ()=>{
-    test("Show navbar permanent links", ()=>{
+    
+    test("Show navbar logo", ()=>{
         
     })
 
@@ -13,11 +14,27 @@ describe("NavbarComponent", ()=>{
         
     })
 
+    test("Show language switcher", ()=>{
+        
+    })
+
     test("Switch languages", ()=>{
         
     })
 
-    test("Check links routes", ()=>{
+    test("Check logo link route", ()=>{
+
+    })
+
+    test("Check login/signup links route to signup page", ()=>{
+
+    })
+
+    test("Check logout button", ()=>{
+
+    })
+
+    test("Check avatar link routes to profile", ()=>{
 
     })
 })

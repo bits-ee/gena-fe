@@ -1,15 +1,19 @@
 import userLocations from '@/components/userLocations.vue'
 
 describe("UserLocationsComponent", ()=>{
-    test("Show user locations forms", ()=>{
+    test("Show user locations forms [title, location, street_name, street_number]", ()=>{
         
     })
 
-    test("Show new location form", ()=>{
+    test("Show new location form [title, location, street_name, street_number]", ()=>{
         
     })
 
     test("Update user location", ()=>{
+        
+    })
+
+    test("Show error if updating 'location_id' not selected", ()=>{
         
     })
 
@@ -18,6 +22,10 @@ describe("UserLocationsComponent", ()=>{
     })
 
     test("Add user location", ()=>{
+        
+    })
+
+    test("Show error if adding 'location_id' not selected", ()=>{
         
     })
     

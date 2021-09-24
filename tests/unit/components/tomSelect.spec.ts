@@ -1,11 +1,11 @@
 import tomSelect from '@/components/tomSelect.vue'
 
 describe("TomSelectComponent", ()=>{
-    test("'SelectedValue' props by default", ()=>{
+    test("'SelectedValue' prop by default", ()=>{
         
     })
 
-    test("View search button", ()=>{
+    test("View search button if 'viewSearchButton' prop is true, hide if false", ()=>{
         
     })
 

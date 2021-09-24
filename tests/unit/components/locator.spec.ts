@@ -1,7 +1,11 @@
 import locator from '@/components/locator.vue'
 
 describe("LocatorComponent", ()=>{
-    test("Initialize google map (map & markers)", ()=>{
+    test("Initialize google map", ()=>{
+        
+    })
+    
+    test("Drop google map markers", ()=>{
         
     })
 
@@ -14,6 +18,10 @@ describe("LocatorComponent", ()=>{
     })
 
     test("Open infowindow on marker click or selecting location in 'tomSelect' component", ()=>{
+        
+    })
+
+    test("Show location name, services and signup button inside infowindows", ()=>{
         
     })
 

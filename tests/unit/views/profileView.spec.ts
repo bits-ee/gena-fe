@@ -1,7 +1,7 @@
 import profile from '@/views/profile.vue'
 
 describe("ProfileView", ()=>{
-    test("Fetch profile data if user is authorized", ()=>{
+    test("Fetch profile data if user is authorized, then show all profile components", ()=>{
         
     })
 

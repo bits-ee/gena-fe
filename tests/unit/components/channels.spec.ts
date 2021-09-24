@@ -4,19 +4,35 @@ import tgChannel from '@/components/tgChannel.vue'
 
 describe("ChannelsComponent", ()=>{
 
-    test("Show email channel", ()=>{
+    test("Show email if channel connected", ()=>{
         
     })
 
-    test("Show telegram channel", ()=>{
+    test("Show telegram username if channel connected", ()=>{
         
     })
 
-    test("Show email disconnect/can't disconnect button", ()=>{
+    test("Show 'emailLogin' component if email channel not connected", ()=>{
         
     })
 
-    test("Show telegram disconnect/can't disconnect button", ()=>{
+    test("Show 'tgChannel' component if telegram channel not connected", ()=>{
+        
+    })
+
+    test("Show email 'disconnect' button if more then 1 channel connected", ()=>{
+        
+    })
+
+    test("Show telegram 'disconnect' button if more then 1 channel connected", ()=>{
+        
+    })
+
+    test("Show email 'can't disconnect button' if the only 1 channel connected", ()=>{
+        
+    })
+
+    test("Show telegram 'can't disconnect button' if the only 1 channel connected", ()=>{
         
     })
 
