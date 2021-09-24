@@ -1,5 +1,32 @@
 import locator from '@/components/locator.vue'
 
+describe("LocatorComponent", ()=>{
+    test("Initialize google map (map & markers)", ()=>{
+        
+    })
+
+    test("Delete and reload google map on language changes", ()=>{
+        
+    })
+
+    test("Remove google map on route changes", ()=>{
+
+    })
+
+    test("Open infowindow on marker click or selecting location in 'tomSelect' component", ()=>{
+        
+    })
+
+    test("Show google form link if 'tomSelect' location is not supported", ()=>{
+        
+    })
+
+    test("Set guest location on signup from infowindow", ()=>{
+        
+    })
+})
+
+
 //VUES DATA
 // Location[] 'locations'
 // Location[] 'locations_all'

@@ -1,5 +1,16 @@
 import tgChannel from '@/components/tgChannel.vue'
 
+describe("TgChannelComponent", ()=>{
+    test("Show telegarm widget", ()=>{
+        
+    })
+
+    test("Verify telegram channel", ()=>{
+        
+    })
+    
+})
+
 //VUEX DATA
 // 'tgBotName'
 

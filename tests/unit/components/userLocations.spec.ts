@@ -1,5 +1,28 @@
 import userLocations from '@/components/userLocations.vue'
 
+describe("UserLocationsComponent", ()=>{
+    test("Show user locations forms", ()=>{
+        
+    })
+
+    test("Show new location form", ()=>{
+        
+    })
+
+    test("Update user location", ()=>{
+        
+    })
+
+    test("Delete user location", ()=>{
+        
+    })
+
+    test("Add user location", ()=>{
+        
+    })
+    
+})
+
 //VUEX DATA
 // Channels 'channels'
 // UserLocation[] 'user_locations'

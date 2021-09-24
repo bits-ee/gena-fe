@@ -1,5 +1,15 @@
 import profile from '@/views/profile.vue'
 
+describe("ProfileView", ()=>{
+    test("Fetch profile data if user is authorized", ()=>{
+        
+    })
+
+    test("Redirect to signup if user isn't authorized", ()=>{
+        
+    })
+})
+
 // VUEX DATA
 // boolean 'is_auth'
 

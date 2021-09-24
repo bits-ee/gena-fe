@@ -1,5 +1,27 @@
 import navbar from '@/components/navbar.vue'
 
+describe("NavbarComponent", ()=>{
+    test("Show navbar permanent links", ()=>{
+        
+    })
+
+    test("Show login and signup links if user isn't authorized", ()=>{
+        
+    })
+
+    test("Show avatar(profile link) and logout button if user is authorized", ()=>{
+        
+    })
+
+    test("Switch languages", ()=>{
+        
+    })
+
+    test("Check links routes", ()=>{
+
+    })
+})
+
 //VUEX DATA
 // boolean 'is_auth'
 

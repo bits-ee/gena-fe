@@ -1,5 +1,16 @@
 import locationServices from '@/components/locationServices.vue'
 
+describe("LocationServicesComponent", ()=>{
+
+    test("Show location services", ()=>{
+        
+    })
+
+    test("Change location services", ()=>{
+        
+    })
+})
+
 // PROPS
 //1. Service[] services
 //2. Channels channels

@@ -2,6 +2,34 @@ import channels from '@/components/channels.vue'
 import emailLogin from '@/components/emailLogin.vue'
 import tgChannel from '@/components/tgChannel.vue'
 
+describe("ChannelsComponent", ()=>{
+
+    test("Show email channel", ()=>{
+        
+    })
+
+    test("Show telegram channel", ()=>{
+        
+    })
+
+    test("Show email disconnect/can't disconnect button", ()=>{
+        
+    })
+
+    test("Show telegram disconnect/can't disconnect button", ()=>{
+        
+    })
+
+    test("Delete email channel", ()=>{
+        
+    })
+
+    test("Delete telegram channel", ()=>{
+        
+    })
+})
+
+
 //VUEX DATA
 // Channels 'channels'
 

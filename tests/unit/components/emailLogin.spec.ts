@@ -1,5 +1,22 @@
 import emailLogin from '@/components/emailLogin.vue'
 
+describe("EmailLoginComponent", ()=>{
+    test("Initialize ReCaptcha, show 'INPUT' state by default", ()=>{
+        
+    })
+
+    test("Show error if email don't match regex", ()=>{
+        
+    })
+
+    test("Submit email", ()=>{
+
+    })
+
+    test("Verify email", ()=>{
+        
+    })
+})
 
 // VUEX DATA
 // string 'googleRecaptchaKey'

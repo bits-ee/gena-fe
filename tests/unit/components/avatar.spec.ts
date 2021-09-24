@@ -1,5 +1,23 @@
 import avatar from '@/components/avatar.vue'
 
+describe("AvatarComponent", ()=>{
+    
+    test("Show avatar, delete and update buttons", ()=>{
+        
+    })
+
+    test("Show default avatar and add-avatar button", ()=>{
+        
+    })
+
+    test("Delete avatar", ()=>{
+
+    })
+
+    test("Update avatar, then clear the file input form", ()=>{
+        
+    })
+})
 
 //VUEX DATA
 // string 'avatar'

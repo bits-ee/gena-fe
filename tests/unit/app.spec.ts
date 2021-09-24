@@ -1,5 +1,15 @@
 import app from '@/App.vue'
 
+describe("ProfileView", ()=>{
+    test("Check if user is authorized", ()=>{
+        
+    })
+
+    test("Fetch configs", ()=>{
+        
+    })
+})
+
 // MOUNT
 //1. if sessionStorage['sessionKey'] is exist, call 'FETCH_AVATAR' action
     //1.1. if success, call 'login' mutation with sessionStorage['sessionKey'] as payload

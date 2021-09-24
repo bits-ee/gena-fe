@@ -1,5 +1,16 @@
 import tgLogin from '@/components/tgLogin.vue'
 
+describe("TgLoginComponent", ()=>{
+    test("Show telegarm widget", ()=>{
+        
+    })
+
+    test("Login by telegram", ()=>{
+        
+    })
+    
+})
+
 //VUEX DATA
 // 'tgBotName'
 

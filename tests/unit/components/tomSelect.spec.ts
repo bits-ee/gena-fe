@@ -1,5 +1,21 @@
 import tomSelect from '@/components/tomSelect.vue'
 
+describe("TomSelectComponent", ()=>{
+    test("'SelectedValue' props by default", ()=>{
+        
+    })
+
+    test("View search button", ()=>{
+        
+    })
+
+    test("Check return value", ()=>{
+        
+    })
+    //test displaying name?
+    
+})
+
 //PROPS
 // Location[] 'locations'
 // number 'selectedValue'

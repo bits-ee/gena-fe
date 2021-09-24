@@ -1,5 +1,15 @@
 import signup from '@/views/signup.vue'
 
+describe("ProfileView", ()=>{
+    test("Show login components if user isn't authorized", ()=>{
+        
+    })
+
+    test("Show 'go to profile' button if user is authorized", ()=>{
+        
+    })
+})
+
 // VUEX DATA
 //boolean 'is_auth'
 

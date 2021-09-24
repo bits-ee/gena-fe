@@ -1,5 +1,23 @@
 import notification from '@/components/notification.vue'
 
+describe("NotificationComponent", ()=>{
+    test("Show notification", ()=>{
+        
+    })
+
+    test("Notification auto-hiding", ()=>{
+        
+    })
+
+    test("Notification updating", ()=>{
+
+    })
+
+    test("Close notification", ()=>{
+
+    })
+})
+
 //VUEX DATA
 // boolean 'is_error'
 // boolean 'show'
