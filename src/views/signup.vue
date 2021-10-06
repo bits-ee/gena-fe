@@ -3,15 +3,15 @@
     <router-link class="btn btn-outline-primary back-btn stiky" :to="{ name: 'index'}" role="button">{{$t('signup_1')}}</router-link>
     <div class="signup-wrapper">
       <header>
-        <logo-link></logo-link>
+        <logo></logo>
       </header>
       <main v-if="!is_auth">
-        <email-login></email-login><!-- TODO merge with verify -->
+        <emailLogin></emailLogin><!-- TODO merge with verify -->
         <div class="divider">
           <hr/><span>{{$t('signup_2')}}</span><hr />
         </div>
         <div id="sso">
-          <tg-login></tg-login>
+          <tgLogin></tgLogin>
         </div>
       </main>
       <main v-else class="w-100">
@@ -39,16 +39,16 @@
 }
 </i18n> 
 <script id="vuescript">
-  import c_tgLogin from '../components/tgLogin.vue'
-  import c_emailLogin from '../components/emailLogin.vue'
-  import c_logo from '../components/logo.vue'
+  import tgLogin from '@/components/tgLogin.vue'
+  import emailLogin from '@/components/emailLogin.vue'
+  import logo from '@/components/logo.vue'
   import { defineComponent } from 'vue'
   import { mapGetters } from 'vuex';
  export default defineComponent({
     components: {
-      'tg-login': c_tgLogin,
-      'email-login': c_emailLogin,
-      'logo-link': c_logo
+      tgLogin,
+      emailLogin,
+      logo
     },
     computed:{
       ...mapGetters('user',[

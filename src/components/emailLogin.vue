@@ -15,7 +15,7 @@
           </div>
         </div>
         <div>
-            <button role="button" class="btn btn-primary btn-sm w-100" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
+            <button id="submit-input" role="button" class="btn btn-primary btn-sm w-100" v-on:click="submit()">{{$t('emailLogin_1')}}</button>
         </div>
       </div>
 
@@ -24,8 +24,8 @@
           <p class="text-center">{{$t('emailLogin_3')}}</p>
           <input type="text" class="form-control form-control-sm mb-2" v-model="verification_code">
           <div>
-            <button class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">{{$t('emailLogin_4')}}</button>
-            <button class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">{{$t('emailLogin_5')}}</button>
+            <button id="verify" class="btn btn-primary btn-sm mb-1 w-100" v-on:click="is_channel?verifyChannel(verification_code):verify(verification_code)">{{$t('emailLogin_4')}}</button>
+            <button id="back" class="btn btn-secondary btn-sm w-100" v-on:click="setState('input')">{{$t('emailLogin_5')}}</button>
           </div>
         </div>
       </div>
@@ -83,7 +83,8 @@ import '@/types/RegData'
         state: "input",
         recaptcha_script: {} as HTMLScriptElement,
         verification_code: "",
-        last_state:"input"
+        last_state:"input",
+        grecaptcha: {}
 			}
 		},
     computed:{
@@ -111,7 +112,8 @@ import '@/types/RegData'
 					return false
 				}
         this.setState('wait');
-        grecaptcha.execute(this.googleRecaptchaKey, {action: 'submit'}).then((token: string) => {
+        //@ts-ignore
+        this.grecaptcha.execute(this.googleRecaptchaKey, {action: 'submit'}).then((token: string) => {
           let reg_data = <RegData>{
             email: this.email,
             token: token,
@@ -158,15 +160,17 @@ import '@/types/RegData'
       initRecaptcha(){
         (window as any).grecaptchaCallBack = ()=>{
           if(this.$route.name=="profile") document.getElementsByClassName('grecaptcha-badge')[0].classList.add('grecaptcha-profile')
+          this.grecaptcha = grecaptcha
         }
         this.recaptcha_script = document.createElement('script');
         this.recaptcha_script.src = "https://www.google.com/recaptcha/api.js?render="+this.googleRecaptchaKey+"&onload=grecaptchaCallBack"
-        document.getElementById('app')?.appendChild(this.recaptcha_script)
+        this.recaptcha_script.defer = true
+        document.body.appendChild(this.recaptcha_script)
       }
 		},
     watch:{
       $route: function(to, from){
-        document.getElementsByClassName('grecaptcha-badge')[0].remove()
+        document.getElementsByClassName('grecaptcha-badge')[0]?.remove()
       }
     },
 		mounted(){

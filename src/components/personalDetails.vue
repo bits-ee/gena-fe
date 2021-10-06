@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3 class="text-nowrap">{{$t('personalDetails_1')}}</h3>
-        <form @submit.prevent="onSubmit()" action="POST">
+        <div>
           <div class="container m-0 p-0"  style="min-width: 300px">
             <div class="form-group row mb-2">
               <div class="col-4">
@@ -25,17 +25,17 @@
               </div>
               <div class="col-8">
                 <!-- TODO: profile language will sync with page languge when backend is ready  -->
-                <select v-model="personal_details_copy.language" ref="language" style="height:30px">
+                <select v-model="personal_details_copy.language" id="language" ref="language" style="height:30px">
                     <option value="en">English</option>
                     <option value="de">Deutsch</option>
                 </select>
               </div>
             </div>
             <div class="w-100">
-              <input type="submit" class="btn btn-block btn-outline-primary w-100" :value="$t('personalDetails_5')">
+              <input type="submit" class="btn btn-block btn-outline-primary w-100" :value="$t('personalDetails_5')" @click="onSubmit">
             </div>
           </div>
-        </form>
+        </div>
     </div>
 </template>
 

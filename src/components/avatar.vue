@@ -1,17 +1,17 @@
 <template>
     <div id="avatar-container">
         <div v-if="avatar" class="avatar">
-            <img class="avatar-img" :src="avatar_url" alt="User avatar" />
-            <label class="avatar-icon avatar-icon-edit" for="avatar-upload">
+            <img id="avatar" class="avatar-img" :src="avatar_url" alt="User avatar" />
+            <label id="avatar-upload-label" class="avatar-icon avatar-icon-edit" for="avatar-upload">
                 <i class="bi-pencil"></i>
             </label>
-            <div class="avatar-icon avatar-icon-delete" v-on:click="DELETE_AVATAR">
+            <div id="avatar-delete" class="avatar-icon avatar-icon-delete" v-on:click="DELETE_AVATAR">
                 <i class="bi-x-lg"></i>
             </div>
         </div>
         <div v-else class="avatar">
-            <img class="avatar-img" src="../assets/images/profile/avatar_default.jpg" alt="Default avatar" />
-            <label class="avatar-icon avatar-icon-add" for="avatar-upload">
+            <img id="avatar-default" class="avatar-img" src="../assets/images/profile/avatar_default.jpg" alt="Default avatar" />
+            <label id="avatar-add-label" class="avatar-icon avatar-icon-add" for="avatar-upload">
                 <i class="bi-plus-lg"></i>
             </label>
         </div>
@@ -20,7 +20,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default defineComponent({
     computed:{
         ...mapGetters('profile', [
@@ -32,10 +32,6 @@ export default defineComponent({
         ...mapActions('profile', [
             'UPDATE_AVATAR',
             'DELETE_AVATAR'
-        ]),
-        ...mapMutations('notification', [
-            'notify',
-            'notifyError'
         ]),
         UPDATE(file: File){
             this.UPDATE_AVATAR(file);
