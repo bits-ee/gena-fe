@@ -1,21 +1,73 @@
+import { shallowMount } from '@vue/test-utils'
+import store from '@/libraries/store'
 import avatar from '@/components/avatar.vue'
+
+store.dispatch = jest.fn(() => Promise.resolve())
+let wrapper = shallowMount(avatar, {
+  attachTo: document.body,
+  global: {
+    mocks: {
+      $store: store
+    }
+  }
+})
 
 describe("AvatarComponent", ()=>{
 
-  test("Show avatar, delete and update buttons if avatar exist", ()=>{
-
+  beforeEach(async ()=>{
+    jest.clearAllMocks()
   })
 
-  test("Show default avatar and add-avatar button if avatar doesn't exist", ()=>{
+  //
+  test("Show avatar, delete and update buttons if avatar exist", async ()=>{
+    wrapper.vm.$store.commit("profile/setAvatar", "avatar.jpg")
+    await wrapper.vm.$nextTick()
+    
+    expect(wrapper.find("#avatar").exists()).toBe(true)
+    expect(wrapper.find("#avatar-upload").exists()).toBe(true)
+    expect(wrapper.find("#avatar-upload-label").exists()).toBe(true)
+    expect(wrapper.find("#avatar-delete").exists()).toBe(true)
 
+    expect(wrapper.find("#avatar-default").exists()).toBe(false)
+    expect(wrapper.find("#avatar-add-label").exists()).toBe(false)
   })
 
-  test("Delete avatar", ()=>{
+  //
+  test("Show default avatar and add-avatar button if avatar doesn't exist", async ()=>{
+    wrapper.vm.$store.commit("profile/setAvatar", null)
+    await wrapper.vm.$nextTick()
 
+    expect(wrapper.find("#avatar").exists()).toBe(false)
+    expect(wrapper.find("#avatar-upload-label").exists()).toBe(false)
+    expect(wrapper.find("#avatar-delete").exists()).toBe(false)
+
+    expect(wrapper.find("#avatar-upload").exists()).toBe(true)
+    expect(wrapper.find("#avatar-default").exists()).toBe(true)
+    expect(wrapper.find("#avatar-add-label").exists()).toBe(true)
   })
 
-  test("Update avatar, then clear the file input form", ()=>{
-      
+  //
+  test("Delete avatar", async ()=>{
+    wrapper.vm.$store.commit("profile/setAvatar", "avatar.jpg")
+    await wrapper.vm.$nextTick()
+
+    let button = wrapper.find("#avatar-delete")
+    button.trigger("click")
+    //@ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/DELETE_AVATAR")
+  })
+
+  //
+  test("Update avatar, then clear the file input form", async ()=>{
+    wrapper.vm.$store.commit("profile/setAvatar", "avatar.jpg")
+    await wrapper.vm.$nextTick()
+
+    let button = wrapper.find("#avatar-upload")
+    button.trigger("change")
+
+    // @ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/UPDATE_AVATAR")
+    expect((wrapper.find("#avatar-upload").element as HTMLInputElement).value).toEqual("")
   })
 })
 

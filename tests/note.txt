@@ -1,0 +1,3 @@
+1)All external scripts with side-effects (like googleMap, ReCaptcha or telegram) have to be added to node_modules to be tested
+2)<router-link>'s haven't be tested yet
+3)Only existed functionality have tests now

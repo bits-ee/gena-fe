@@ -1,48 +1,124 @@
+import { shallowMount } from '@vue/test-utils'
 import channels from '@/components/channels.vue'
 import emailLogin from '@/components/emailLogin.vue'
 import tgChannel from '@/components/tgChannel.vue'
+import store from '@/libraries/store'
+
+store.dispatch = jest.fn(() => Promise.resolve())
+let wrapper = shallowMount(channels, {
+  global: {
+    mocks: {
+      $store: store,
+      $t: jest.fn()
+    }
+  }
+})
 
 describe("ChannelsComponent", ()=>{
 
-    test("Show email if channel connected", ()=>{
-        
-    })
+  beforeEach(()=>{
+    jest.clearAllMocks()
+  })
 
-    test("Show telegram username if channel connected", ()=>{
-        
-    })
+  //
+  test("Show email if channel connected", async ()=>{
+    let email = 'email@test.tt'
+    let tg = null
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toMatch(email)
+  })
 
-    test("Show 'emailLogin' component if email channel not connected", ()=>{
-        
-    })
+  //
+  test("Show telegram username if channel connected", async ()=>{
+    let email = null
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toMatch(tg)
+  })
 
-    test("Show 'tgChannel' component if telegram channel not connected", ()=>{
-        
-    })
+  //
+  test("Show 'emailLogin' component if email channel not connected", async ()=>{
+    let email = null
+    let tg = null
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(emailLogin).exists()).toBe(true)
+  })
 
-    test("Show email 'disconnect' button if more then 1 channel connected", ()=>{
-        
-    })
+  //
+  test("Show 'tgChannel' component if telegram channel not connected", async ()=>{
+    let email = null
+    let tg = null
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(tgChannel).exists()).toBe(true)
+  })
 
-    test("Show telegram 'disconnect' button if more then 1 channel connected", ()=>{
-        
-    })
+  //
+  test("Show email 'disconnect' button if more then 1 channel connected", async ()=>{
+    let email = 'email@test.tt'
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find("#email-disconnect").exists()).toBe(true)
+    expect(wrapper.find("#email-disconnect").classes("disabled")).toBe(false)
+  })
 
-    test("Show email 'can't disconnect button' if the only 1 channel connected", ()=>{
-        
-    })
+  //
+  test("Show telegram 'disconnect' button if more then 1 channel connected", async ()=>{
+    let email = 'email@test.tt'
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find("#tg-disconnect").exists()).toBe(true)
+    expect(wrapper.find("#tg-disconnect").classes("disabled")).toBe(false)
+  })
 
-    test("Show telegram 'can't disconnect button' if the only 1 channel connected", ()=>{
-        
-    })
+  //
+  test("Show email 'can't disconnect button' if the only 1 channel connected", async ()=>{
+    let email = 'email@test.tt'
+    let tg = null
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find("#email-disconnect").exists()).toBe(true)
+    expect(wrapper.find("#email-disconnect").classes("disabled")).toBe(true)
+  })
 
-    test("Delete email channel", ()=>{
-        
-    })
+  //
+  test("Show telegram 'can't disconnect button' if the only 1 channel connected", async ()=>{
+    let email = null
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find("#tg-disconnect").exists()).toBe(true)
+    expect(wrapper.find("#tg-disconnect").classes("disabled")).toBe(true)
+  })
 
-    test("Delete telegram channel", ()=>{
-        
-    })
+  //
+  test("Delete email channel", async ()=>{
+    let email = 'email@test.tt'
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    let button = wrapper.find("#email-disconnect")
+    button.trigger("click")
+    //@ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/DELETE_EMAIL_CHANNEL")
+  })
+
+  //
+  test("Delete telegram channel", async ()=>{
+    let email = 'email@test.tt'
+    let tg = 'tg_username'
+    wrapper.vm.$store.commit("profile/setChannels", {email: email, tg: tg})
+    await wrapper.vm.$nextTick()
+    let button = wrapper.find("#tg-disconnect")
+    button.trigger("click")
+    //@ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/DELETE_TG_CHANNEL")
+  })
 })
 
 

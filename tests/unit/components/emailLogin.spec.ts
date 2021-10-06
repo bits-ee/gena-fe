@@ -1,41 +1,95 @@
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import emailLogin from '@/components/emailLogin.vue'
+import router from '@/libraries/router'
+import store from '@/libraries/store'
+
+store.dispatch = jest.fn(() => Promise.resolve())
+declare var grecaptcha: any
+let wrapper = shallowMount(emailLogin, {
+  global: {
+    mocks: {
+      $store: store,
+      $route: router,
+      $i18n:{
+        locale: "en"
+      },
+      $t: jest.fn()
+    }
+  }
+});
 
 describe("EmailLoginComponent", ()=>{
-    test("Initialize ReCaptcha on mount", ()=>{
-        
-    })
+  beforeEach(()=>{
+    jest.clearAllMocks()
+  })
 
-    test("Show input field for email on mount", ()=>{
-        
-    })
+  test("Initialize ReCaptcha on mount", async ()=>{
+    expect(wrapper.vm.recaptcha_script.src).toEqual("https://www.google.com/recaptcha/api.js?render="+wrapper.vm.googleRecaptchaKey+"&onload=grecaptchaCallBack")
+    expect(document.body.contains(wrapper.vm.recaptcha_script)).toBe(true)
+  })
 
-    test("Show error if email don't match regex", ()=>{
-        
-    })
+  test("Show input field for email on mount", ()=>{
+    expect(wrapper.vm.state).toEqual("input")
+    expect(wrapper.find("input").exists()).toBe(true)
+    expect(wrapper.find("button").exists()).toBe(true)
+  })
 
-    test("Submit email channel", ()=>{
+  test("Show error if email don't match regex", ()=>{
+    let email = "incorrect_email"
+    wrapper.setData({ email: email })
+    wrapper.find("button").trigger("click")
+    expect((wrapper.vm.errors as []).length > 0).toBe(true)
+  })
 
-    })
+  test("Submit email channel", async ()=>{
+    let email = "email@test.tt"
+    let state = "input"
+    let is_channel = false
+    wrapper.setData({ state: state, email: email, grecaptcha: {execute: jest.fn(() => Promise.resolve())} })
+    wrapper.setProps({ is_channel: is_channel })
+    await wrapper.vm.$nextTick()
+    wrapper.find("button#submit-input").trigger("click")
+    await flushPromises()
+    //@ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("user/REG_EMAIL")
+  })
 
-    test("Submit email login", ()=>{
+  test("Submit email login", async ()=>{
+    let email = "email@test.tt"
+    let state = "input"
+    let is_channel = true
+    wrapper.setData({ state: state, email: email, grecaptcha: {execute: jest.fn(() => Promise.resolve())} })
+    wrapper.setProps({ is_channel: is_channel })
+    await wrapper.vm.$nextTick()
+    wrapper.find("button#submit-input").trigger("click")
+    await flushPromises()
+    // @ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/ADD_EMAIL_CHANNEL")
+  })
 
-    })
+  test("Verify email channel", async ()=>{
+    let email = "email@test.tt"
+    let state = "verify"
+    let is_channel = false
+    wrapper.setData({ state: state })
+    wrapper.setProps({ is_channel: is_channel })
+    await wrapper.vm.$nextTick()
+    wrapper.find("button#verify").trigger("click")
+    // @ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("user/VERIFY_EMAIL")
+  })
 
-    test("Verify email channel", ()=>{
-        
-    })
-
-    test("Verify email login", ()=>{
-        
-    })
-
-    test("Redirect to profile after success login", ()=>{
-        
-    })
-
-    test("Show error after some api action error", ()=>{
-        
-    })
+  test("Verify email login", async ()=>{
+    let email = "email@test.tt"
+    let state = "verify"
+    let is_channel = true
+    wrapper.setData({ state: state })
+    wrapper.setProps({ is_channel: is_channel })
+    await wrapper.vm.$nextTick()
+    wrapper.find("button#verify").trigger("click")
+    // @ts-ignore
+    expect(store.dispatch.mock.calls[0][0]).toEqual("profile/VERIFY_EMAIL_CHANNEL")
+  })
 })
 
 // VUEX DATA

@@ -1,37 +1,54 @@
+import { shallowMount } from '@vue/test-utils'
 import locator from '@/components/locator.vue'
+import store from '@/libraries/store'
+import router from '@/libraries/router'
 
+store.dispatch = jest.fn(() => Promise.resolve())
+let wrapper = shallowMount(locator, {
+  attachTo: document.body,
+  global: {
+    plugins: [store, router],
+    mocks: {
+      $i18n:{
+        locale: "en"
+      },
+      $t: jest.fn()
+    }
+  }
+});
 describe("LocatorComponent", ()=>{
-    test("Initialize google map", ()=>{
-        
-    })
-    
-    test("Drop google map markers", ()=>{
-        
-    })
+  test("Initialize google map", ()=>{
+      expect(wrapper.vm.mapScript.src).toMatch("https://maps.googleapis.com/maps/api/js?")
+      expect(document.body.contains(wrapper.vm.mapScript)).toBe(true)
+  })
+  
+  test("Drop google map markers", ()=>{
+      
+  })
 
-    test("Delete and reload google map on language changes", ()=>{
-        
-    })
+  test("Delete and reload google map on language changes", ()=>{
+      
+  })
 
-    test("Remove google map on route changes", ()=>{
+  test("Remove google map on route changes", ()=>{
 
-    })
+  })
 
-    test("Open infowindow on marker click or selecting location in 'tomSelect' component", ()=>{
-        
-    })
+  test("Open infowindow on marker click or selecting location in 'tomSelect' component", ()=>{
+      
+  })
 
-    test("Show location name, services and signup button inside infowindows", ()=>{
-        
-    })
+  test("Show location name, services and signup button inside infowindows", ()=>{
+      
+  })
 
-    test("Show google form link if 'tomSelect' location is not supported", ()=>{
-        
-    })
+  test("Show google form link if 'tomSelect' location is not supported", ()=>{
+      
+  })
 
-    test("Set guest location on signup from infowindow", ()=>{
-        
-    })
+  test("Set guest location on signup from infowindow", ()=>{
+      
+  })
 })
 
 
