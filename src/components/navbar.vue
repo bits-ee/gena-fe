@@ -28,11 +28,12 @@
         <ul class="navbar-nav align-items-center">
           <router-link v-if="!is_auth" id="login-link" class="nav-item text-primary text-center fw-normal" style="min-width:fit-content" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
           <span v-if="!is_auth" class="m-2 text-secondary text-center delimeter">{{ $t('navbar_2') }}</span>
-          <router-link v-if="!is_auth" id="registration-link" class="btn btn-primary w-100" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
-          <router-link v-if="is_auth" id="profile-link" class="nav-item btn btn-lg btn-success w-100 mb-3 mobile" :to="{ name: 'profile'}">{{ $t('navbar_4') }}</router-link>
-          <router-link v-if="is_auth" id="logout-link" class="nav-item btn btn-primary btn-desktop w-100" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_5') }}</router-link>
-          <router-link v-if="is_auth" id="profile-link" class="nav-avatar desktop" :to="{ name: 'profile'}">
-            <img :src="avatar_url">
+          <router-link v-if="!is_auth" class="btn btn-primary w-100" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
+          <router-link v-if="is_auth" class="nav-item btn btn-lg btn-success w-100 mb-3 mobile" :to="{ name: 'profile'}">{{ $t('navbar_4') }}</router-link>
+          <router-link v-if="is_auth" class="nav-item btn btn-primary btn-desktop w-100" @click.prevent="LOGOUT" :to="{ name: 'index'}">{{ $t('navbar_5') }}</router-link>
+          <router-link v-if="is_auth" class="nav-avatar desktop" :to="{ name: 'profile'}">
+            <img v-if="avatar_url" :src="avatar_url">
+            <img v-else src="../assets/images/profile/avatar_default.jpg"/>
           </router-link>
         </ul>
       </div>
