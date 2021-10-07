@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-3">
     <div class="container-fluid justify-content-end">
       <logo></logo>
-      <div class="dropdown me-2" style="height:max-content" ref="language-dropdown">
+      <div class="dropdown me-2" style="height:max-content" ref="language-dropdown" id="language-dropdown">
         <button class="lang-btn dropdown-toggle" ref="language-dropdown-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           {{$i18n.locale.toUpperCase()}}
         </button>
@@ -26,7 +26,7 @@
       </button>
       <div class="collapse navbar-collapse flex-grow-0 mt-3 navbar-collapse-my" id="navbarNavDropdown">
         <ul class="navbar-nav align-items-center">
-          <router-link v-if="!is_auth" class="nav-item text-primary text-center fw-normal" style="min-width:fit-content" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
+          <router-link v-if="!is_auth" id="login-link" class="nav-item text-primary text-center fw-normal" style="min-width:fit-content" :to="{ name: 'signup'}">{{ $t('navbar_1') }}</router-link>
           <span v-if="!is_auth" class="m-2 text-secondary text-center delimeter">{{ $t('navbar_2') }}</span>
           <router-link v-if="!is_auth" class="btn btn-primary w-100" :to="{ name: 'signup'}">{{ $t('navbar_3') }}</router-link>
           <router-link v-if="is_auth" class="nav-item btn btn-lg btn-success w-100 mb-3 mobile" :to="{ name: 'profile'}">{{ $t('navbar_4') }}</router-link>

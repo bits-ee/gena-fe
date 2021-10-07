@@ -48,15 +48,15 @@ export default {
       state = {
         avatar: null,
         channels: {
-          tg: "",
-          email: ""
+          email: null,
+          tg: null
         },
         personal_details:{
           firstname: "",
           lastname: "",
           language: ""
         },
-        user_locations: [] as UserLocation[]
+        user_locations: []
       }
     }
 }

@@ -16,7 +16,7 @@
                                     <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <input style="width:100%" type="text" v-model="user_location.title" :placeholder="$t('userLocations_4')">
+                                    <input name="user-location-title" style="width:100%" type="text" v-model="user_location.title" :placeholder="$t('userLocations_4')">
                                 </div>
                             </div>
                             <div class="form-group d-flex mb-4">
@@ -33,14 +33,14 @@
                                     <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
                                 </div>
                                 <div class="flex-grow-1 d-flex justify-content-between">
-                                    <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="user_location.street_name">
-                                    <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="user_location.street_number">
+                                    <input name="user-location-street-name" style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="user_location.street_name">
+                                    <input name="user-location-street-number" style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="user_location.street_number">
                                 </div>
                             </div>
                             <locationServices :services="user_location.services" :channels="channels"></locationServices>
                             <div class="d-flex flex-column justify-content-end">
-                                <button class="btn btn-primary btn-sm" v-on:click="UPDATE(user_location)">{{$t('userLocations_9')}}</button>
-                                <button class="btn btn-outline-danger btn-sm mt-3" v-on:click="DELETE(user_location)">{{$t('userLocations_10')}}</button>
+                                <button id="update-location" class="btn btn-primary btn-sm" v-on:click="UPDATE(user_location)">{{$t('userLocations_9')}}</button>
+                                <button id="delete-location" class="btn btn-outline-danger btn-sm mt-3" v-on:click="DELETE(user_location)">{{$t('userLocations_10')}}</button>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                     <img class="form-img" src="../assets/images/profile/home.png" :alt="$t('userLocations_3')">
                                 </div>
                                 <div class="flex-grow-1">
-                                    <input style="width:100%" type="text" v-model="new_location.title" :placeholder="$t('userLocations_4')">
+                                    <input name="user-location-title" style="width:100%" type="text" v-model="new_location.title" :placeholder="$t('userLocations_4')">
                                 </div>
                             </div>
                             <div class="form-group d-flex mb-4">
@@ -77,13 +77,13 @@
                                     <img class="form-img" src="../assets/images/profile/location.png" :alt="$t('userLocations_6')">
                                 </div>
                                 <div class="flex-grow-1 d-flex justify-content-between">
-                                    <input style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="new_location.street_name">
-                                    <input style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="new_location.street_number">
+                                    <input name="user-location-street-name" style="width:70%" type="text" :placeholder="$t('userLocations_7')" v-model="new_location.street_name">
+                                    <input name="user-location-street-number" style="width:26%" type="text" :placeholder="$t('userLocations_8')" v-model="new_location.street_number">
                                 </div>
                             </div>
                             <locationServices :services="new_location.services" :channels="channels"></locationServices>
                             <div class="d-flex flex-column justify-content-end">
-                                <button class="btn btn-primary btn-sm" v-on:click="ADD()">{{$t('userLocations_11')}}</button>
+                                <button id="add-location" class="btn btn-primary btn-sm" v-on:click="ADD()">{{$t('userLocations_11')}}</button>
                             </div>
                         </div>
                     </div>

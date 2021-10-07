@@ -1,20 +1,56 @@
+import { shallowMount } from '@vue/test-utils'
 import notification from '@/components/notification.vue'
+import store from '@/libraries/store'
+
+store.dispatch = jest.fn(() => Promise.resolve())
+let wrapper = shallowMount(notification, {
+    global: {
+        plugins: [store],
+        mocks: {
+            $t: jest.fn()
+        }
+    }
+});
 
 describe("NotificationComponent", ()=>{
-    test("Show notification", ()=>{
-        
+    test("Show notification", async ()=>{
+        let message = "test_message"
+        wrapper.vm.$store.commit("notification/notify", message)
+        await wrapper.vm.$nextTick()
+        expect(wrapper.text()).toMatch(message)
     })
 
-    test("Notification auto-hiding", ()=>{
-        
+    test("Notification auto-hiding", async ()=>{
+        let message = "test_message"
+        let delay = 3200
+        wrapper.vm.$store.commit("notification/notify", message)
+        await wrapper.vm.$nextTick()
+        expect(wrapper.text()).toMatch(message)
+        await new Promise(res => setTimeout(() => {
+            expect(wrapper.text()).not.toMatch(message)
+            res(null)
+        }, delay))
     })
 
-    test("Notification updating", ()=>{
-
+    test("Notification updating", async ()=>{
+        let message = "test_message"
+        let new_message = "new_message"
+        wrapper.vm.$store.commit("notification/notify", message)
+        await wrapper.vm.$nextTick()
+        expect(wrapper.text()).toMatch(message)
+        wrapper.vm.$store.commit("notification/notify", new_message)
+        await wrapper.vm.$nextTick()
+        expect(wrapper.text()).toMatch(new_message)
     })
 
-    test("Close notification", ()=>{
-
+    test("Close notification", async ()=>{
+        let message = "test_message"
+        let button = wrapper.find("button")
+        wrapper.vm.$store.commit("notification/notify", message)
+        await wrapper.vm.$nextTick()
+        button.trigger("click")
+        await wrapper.vm.$nextTick()
+        expect(wrapper.text()).not.toMatch(message)
     })
 })
 

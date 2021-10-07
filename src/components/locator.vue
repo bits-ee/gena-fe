@@ -58,6 +58,7 @@
 import c_tomSelect from './tomSelect.vue';
 import { mapGetters, mapActions } from 'vuex';
 import { defineComponent } from 'vue'
+import _ from 'lodash'
 export default defineComponent({
     components: {
         'tomSelect': c_tomSelect
@@ -138,7 +139,7 @@ export default defineComponent({
             let key = process.env.NODE_ENV=="local"?"":"key="+this.googleMapKey+"&"
             this.mapScript.src = 'https://maps.googleapis.com/maps/api/js?'+key+'language='+this.$i18n.locale;
             this.mapScript.id = 'google-maps-script'
-            document.getElementById('app').after(this.mapScript)
+            document.body.appendChild(this.mapScript)
         },
 
         reloadMap(){

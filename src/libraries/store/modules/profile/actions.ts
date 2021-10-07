@@ -3,6 +3,15 @@ import '@/types/PersonalDetails'
 import '@/types/Channels'
 import '@/types/UserLocation'
 export default {
+  FETCH_PROFILE(context: any) {
+    return Promise.all([
+      context.dispatch("statics/FETCH_LOCATIONS", {}, {root:true}),
+      context.dispatch("FETCH_AVATAR"),
+      context.dispatch("FETCH_DETAILS"),
+      context.dispatch("FETCH_CHANNELS"),
+      context.dispatch("FETCH_USER_LOCATIONS")
+    ])
+  },
   FETCH_AVATAR(context: any) {
     return new Promise((resolve, reject)=>{
       axios({

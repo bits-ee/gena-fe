@@ -1,18 +1,44 @@
+import { shallowMount } from '@vue/test-utils'
 import tomSelect from '@/components/tomSelect.vue'
 
+let wrapper = shallowMount(tomSelect, {
+    props: {
+        locations: [
+            {id: 1, display_name: "a"},
+            {id: 2, display_name: "b"}
+        ]
+    },
+    global: {
+        mocks: {
+            $t: jest.fn()
+        }
+    }
+});
 describe("TomSelectComponent", ()=>{
-    test("'SelectedValue' prop by default", ()=>{
-        
+    beforeEach(()=>{
+        jest.clearAllMocks()
     })
 
-    test("View search button if 'viewSearchButton' prop is true, hide if false", ()=>{
-        
+    test("'selectedValue' prop by default", async ()=>{
+        let selectedValue = 1
+        wrapper.setProps({ selectedValue })
+        await wrapper.vm.$nextTick()    
+        expect(wrapper.vm.ts.getValue()).toBe(selectedValue.toString())
     })
 
-    test("Check return value", ()=>{
-        
+    test("View search button if 'viewSearchButton' prop is true, hide if false", async ()=>{
+        expect(wrapper.find("button").exists()).toBe(true)
+        wrapper.setProps({ viewSearchButton: false })
+        await wrapper.vm.$nextTick()
+        expect(wrapper.find("button").exists()).toBe(false)
     })
-    //test displaying name?
+
+    test("Check return value", async ()=>{
+        let selectedValue = 1
+        wrapper.setProps({ selectedValue })
+        await wrapper.vm.$nextTick()
+        expect(wrapper.emitted("tsChanged")).toEqual([[selectedValue.toString()]])
+    })
     
 })
 

@@ -69,11 +69,7 @@ export default defineComponent({
   },
   methods: {
     ...mapActions('profile', [
-      'FETCH_AVATAR',
-      'FETCH_DETAILS',
-      'FETCH_CHANNELS',
-      'FETCH_USER_LOCATIONS',
-      'FETCH_LOCATION_SERVICES',
+      'FETCH_PROFILE'
     ]),
     ...mapActions('statics', [
       'FETCH_LOCATIONS'
@@ -83,18 +79,20 @@ export default defineComponent({
       this.error = error
     }
   },
+  watch:{
+    is_auth: function(newVal, oldVal){
+      if(newVal === false){
+        this.$router.push({name:'signup'})
+      }
+    }
+  },
   created(){
     if(!this.is_auth){
       this.$router.push({name:'signup'})
     }
     else{
-      Promise.allSettled([
-        this.FETCH_LOCATIONS(),
-        this.FETCH_AVATAR(),
-        this.FETCH_DETAILS(),
-        this.FETCH_CHANNELS(),
-        this.FETCH_USER_LOCATIONS()
-      ]).then(()=>{
+      this.FETCH_PROFILE()
+      .then(()=>{
         this.init = true
       })
     }

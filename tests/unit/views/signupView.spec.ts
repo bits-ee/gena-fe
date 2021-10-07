@@ -1,12 +1,29 @@
+import { shallowMount } from '@vue/test-utils'
 import signup from '@/views/signup.vue'
-
-describe("ProfileView", ()=>{
-    test("Show login components if user isn't authorized", ()=>{
-        
+import store from '@/libraries/store'
+import emailLogin from '@/components/emailLogin.vue'
+import tgLogin from '@/components/tgLogin.vue'
+import router from '@/libraries/router'
+import '@/libraries/axios'
+store.dispatch = jest.fn(() => Promise.resolve())
+store.commit("user/login", "mock_key")
+let wrapper = shallowMount(signup, {
+  global: {
+    plugins: [store, router],
+    mocks: {
+      $t: jest.fn()
+    }
+  }
+})
+describe("SignupView", ()=>{
+    test("Show login components if user isn't authorized", async ()=>{
+        wrapper.vm.$store.commit("user/logout")
+        await wrapper.vm.$nextTick()
+        expect(wrapper.findComponent(emailLogin).exists()).toBe(true)
+        expect(wrapper.findComponent(tgLogin).exists()).toBe(true)
     })
 
-    test("Show 'go to profile' button if user is authorized", ()=>{
-        
+    test("Show 'go to profile' button if user is authorized", async ()=>{
     })
 })
 

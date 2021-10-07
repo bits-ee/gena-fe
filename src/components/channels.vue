@@ -12,7 +12,7 @@
         <div v-bind:id="'flush-collapse-email'" class="accordion-collapse collapse" v-bind:aria-labelledby="'flush-heading-email'" v-bind:data-bs-parent="'#accordionFlushExample'">
           <div class="accordion-body">
             <div v-if="channels.email" class="mx-auto" style="max-width: fit-content;">
-              <button v-on:click="DELETE_EMAIL_CHANNEL" role="button" class="btn btn-outline-danger" :class="{'disabled':!channels.tg}">{{channels.tg?$t('channels_4'):$t('channels_3')}}</button>
+              <button id="email-disconnect" v-on:click="DELETE_EMAIL_CHANNEL" role="button" class="btn btn-outline-danger" :class="{'disabled':!channels.tg}">{{channels.tg?$t('channels_4'):$t('channels_3')}}</button>
             </div>
             <div v-else>
               <emailLogin :is_channel="true"></emailLogin>
@@ -30,7 +30,7 @@
         <div v-bind:id="'flush-collapse-tg'" class="accordion-collapse collapse" v-bind:aria-labelledby="'flush-heading-tg'" v-bind:data-bs-parent="'#accordionFlushExample'">
           <div class="accordion-body">
             <div v-if="channels.tg" class="mx-auto" style="max-width: fit-content;">
-              <button v-on:click="DELETE_TG_CHANNEL" role="button" class="btn btn-outline-danger" :class="{'disabled':!channels.email}">{{channels.email?$t('channels_4'):$t('channels_3')}}</button>
+              <button id="tg-disconnect" v-on:click="DELETE_TG_CHANNEL" role="button" class="btn btn-outline-danger" :class="{'disabled':!channels.email}">{{channels.email?$t('channels_4'):$t('channels_3')}}</button>
             </div>
             <div v-else class="d-flex justify-content-center">
               <tgChannel></tgChannel>

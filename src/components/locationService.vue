@@ -3,12 +3,12 @@
     <div class="form-group mb-4 d-flex flex-wrap justify-content-between" :key="service" v-for="service in services">
       <div class="mb-1" style="min-width:200px">{{service.name}}</div>
       <div>
-        <select class="me-2" v-model="service.channel">
+        <select class="me-2" v-model="service.channel" :id="'service-channel-'+service.service_id">
           <option value="null">{{$t('locationService_1')}}</option>
-          <option v-if="channels.email">{{$t('locationService_2')}}</option>
-          <option v-if="channels.tg">{{$t('locationService_3')}}</option>
+          <option v-if="channels.email" value="Email">{{$t('locationService_2')}}</option>
+          <option v-if="channels.tg" value="Telegram">{{$t('locationService_3')}}</option>
         </select>
-        <select style="" v-model="service.frequency">
+        <select style="" v-model="service.frequency" :id="'service-frequency-'+service.service_id">
           <option value="null">{{$t('locationService_4')}}</option>
           <option :key="frequency" v-for="frequency in frequencies">{{frequency}}</option>
         </select>
