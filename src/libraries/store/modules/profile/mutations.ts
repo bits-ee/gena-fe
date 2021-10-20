@@ -22,9 +22,23 @@ export default {
     },
     deleteEmailChannel(state: ProfileState) {
       state.channels.email = null
+      state.user_locations.forEach((location)=>{
+        location.services.forEach((service)=>{
+          if(service.channel == "Email"){
+            service.channel = null
+          }
+        })
+      })
     },
     deleteTgChannel(state: ProfileState) {
       state.channels.tg = null
+      state.user_locations.forEach((location)=>{
+        location.services.forEach((service)=>{
+          if(service.channel == "Telegram"){
+            service.channel = null
+          }
+        })
+      })
     },
     setEmailChannel(state: ProfileState, email: string) {
       state.channels.email = email
