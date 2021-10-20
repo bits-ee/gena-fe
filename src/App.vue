@@ -23,7 +23,19 @@ export default defineComponent({
     ...mapMutations('user',[
       'login',
       'logout'
-    ])
+    ]),
+    checkLang(){
+      if(!sessionStorage.getItem("lang")){
+       sessionStorage.setItem("lang", "en")
+      }
+      this.$i18n.locale = sessionStorage.getItem("lang")
+    }
+  },
+  watch:{
+    $route: function(to, from){
+      this.checkLang()
+      if(to != "signup")document.getElementsByClassName('grecaptcha-badge')[0]?.remove()
+    }
   },
   async created() {
     //this.$i18n.locale = this.$translate()
@@ -39,6 +51,7 @@ export default defineComponent({
     this.FETCH_CONFIG().then(()=>{
       this.init = true
     })
+    this.checkLang()
     
   },
   mounted() {
