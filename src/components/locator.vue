@@ -109,9 +109,9 @@ export default defineComponent({
     },
 
     watch: {
-        getLocale() {
-            this.reloadMap()
-        },
+        // getLocale() {
+        //     this.reloadMap()
+        // },
         $route (to, from){
             window.removeEventListener("scroll", this.debounce)
             this.removeMap()

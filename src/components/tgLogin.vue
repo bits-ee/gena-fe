@@ -35,7 +35,7 @@ export default defineComponent({
       this.script.setAttribute('data-onauth','onTelegramAuth(user)')
       this.script.setAttribute('data-request-access','write')
       this.script.setAttribute('data-userpic','true')
-      this.script.setAttribute('data-lang', this.$i18n.locale)
+      this.script.setAttribute('data-lang', "en")
       this.$refs.tgLogin.appendChild(this.script)
     }
   },

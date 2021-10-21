@@ -81,7 +81,8 @@ export default defineComponent({
         'LOGOUT'
       ]),
       setLang(lang){
-        this.$i18n.locale = lang
+        sessionStorage.setItem("lang", lang)
+        this.$i18n.locale = sessionStorage.getItem("lang")
         this.$refs['language-dropdown-btn']['aria-expanded'] = false
         this.$refs['language-dropdown-list'].classList.remove('show')
       },

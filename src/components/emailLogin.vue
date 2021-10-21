@@ -168,11 +168,6 @@ import '@/types/RegData'
         document.body.appendChild(this.recaptcha_script)
       }
 		},
-    watch:{
-      $route: function(to, from){
-        document.getElementsByClassName('grecaptcha-badge')[0]?.remove()
-      }
-    },
 		mounted(){
       this.initRecaptcha()
       if (this.$route.name=='verify' && this.$route.params.secretKey) {
