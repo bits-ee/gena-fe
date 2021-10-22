@@ -136,8 +136,7 @@ export default defineComponent({
                     }
                 );
             };
-            let key = process.env.NODE_ENV=="local"?"":"key="+this.googleMapKey+"&"
-            this.mapScript.src = 'https://maps.googleapis.com/maps/api/js?'+key+'language='+this.$i18n.locale;
+            this.mapScript.src = 'https://maps.googleapis.com/maps/api/js?key='+this.googleMapKey+'&language='+this.$i18n.locale;
             this.mapScript.id = 'google-maps-script'
             document.body.appendChild(this.mapScript)
         },
